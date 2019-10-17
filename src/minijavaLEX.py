@@ -17,14 +17,24 @@ reserved = (
 
 
 ##### remover depois############
-tokens = (
+tokens =  reserved + (
+    
+	##operações aritimeticas e expressoes (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
     'NUMBER',
     'PLUS',
     'MINUS',
     'TIMES',
-    'DIVIDE',
-    'LPAREN',
-    'RPAREN',
+    'DIVIDE',  ## ". Isso facilita o restante do compilador. Também não há um operador de divisão." , MAS NA BNF TEM !
+
+
+    # delimitadores ( ) [ ] { } , . ; :
+    'LPAREN', 'RPAREN',
+    'LBRACK', 'RBRACK',
+    'LBRACE', 'RBRACE',
+    'COMMA', 'POINT', 'SEMI', 'COLON',
+
+
+
 )
 
 # Regular expression rules for simple tokens
