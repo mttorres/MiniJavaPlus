@@ -10,40 +10,40 @@ prop = True
 # palavras reservadas: System.out.println e outras
 
 reserved = {
-    'BOOL'    : 'boolean' , 
-    'CLASS'   : 'class', 
-    'EXTENDS' : 'extends' , 
-    'PUBLIC' : 'public', 
-    'STATIC' : 'static', 
-    'VOID'   : 'void',
-    'MAIN'	 : 'main',  
-    'STRING' : 'String',
-    'RETURN' : 'return', 
-    'INT'   : 'int',
-    'IF'     : 'if', 
-    'ELSE'   : 'else', 
-    'WHILE'  : 'while', 
-    'SOUTPL' : 'System.out.println',
-    'LENGTH' : 'length',
-    'TRUE'   : 'true',
-    'FALSE'  : 'false', 
-    'THIS'   : 'this',
-    'NEW'    : 'new', 
-    'NULL'   : 'null'
+    'boolean': 'BOOL',
+    'class'  : 'CLASS',
+    'extends': 'EXTENDS' ,
+    'public' : 'PUBLIC',
+    'static' : 'STATIC',
+    'void'   : 'VOID',
+    'main'	 : 'MAIN',
+    'String' : 'STRING',
+    'return' : 'RETURN',
+    'int'    : 'INT',
+    'if'     : 'IF',
+    'else'   : 'ELSE',
+    'while'  : 'WHILE',
+    'length' : 'LENGTH',
+    'true'   : 'TRUE',
+    'false'  : 'FALSE',
+    'this'   : 'THIS',
+    'new'    : 'NEW',
+    'null'   : 'NULL',
+    'System.out.println': 'SOUTPL'
 }
 
 
-tokens =  tuple(reserved) + (
+tokens =  tuple(reserved.values()) + (
     
 	##operações em expressoes (+,-,*,/, ||, &&, !, <, <=, >, >=, ==, !=)
     'NUMBER',
     'PLUS',
     'MINUS',
     'TIMES',
-    'DIVIDE',  ## ". Isso facilita o restante do compilador. Também não há um operador de divisão." , MAS NA BNF TEM !
+    'DIVIDE',  # ". Isso facilita o restante do compilador. Também não há um operador de divisão." , MAS NA BNF TEM !
     'LOR',
     'LAND',
-    'LT', 'LE', 'GT', 'GE', 'EQ', 'NE',
+    'LT', 'LE', 'GT', 'GE', 'EQ', 'NE','LNOT',
 
     # delimitadores ( ) [ ] { } , . ; :
     'LPAREN', 'RPAREN',
@@ -53,16 +53,10 @@ tokens =  tuple(reserved) + (
 
     #atribuição (id, =,  )
 
-    'ASSING'
+    'ASSIGN','ID'
 
 
 )
-
-
-def t_ID(t):
-    r'[A-Za-z_][\w_]*'
-    t.type = reserved.get(t.value, "ID") # verifica as palavras reservadas
-    return t
 
 
 # Regular expression rules for simple tokens
@@ -86,10 +80,19 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_LBRACK = r'\['
 t_RBRACK = r'\]'
+t_COMMA = r','
+t_POINT = r'\.'
+t_SEMI = r';'
+t_COLON = r':'
 
 
 
 
+# para todas as demais er's além das regras simples (ajuda a otimização)
+def t_ID(t):
+    r'System.out.println|[A-Za-z_][\w]*'   # print | qualquermenosnumero + qualquer*
+    t.type = reserved.get(t.value, 'ID') # verifica as palavras reservadas
+    return t
 
 # A regular expression rule with some action code
 def t_NUMBER(t):
@@ -97,20 +100,32 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
-
 # basicamente ele nao faz nada só reconhece o \n e "pula a linha" na classe lexer (que possui diversos atributos um dele é lineno (linenumber))
-def t_newline(t):
+def t_NEWLINE(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 
+# comentarios de zero ou mais linhas (BARRA ESTRELA)
+def t_COMMENT_STAR(t):
+    r'/\*(.|\n)*?\*/'
+    t.lexer.lineno += t.value.count('\n')
+
+#NOTE QUE a ordem das funções é importante na ordenação de qual vai dar match primeiro! usar o comment // antes pode fazer ele nunca dar match no barra estrela
+def t_COMMENT(t):
+    r'//.*'
+    pass
+
+
 # ignorar tab's 
-t_ignore = ' \t'
-
-
+t_ignore_TAB = r'\t'
+t_ignore_FF = r'\f'
+t_ignore_CAR = r'\r'
+# faltou ignorar espaços xD (erro de antes)
+t_ignore_SPACE = r'\s'
 # reporta erros
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    print("Caracter ilegal em: '%s'" % t.value[0])
     t.lexer.skip(1) # pula o char e joga a primeira ocorrencia de erro
 
 
