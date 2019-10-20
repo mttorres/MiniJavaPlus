@@ -25,6 +25,8 @@ def main():
 	print(len(TOKEN_LIST))
 	print(TOKEN_LIST)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__" and __package__ is None:
+	from sys import path
+	from os.path import dirname as dir
 	main()
-	
