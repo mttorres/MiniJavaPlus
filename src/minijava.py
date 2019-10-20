@@ -1,6 +1,6 @@
 import sys
 import os
-from src import minijavaLEX
+import minijavaLEX
 
 sys.path.insert(0, "../..")
 
@@ -25,8 +25,6 @@ def main():
 	print(len(TOKEN_LIST))
 	print(TOKEN_LIST)
 
-
-if __name__ == "__main__" and __package__ is None:
-	from sys import path
-	from os.path import dirname as dir
+if __name__ == '__main__':
 	main()
+	

@@ -1,9 +1,7 @@
 import sys
-sys.path.insert(0, "../..")
+sys.path.append("../")
 from src import minijavaLEX
 from ply import yacc
-
-
 
 tokens = minijavaLEX.tokens
 

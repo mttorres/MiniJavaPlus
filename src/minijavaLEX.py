@@ -1,6 +1,5 @@
-
 import sys
-sys.path.insert(0, "../..")
+sys.path.append("../")
 from ply import lex
 
 prop = True
@@ -33,9 +32,9 @@ reserved = {
 }
 
 
-tokens = tuple(reserved.values()) + (
-
-#operações em expressoes (+,-,*,/, ||, &&, !, <, <=, >, >=, ==, !=)
+tokens =  tuple(reserved.values()) + (
+    
+	##operações em expressoes (+,-,*,/, ||, &&, !, <, <=, >, >=, ==, !=)
     'NUMBER',
     'PLUS',
     'MINUS',
@@ -62,7 +61,7 @@ tokens = tuple(reserved.values()) + (
 # Regular expression rules for simple tokens
 t_PLUS = r'\+'   # nota: caracteres que sao usados em em ER'S devem ser escapados com \
 t_MINUS = r'-'
-t_TIMES = r'\*'
+t_TIMES = r'\*'  
 t_DIVIDE = r'/'   # por enquanto deixar aqui (na BNF tem divisão)
 t_LOR = r'\|\|'
 t_LAND = r'&&'
@@ -85,20 +84,8 @@ t_POINT = r'\.'
 t_SEMI = r';'
 t_COLON = r':'
 
-# basicamente ele nao faz nada só reconhece o \n e "pula a linha" na classe lexer (que possui diversos atributos um dele é lineno (linenumber))
-def t_NEWLINE(t):
-    r'\n+'
-    t.lexer.lineno += len(t.value)
 
-# comentarios de zero ou mais linhas (BARRA ESTRELA)
-def t_COMMENTSTAR(t):
-    r'/\*(.|\n)*?\*/'
-    t.lexer.lineno += t.value.count('\n')
 
-#NOTE QUE a ordem das funções é importante na ordenação de qual vai dar match primeiro! usar o comment // antes pode fazer ele nunca dar match no barra estrela
-def t_COMMENT(t):
-    r'//.*'
-    pass
 
 # para todas as demais er's além das regras simples (ajuda a otimização)
 def t_ID(t):
@@ -112,8 +99,21 @@ def t_NUMBER(t):
     t.value = int(t.value)
     return t
 
+# basicamente ele nao faz nada só reconhece o \n e "pula a linha" na classe lexer (que possui diversos atributos um dele é lineno (linenumber))
+def t_NEWLINE(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
 
+# comentarios de zero ou mais linhas (BARRA ESTRELA)
+def t_COMMENT_STAR(t):
+    r'/\*(.|\n)*?\*/'
+    t.lexer.lineno += t.value.count('\n')
+
+#NOTE QUE a ordem das funções é importante na ordenação de qual vai dar match primeiro! usar o comment // antes pode fazer ele nunca dar match no barra estrela
+def t_COMMENT(t):
+    r'//.*'
+    pass
 
 
 # ignorar tab's 
@@ -137,4 +137,3 @@ def generateTokens(line,TOKEN_LIST):
             break
         print(token)  # um objeto token tem os seguintes atributos: TIPO, VALOR(lexema), LINHA, POS
         TOKEN_LIST.append(token)
-
