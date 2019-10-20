@@ -15,19 +15,15 @@ def main():
 	PATH = os.path.abspath("../resource/").replace("\\","/")
 	Files = ['Factorial.java','Fac.java']
 	TOKEN_LIST = []
+	SYNTAX_TREE = []
 
 	for i in Files:
 		inputfile = open(PATH+"/"+i, 'r')
 		for line in inputfile:
-			minijavaLEX.lexer.input(line)
-			while True:
-				token = minijavaLEX.lexer.token()
-				if not token:
-					break
-				print(token) # um objeto token tem os seguintes atributos: TIPO, VALOR(lexema), LINHA, POS
-				TOKEN_LIST.append(token)
+			minijavaLEX.generateTokens(line,TOKEN_LIST)
 		inputfile.close()
-
+	print(len(TOKEN_LIST))
+	print(TOKEN_LIST)
 
 if __name__ == '__main__':
 	main()

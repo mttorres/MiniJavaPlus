@@ -128,7 +128,14 @@ def t_error(t):
     print("Caracter ilegal em: '%s'" % t.value[0])
     t.lexer.skip(1) # pula o char e joga a primeira ocorrencia de erro
 
-
 lexer = lex.lex()
 
+def generateTokens(line,TOKEN_LIST):
+    lexer.input(line)
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        print(token)  # um objeto token tem os seguintes atributos: TIPO, VALOR(lexema), LINHA, POS
+        TOKEN_LIST.append(token)
 
