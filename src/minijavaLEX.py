@@ -85,8 +85,6 @@ t_SEMI = r';'
 t_COLON = r':'
 
 
-
-
 # para todas as demais er's além das regras simples (ajuda a otimização)
 def t_ID(t):
     r'System.out.println|[A-Za-z_][\w]*'   # print | qualquermenosnumero + qualquer*
@@ -120,8 +118,8 @@ def t_COMMENT(t):
 t_ignore_TAB = r'\t'
 t_ignore_FF = r'\f'
 t_ignore_CAR = r'\r'
-# faltou ignorar espaços xD (erro de antes)
 t_ignore_SPACE = r'\s'
+    
 # reporta erros
 def t_error(t):
     print("Caracter ilegal em: '%s'" % t.value[0])
@@ -135,5 +133,5 @@ def generateTokens(line,TOKEN_LIST):
         token = lexer.token()
         if not token:
             break
-        print(token)  # um objeto token tem os seguintes atributos: TIPO, VALOR(lexema), LINHA, POS
+        #print(token)  # um objeto token tem os seguintes atributos: TIPO, VALOR(lexema), LINHA, POS
         TOKEN_LIST.append(token)
