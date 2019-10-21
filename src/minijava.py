@@ -1,6 +1,7 @@
 import sys
 import os
 import minijavaLEX
+import minijavaPARSER
 
 sys.path.insert(0, "../..")
 
@@ -20,10 +21,11 @@ def main():
 	for i in Files:
 		inputfile = open(PATH+"/"+i, 'r')
 		for line in inputfile:
-			minijavaLEX.generateTokens(line,TOKEN_LIST)
+			#minijavaLEX.generateTokens(line,TOKEN_LIST)
+			minijavaPARSER.generateTree(line,SYNTAX_TREE)
 		inputfile.close()
-	print(len(TOKEN_LIST))
-	print(TOKEN_LIST)
+	#print(len(TOKEN_LIST))
+	#print(TOKEN_LIST)
 
 if __name__ == '__main__':
 	main()
