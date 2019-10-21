@@ -1,0 +1,2939 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COLON
+    GE
+    GT
+    LE
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> main multiclass
+Rule 2     multiclass -> multiclass classe
+Rule 3     multiclass -> empty
+Rule 4     main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+Rule 5     classe -> CLASS ID extends LBRACE variaveis metodos RBRACE
+Rule 6     extends -> EXTENDS ID
+Rule 7     extends -> empty
+Rule 8     variaveis -> variaveis var
+Rule 9     variaveis -> empty
+Rule 10    metodos -> metodos metodo
+Rule 11    metodos -> empty
+Rule 12    var -> tipo ID
+Rule 13    metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+Rule 14    paramsopcional -> params
+Rule 15    paramsopcional -> empty
+Rule 16    cmds -> cmds cmd
+Rule 17    cmds -> empty
+Rule 18    params -> tipo ID listaparamsextra
+Rule 19    params -> empty
+Rule 20    listaparamsextra -> listaparamsextra COMMA tipo ID
+Rule 21    listaparamsextra -> empty
+Rule 22    tipo -> INT LBRACK RBRACK
+Rule 23    tipo -> BOOL
+Rule 24    tipo -> INT
+Rule 25    tipo -> ID
+Rule 26    cmd -> LBRACE cmds RBRACE
+Rule 27    cmd -> IF LPAREN exp RPAREN cmd
+Rule 28    cmd -> IF LPAREN exp RPAREN cmd ELSE cmd
+Rule 29    cmd -> WHILE LPAREN exp RPAREN cmd
+Rule 30    cmd -> SOUTPL LPAREN exp RPAREN SEMI
+Rule 31    cmd -> ID ASSIGN exp SEMI
+Rule 32    cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI
+Rule 33    exp -> exp LAND rexp
+Rule 34    exp -> exp LOR rexp
+Rule 35    exp -> rexp
+Rule 36    rexp -> rexp LT aexp
+Rule 37    rexp -> rexp EQ aexp
+Rule 38    rexp -> rexp NE aexp
+Rule 39    rexp -> aexp
+Rule 40    aexp -> aexp PLUS mexp
+Rule 41    aexp -> aexp MINUS mexp
+Rule 42    aexp -> mexp
+Rule 43    mexp -> mexp TIMES sexp
+Rule 44    mexp -> mexp DIVIDE sexp
+Rule 45    mexp -> sexp
+Rule 46    sexp -> LNOT sexp
+Rule 47    sexp -> MINUS sexp
+Rule 48    sexp -> TRUE
+Rule 49    sexp -> FALSE
+Rule 50    sexp -> NUMBER
+Rule 51    sexp -> NULL
+Rule 52    sexp -> NEW INT LBRACK exp RBRACK
+Rule 53    sexp -> pexp POINT LENGTH
+Rule 54    sexp -> pexp LBRACK exp RBRACK
+Rule 55    sexp -> pexp
+Rule 56    pexp -> ID
+Rule 57    pexp -> THIS
+Rule 58    pexp -> NEW ID LPAREN RPAREN
+Rule 59    pexp -> pexp POINT ID
+Rule 60    pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN
+Rule 61    expopcionalmetodo -> exps
+Rule 62    expopcionalmetodo -> empty
+Rule 63    exps -> exp expslist
+Rule 64    exps -> empty
+Rule 65    expslist -> expslist COMMA exp
+Rule 66    expslist -> empty
+Rule 67    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ASSIGN               : 31 32
+BOOL                 : 23
+CLASS                : 4 5
+COLON                : 
+COMMA                : 20 65
+DIVIDE               : 44
+ELSE                 : 28
+EQ                   : 37
+EXTENDS              : 6
+FALSE                : 49
+GE                   : 
+GT                   : 
+ID                   : 4 4 5 6 12 13 18 20 25 31 32 56 58 59 60
+IF                   : 27 28
+INT                  : 22 24 52
+LAND                 : 33
+LBRACE               : 4 4 5 13 26
+LBRACK               : 4 22 32 52 54
+LE                   : 
+LENGTH               : 53
+LNOT                 : 46
+LOR                  : 34
+LPAREN               : 4 13 27 28 29 30 58 60
+LT                   : 36
+MAIN                 : 4
+MINUS                : 41 47
+NE                   : 38
+NEW                  : 52 58
+NULL                 : 51
+NUMBER               : 50
+PLUS                 : 40
+POINT                : 53 59 60
+PUBLIC               : 4 13
+RBRACE               : 4 4 5 13 26
+RBRACK               : 4 22 32 52 54
+RETURN               : 13
+RPAREN               : 4 13 27 28 29 30 58 60
+SEMI                 : 13 30 31 32
+SOUTPL               : 30
+STATIC               : 4
+STRING               : 4
+THIS                 : 57
+TIMES                : 43
+TRUE                 : 48
+VOID                 : 4
+WHILE                : 29
+error                : 
+
+Nonterminals, with rules where they appear
+
+aexp                 : 36 37 38 39 40 41
+classe               : 2
+cmd                  : 4 16 27 28 28 29
+cmds                 : 13 16 26
+empty                : 3 7 9 11 15 17 19 21 62 64 66
+exp                  : 13 27 28 29 30 31 32 32 33 34 52 54 63 65
+expopcionalmetodo    : 60
+exps                 : 61
+expslist             : 63 65
+extends              : 5
+listaparamsextra     : 18 20
+main                 : 1
+metodo               : 10
+metodos              : 5 10
+mexp                 : 40 41 42 43 44
+multiclass           : 1 2
+params               : 14
+paramsopcional       : 13
+pexp                 : 53 54 55 59 60
+prog                 : 0
+rexp                 : 33 34 35 36 37 38
+sexp                 : 43 44 45 46 47
+tipo                 : 12 13 18 20
+var                  : 8
+variaveis            : 5 8 13
+
+Parsing method: SLR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . main multiclass
+    (4) main -> . CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    CLASS           shift and go to state 3
+
+    prog                           shift and go to state 1
+    main                           shift and go to state 2
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> main . multiclass
+    (2) multiclass -> . multiclass classe
+    (3) multiclass -> . empty
+    (67) empty -> .
+
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    multiclass                     shift and go to state 4
+    empty                          shift and go to state 5
+
+state 3
+
+    (4) main -> CLASS . ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    ID              shift and go to state 6
+
+
+state 4
+
+    (1) prog -> main multiclass .
+    (2) multiclass -> multiclass . classe
+    (5) classe -> . CLASS ID extends LBRACE variaveis metodos RBRACE
+
+    $end            reduce using rule 1 (prog -> main multiclass .)
+    CLASS           shift and go to state 8
+
+    classe                         shift and go to state 7
+
+state 5
+
+    (3) multiclass -> empty .
+
+    $end            reduce using rule 3 (multiclass -> empty .)
+    CLASS           reduce using rule 3 (multiclass -> empty .)
+
+
+state 6
+
+    (4) main -> CLASS ID . LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    LBRACE          shift and go to state 9
+
+
+state 7
+
+    (2) multiclass -> multiclass classe .
+
+    $end            reduce using rule 2 (multiclass -> multiclass classe .)
+    CLASS           reduce using rule 2 (multiclass -> multiclass classe .)
+
+
+state 8
+
+    (5) classe -> CLASS . ID extends LBRACE variaveis metodos RBRACE
+
+    ID              shift and go to state 10
+
+
+state 9
+
+    (4) main -> CLASS ID LBRACE . PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    PUBLIC          shift and go to state 11
+
+
+state 10
+
+    (5) classe -> CLASS ID . extends LBRACE variaveis metodos RBRACE
+    (6) extends -> . EXTENDS ID
+    (7) extends -> . empty
+    (67) empty -> .
+
+    EXTENDS         shift and go to state 13
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    extends                        shift and go to state 12
+    empty                          shift and go to state 14
+
+state 11
+
+    (4) main -> CLASS ID LBRACE PUBLIC . STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    STATIC          shift and go to state 15
+
+
+state 12
+
+    (5) classe -> CLASS ID extends . LBRACE variaveis metodos RBRACE
+
+    LBRACE          shift and go to state 16
+
+
+state 13
+
+    (6) extends -> EXTENDS . ID
+
+    ID              shift and go to state 17
+
+
+state 14
+
+    (7) extends -> empty .
+
+    LBRACE          reduce using rule 7 (extends -> empty .)
+
+
+state 15
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC . VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    VOID            shift and go to state 18
+
+
+state 16
+
+    (5) classe -> CLASS ID extends LBRACE . variaveis metodos RBRACE
+    (8) variaveis -> . variaveis var
+    (9) variaveis -> . empty
+    (67) empty -> .
+
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    variaveis                      shift and go to state 19
+    empty                          shift and go to state 20
+
+state 17
+
+    (6) extends -> EXTENDS ID .
+
+    LBRACE          reduce using rule 6 (extends -> EXTENDS ID .)
+
+
+state 18
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID . MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    MAIN            shift and go to state 21
+
+
+state 19
+
+    (5) classe -> CLASS ID extends LBRACE variaveis . metodos RBRACE
+    (8) variaveis -> variaveis . var
+    (10) metodos -> . metodos metodo
+    (11) metodos -> . empty
+    (12) var -> . tipo ID
+    (67) empty -> .
+    (22) tipo -> . INT LBRACK RBRACK
+    (23) tipo -> . BOOL
+    (24) tipo -> . INT
+    (25) tipo -> . ID
+
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+    INT             shift and go to state 27
+    BOOL            shift and go to state 28
+    ID              shift and go to state 22
+
+  ! INT             [ reduce using rule 67 (empty -> .) ]
+  ! BOOL            [ reduce using rule 67 (empty -> .) ]
+  ! ID              [ reduce using rule 67 (empty -> .) ]
+
+    metodos                        shift and go to state 23
+    var                            shift and go to state 24
+    empty                          shift and go to state 25
+    tipo                           shift and go to state 26
+
+state 20
+
+    (9) variaveis -> empty .
+
+    PUBLIC          reduce using rule 9 (variaveis -> empty .)
+    RBRACE          reduce using rule 9 (variaveis -> empty .)
+    INT             reduce using rule 9 (variaveis -> empty .)
+    BOOL            reduce using rule 9 (variaveis -> empty .)
+    ID              reduce using rule 9 (variaveis -> empty .)
+    LBRACE          reduce using rule 9 (variaveis -> empty .)
+    IF              reduce using rule 9 (variaveis -> empty .)
+    WHILE           reduce using rule 9 (variaveis -> empty .)
+    SOUTPL          reduce using rule 9 (variaveis -> empty .)
+    RETURN          reduce using rule 9 (variaveis -> empty .)
+
+
+state 21
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN . LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    LPAREN          shift and go to state 29
+
+
+state 22
+
+    (25) tipo -> ID .
+
+    ID              reduce using rule 25 (tipo -> ID .)
+
+
+state 23
+
+    (5) classe -> CLASS ID extends LBRACE variaveis metodos . RBRACE
+    (10) metodos -> metodos . metodo
+    (13) metodo -> . PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+
+    RBRACE          shift and go to state 30
+    PUBLIC          shift and go to state 32
+
+    metodo                         shift and go to state 31
+
+state 24
+
+    (8) variaveis -> variaveis var .
+
+    PUBLIC          reduce using rule 8 (variaveis -> variaveis var .)
+    RBRACE          reduce using rule 8 (variaveis -> variaveis var .)
+    INT             reduce using rule 8 (variaveis -> variaveis var .)
+    BOOL            reduce using rule 8 (variaveis -> variaveis var .)
+    ID              reduce using rule 8 (variaveis -> variaveis var .)
+    LBRACE          reduce using rule 8 (variaveis -> variaveis var .)
+    IF              reduce using rule 8 (variaveis -> variaveis var .)
+    WHILE           reduce using rule 8 (variaveis -> variaveis var .)
+    SOUTPL          reduce using rule 8 (variaveis -> variaveis var .)
+    RETURN          reduce using rule 8 (variaveis -> variaveis var .)
+
+
+state 25
+
+    (11) metodos -> empty .
+
+    RBRACE          reduce using rule 11 (metodos -> empty .)
+    PUBLIC          reduce using rule 11 (metodos -> empty .)
+
+
+state 26
+
+    (12) var -> tipo . ID
+
+    ID              shift and go to state 33
+
+
+state 27
+
+    (22) tipo -> INT . LBRACK RBRACK
+    (24) tipo -> INT .
+
+    LBRACK          shift and go to state 34
+    ID              reduce using rule 24 (tipo -> INT .)
+
+
+state 28
+
+    (23) tipo -> BOOL .
+
+    ID              reduce using rule 23 (tipo -> BOOL .)
+
+
+state 29
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN . STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    STRING          shift and go to state 35
+
+
+state 30
+
+    (5) classe -> CLASS ID extends LBRACE variaveis metodos RBRACE .
+
+    $end            reduce using rule 5 (classe -> CLASS ID extends LBRACE variaveis metodos RBRACE .)
+    CLASS           reduce using rule 5 (classe -> CLASS ID extends LBRACE variaveis metodos RBRACE .)
+
+
+state 31
+
+    (10) metodos -> metodos metodo .
+
+    RBRACE          reduce using rule 10 (metodos -> metodos metodo .)
+    PUBLIC          reduce using rule 10 (metodos -> metodos metodo .)
+
+
+state 32
+
+    (13) metodo -> PUBLIC . tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+    (22) tipo -> . INT LBRACK RBRACK
+    (23) tipo -> . BOOL
+    (24) tipo -> . INT
+    (25) tipo -> . ID
+
+    INT             shift and go to state 27
+    BOOL            shift and go to state 28
+    ID              shift and go to state 22
+
+    tipo                           shift and go to state 36
+
+state 33
+
+    (12) var -> tipo ID .
+
+    PUBLIC          reduce using rule 12 (var -> tipo ID .)
+    RBRACE          reduce using rule 12 (var -> tipo ID .)
+    INT             reduce using rule 12 (var -> tipo ID .)
+    BOOL            reduce using rule 12 (var -> tipo ID .)
+    ID              reduce using rule 12 (var -> tipo ID .)
+    LBRACE          reduce using rule 12 (var -> tipo ID .)
+    IF              reduce using rule 12 (var -> tipo ID .)
+    WHILE           reduce using rule 12 (var -> tipo ID .)
+    SOUTPL          reduce using rule 12 (var -> tipo ID .)
+    RETURN          reduce using rule 12 (var -> tipo ID .)
+
+
+state 34
+
+    (22) tipo -> INT LBRACK . RBRACK
+
+    RBRACK          shift and go to state 37
+
+
+state 35
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING . LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    LBRACK          shift and go to state 38
+
+
+state 36
+
+    (13) metodo -> PUBLIC tipo . ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+
+    ID              shift and go to state 39
+
+
+state 37
+
+    (22) tipo -> INT LBRACK RBRACK .
+
+    ID              reduce using rule 22 (tipo -> INT LBRACK RBRACK .)
+
+
+state 38
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK . RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    RBRACK          shift and go to state 40
+
+
+state 39
+
+    (13) metodo -> PUBLIC tipo ID . LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+
+    LPAREN          shift and go to state 41
+
+
+state 40
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK . ID RPAREN LBRACE cmd RBRACE RBRACE
+
+    ID              shift and go to state 42
+
+
+state 41
+
+    (13) metodo -> PUBLIC tipo ID LPAREN . paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+    (14) paramsopcional -> . params
+    (15) paramsopcional -> . empty
+    (18) params -> . tipo ID listaparamsextra
+    (19) params -> . empty
+    (67) empty -> .
+    (22) tipo -> . INT LBRACK RBRACK
+    (23) tipo -> . BOOL
+    (24) tipo -> . INT
+    (25) tipo -> . ID
+
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+    INT             shift and go to state 27
+    BOOL            shift and go to state 28
+    ID              shift and go to state 22
+
+  ! INT             [ reduce using rule 67 (empty -> .) ]
+  ! BOOL            [ reduce using rule 67 (empty -> .) ]
+  ! ID              [ reduce using rule 67 (empty -> .) ]
+
+    tipo                           shift and go to state 43
+    paramsopcional                 shift and go to state 44
+    params                         shift and go to state 45
+    empty                          shift and go to state 46
+
+state 42
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID . RPAREN LBRACE cmd RBRACE RBRACE
+
+    RPAREN          shift and go to state 47
+
+
+state 43
+
+    (18) params -> tipo . ID listaparamsextra
+
+    ID              shift and go to state 48
+
+
+state 44
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional . RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE
+
+    RPAREN          shift and go to state 49
+
+
+state 45
+
+    (14) paramsopcional -> params .
+
+    RPAREN          reduce using rule 14 (paramsopcional -> params .)
+
+
+state 46
+
+    (15) paramsopcional -> empty .
+    (19) params -> empty .
+
+  ! reduce/reduce conflict for RPAREN resolved using rule 15 (paramsopcional -> empty .)
+    RPAREN          reduce using rule 15 (paramsopcional -> empty .)
+
+  ! RPAREN          [ reduce using rule 19 (params -> empty .) ]
+
+
+state 47
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN . LBRACE cmd RBRACE RBRACE
+
+    LBRACE          shift and go to state 50
+
+
+state 48
+
+    (18) params -> tipo ID . listaparamsextra
+    (20) listaparamsextra -> . listaparamsextra COMMA tipo ID
+    (21) listaparamsextra -> . empty
+    (67) empty -> .
+
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    listaparamsextra               shift and go to state 51
+    empty                          shift and go to state 52
+
+state 49
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN . LBRACE variaveis cmds RETURN exp SEMI RBRACE
+
+    LBRACE          shift and go to state 53
+
+
+state 50
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE . cmd RBRACE RBRACE
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 56
+
+state 51
+
+    (18) params -> tipo ID listaparamsextra .
+    (20) listaparamsextra -> listaparamsextra . COMMA tipo ID
+
+    RPAREN          reduce using rule 18 (params -> tipo ID listaparamsextra .)
+    COMMA           shift and go to state 60
+
+
+state 52
+
+    (21) listaparamsextra -> empty .
+
+    RPAREN          reduce using rule 21 (listaparamsextra -> empty .)
+    COMMA           reduce using rule 21 (listaparamsextra -> empty .)
+
+
+state 53
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE . variaveis cmds RETURN exp SEMI RBRACE
+    (8) variaveis -> . variaveis var
+    (9) variaveis -> . empty
+    (67) empty -> .
+
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    variaveis                      shift and go to state 61
+    empty                          shift and go to state 20
+
+state 54
+
+    (31) cmd -> ID . ASSIGN exp SEMI
+    (32) cmd -> ID . LBRACK exp RBRACK ASSIGN exp SEMI
+
+    ASSIGN          shift and go to state 62
+    LBRACK          shift and go to state 63
+
+
+state 55
+
+    (26) cmd -> LBRACE . cmds RBRACE
+    (16) cmds -> . cmds cmd
+    (17) cmds -> . empty
+    (67) empty -> .
+
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    cmds                           shift and go to state 64
+    empty                          shift and go to state 65
+
+state 56
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd . RBRACE RBRACE
+
+    RBRACE          shift and go to state 66
+
+
+state 57
+
+    (27) cmd -> IF . LPAREN exp RPAREN cmd
+    (28) cmd -> IF . LPAREN exp RPAREN cmd ELSE cmd
+
+    LPAREN          shift and go to state 67
+
+
+state 58
+
+    (29) cmd -> WHILE . LPAREN exp RPAREN cmd
+
+    LPAREN          shift and go to state 68
+
+
+state 59
+
+    (30) cmd -> SOUTPL . LPAREN exp RPAREN SEMI
+
+    LPAREN          shift and go to state 69
+
+
+state 60
+
+    (20) listaparamsextra -> listaparamsextra COMMA . tipo ID
+    (22) tipo -> . INT LBRACK RBRACK
+    (23) tipo -> . BOOL
+    (24) tipo -> . INT
+    (25) tipo -> . ID
+
+    INT             shift and go to state 27
+    BOOL            shift and go to state 28
+    ID              shift and go to state 22
+
+    tipo                           shift and go to state 70
+
+state 61
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis . cmds RETURN exp SEMI RBRACE
+    (8) variaveis -> variaveis . var
+    (16) cmds -> . cmds cmd
+    (17) cmds -> . empty
+    (12) var -> . tipo ID
+    (67) empty -> .
+    (22) tipo -> . INT LBRACK RBRACK
+    (23) tipo -> . BOOL
+    (24) tipo -> . INT
+    (25) tipo -> . ID
+
+  ! shift/reduce conflict for INT resolved as shift
+  ! shift/reduce conflict for BOOL resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+    INT             shift and go to state 27
+    BOOL            shift and go to state 28
+    ID              shift and go to state 22
+
+  ! INT             [ reduce using rule 67 (empty -> .) ]
+  ! BOOL            [ reduce using rule 67 (empty -> .) ]
+  ! ID              [ reduce using rule 67 (empty -> .) ]
+
+    tipo                           shift and go to state 26
+    cmds                           shift and go to state 71
+    var                            shift and go to state 24
+    empty                          shift and go to state 65
+
+state 62
+
+    (31) cmd -> ID ASSIGN . exp SEMI
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 73
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 63
+
+    (32) cmd -> ID LBRACK . exp RBRACK ASSIGN exp SEMI
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 87
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 64
+
+    (26) cmd -> LBRACE cmds . RBRACE
+    (16) cmds -> cmds . cmd
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    RBRACE          shift and go to state 88
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 89
+
+state 65
+
+    (17) cmds -> empty .
+
+    RETURN          reduce using rule 17 (cmds -> empty .)
+    LBRACE          reduce using rule 17 (cmds -> empty .)
+    IF              reduce using rule 17 (cmds -> empty .)
+    WHILE           reduce using rule 17 (cmds -> empty .)
+    SOUTPL          reduce using rule 17 (cmds -> empty .)
+    ID              reduce using rule 17 (cmds -> empty .)
+    RBRACE          reduce using rule 17 (cmds -> empty .)
+
+
+state 66
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE . RBRACE
+
+    RBRACE          shift and go to state 90
+
+
+state 67
+
+    (27) cmd -> IF LPAREN . exp RPAREN cmd
+    (28) cmd -> IF LPAREN . exp RPAREN cmd ELSE cmd
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 91
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 68
+
+    (29) cmd -> WHILE LPAREN . exp RPAREN cmd
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 92
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 69
+
+    (30) cmd -> SOUTPL LPAREN . exp RPAREN SEMI
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 93
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 70
+
+    (20) listaparamsextra -> listaparamsextra COMMA tipo . ID
+
+    ID              shift and go to state 94
+
+
+state 71
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds . RETURN exp SEMI RBRACE
+    (16) cmds -> cmds . cmd
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    RETURN          shift and go to state 95
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 89
+
+state 72
+
+    (56) pexp -> ID .
+
+    POINT           reduce using rule 56 (pexp -> ID .)
+    LBRACK          reduce using rule 56 (pexp -> ID .)
+    SEMI            reduce using rule 56 (pexp -> ID .)
+    RPAREN          reduce using rule 56 (pexp -> ID .)
+    RBRACK          reduce using rule 56 (pexp -> ID .)
+    LAND            reduce using rule 56 (pexp -> ID .)
+    LOR             reduce using rule 56 (pexp -> ID .)
+    LT              reduce using rule 56 (pexp -> ID .)
+    EQ              reduce using rule 56 (pexp -> ID .)
+    NE              reduce using rule 56 (pexp -> ID .)
+    PLUS            reduce using rule 56 (pexp -> ID .)
+    MINUS           reduce using rule 56 (pexp -> ID .)
+    TIMES           reduce using rule 56 (pexp -> ID .)
+    DIVIDE          reduce using rule 56 (pexp -> ID .)
+    COMMA           reduce using rule 56 (pexp -> ID .)
+
+
+state 73
+
+    (31) cmd -> ID ASSIGN exp . SEMI
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    SEMI            shift and go to state 96
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 74
+
+    (35) exp -> rexp .
+    (36) rexp -> rexp . LT aexp
+    (37) rexp -> rexp . EQ aexp
+    (38) rexp -> rexp . NE aexp
+
+    SEMI            reduce using rule 35 (exp -> rexp .)
+    RPAREN          reduce using rule 35 (exp -> rexp .)
+    RBRACK          reduce using rule 35 (exp -> rexp .)
+    LAND            reduce using rule 35 (exp -> rexp .)
+    LOR             reduce using rule 35 (exp -> rexp .)
+    COMMA           reduce using rule 35 (exp -> rexp .)
+    LT              shift and go to state 99
+    EQ              shift and go to state 100
+    NE              shift and go to state 101
+
+
+state 75
+
+    (39) rexp -> aexp .
+    (40) aexp -> aexp . PLUS mexp
+    (41) aexp -> aexp . MINUS mexp
+
+    SEMI            reduce using rule 39 (rexp -> aexp .)
+    RPAREN          reduce using rule 39 (rexp -> aexp .)
+    RBRACK          reduce using rule 39 (rexp -> aexp .)
+    LAND            reduce using rule 39 (rexp -> aexp .)
+    LOR             reduce using rule 39 (rexp -> aexp .)
+    LT              reduce using rule 39 (rexp -> aexp .)
+    EQ              reduce using rule 39 (rexp -> aexp .)
+    NE              reduce using rule 39 (rexp -> aexp .)
+    COMMA           reduce using rule 39 (rexp -> aexp .)
+    PLUS            shift and go to state 102
+    MINUS           shift and go to state 103
+
+
+state 76
+
+    (42) aexp -> mexp .
+    (43) mexp -> mexp . TIMES sexp
+    (44) mexp -> mexp . DIVIDE sexp
+
+    SEMI            reduce using rule 42 (aexp -> mexp .)
+    RPAREN          reduce using rule 42 (aexp -> mexp .)
+    RBRACK          reduce using rule 42 (aexp -> mexp .)
+    LAND            reduce using rule 42 (aexp -> mexp .)
+    LOR             reduce using rule 42 (aexp -> mexp .)
+    LT              reduce using rule 42 (aexp -> mexp .)
+    EQ              reduce using rule 42 (aexp -> mexp .)
+    NE              reduce using rule 42 (aexp -> mexp .)
+    PLUS            reduce using rule 42 (aexp -> mexp .)
+    MINUS           reduce using rule 42 (aexp -> mexp .)
+    COMMA           reduce using rule 42 (aexp -> mexp .)
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
+
+
+state 77
+
+    (47) sexp -> MINUS . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    sexp                           shift and go to state 106
+    pexp                           shift and go to state 85
+
+state 78
+
+    (45) mexp -> sexp .
+
+    SEMI            reduce using rule 45 (mexp -> sexp .)
+    RPAREN          reduce using rule 45 (mexp -> sexp .)
+    RBRACK          reduce using rule 45 (mexp -> sexp .)
+    LAND            reduce using rule 45 (mexp -> sexp .)
+    LOR             reduce using rule 45 (mexp -> sexp .)
+    LT              reduce using rule 45 (mexp -> sexp .)
+    EQ              reduce using rule 45 (mexp -> sexp .)
+    NE              reduce using rule 45 (mexp -> sexp .)
+    PLUS            reduce using rule 45 (mexp -> sexp .)
+    MINUS           reduce using rule 45 (mexp -> sexp .)
+    TIMES           reduce using rule 45 (mexp -> sexp .)
+    DIVIDE          reduce using rule 45 (mexp -> sexp .)
+    COMMA           reduce using rule 45 (mexp -> sexp .)
+
+
+state 79
+
+    (46) sexp -> LNOT . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    sexp                           shift and go to state 107
+    pexp                           shift and go to state 85
+
+state 80
+
+    (48) sexp -> TRUE .
+
+    SEMI            reduce using rule 48 (sexp -> TRUE .)
+    RPAREN          reduce using rule 48 (sexp -> TRUE .)
+    RBRACK          reduce using rule 48 (sexp -> TRUE .)
+    LAND            reduce using rule 48 (sexp -> TRUE .)
+    LOR             reduce using rule 48 (sexp -> TRUE .)
+    LT              reduce using rule 48 (sexp -> TRUE .)
+    EQ              reduce using rule 48 (sexp -> TRUE .)
+    NE              reduce using rule 48 (sexp -> TRUE .)
+    PLUS            reduce using rule 48 (sexp -> TRUE .)
+    MINUS           reduce using rule 48 (sexp -> TRUE .)
+    TIMES           reduce using rule 48 (sexp -> TRUE .)
+    DIVIDE          reduce using rule 48 (sexp -> TRUE .)
+    COMMA           reduce using rule 48 (sexp -> TRUE .)
+
+
+state 81
+
+    (49) sexp -> FALSE .
+
+    SEMI            reduce using rule 49 (sexp -> FALSE .)
+    RPAREN          reduce using rule 49 (sexp -> FALSE .)
+    RBRACK          reduce using rule 49 (sexp -> FALSE .)
+    LAND            reduce using rule 49 (sexp -> FALSE .)
+    LOR             reduce using rule 49 (sexp -> FALSE .)
+    LT              reduce using rule 49 (sexp -> FALSE .)
+    EQ              reduce using rule 49 (sexp -> FALSE .)
+    NE              reduce using rule 49 (sexp -> FALSE .)
+    PLUS            reduce using rule 49 (sexp -> FALSE .)
+    MINUS           reduce using rule 49 (sexp -> FALSE .)
+    TIMES           reduce using rule 49 (sexp -> FALSE .)
+    DIVIDE          reduce using rule 49 (sexp -> FALSE .)
+    COMMA           reduce using rule 49 (sexp -> FALSE .)
+
+
+state 82
+
+    (50) sexp -> NUMBER .
+
+    SEMI            reduce using rule 50 (sexp -> NUMBER .)
+    RPAREN          reduce using rule 50 (sexp -> NUMBER .)
+    RBRACK          reduce using rule 50 (sexp -> NUMBER .)
+    LAND            reduce using rule 50 (sexp -> NUMBER .)
+    LOR             reduce using rule 50 (sexp -> NUMBER .)
+    LT              reduce using rule 50 (sexp -> NUMBER .)
+    EQ              reduce using rule 50 (sexp -> NUMBER .)
+    NE              reduce using rule 50 (sexp -> NUMBER .)
+    PLUS            reduce using rule 50 (sexp -> NUMBER .)
+    MINUS           reduce using rule 50 (sexp -> NUMBER .)
+    TIMES           reduce using rule 50 (sexp -> NUMBER .)
+    DIVIDE          reduce using rule 50 (sexp -> NUMBER .)
+    COMMA           reduce using rule 50 (sexp -> NUMBER .)
+
+
+state 83
+
+    (51) sexp -> NULL .
+
+    SEMI            reduce using rule 51 (sexp -> NULL .)
+    RPAREN          reduce using rule 51 (sexp -> NULL .)
+    RBRACK          reduce using rule 51 (sexp -> NULL .)
+    LAND            reduce using rule 51 (sexp -> NULL .)
+    LOR             reduce using rule 51 (sexp -> NULL .)
+    LT              reduce using rule 51 (sexp -> NULL .)
+    EQ              reduce using rule 51 (sexp -> NULL .)
+    NE              reduce using rule 51 (sexp -> NULL .)
+    PLUS            reduce using rule 51 (sexp -> NULL .)
+    MINUS           reduce using rule 51 (sexp -> NULL .)
+    TIMES           reduce using rule 51 (sexp -> NULL .)
+    DIVIDE          reduce using rule 51 (sexp -> NULL .)
+    COMMA           reduce using rule 51 (sexp -> NULL .)
+
+
+state 84
+
+    (52) sexp -> NEW . INT LBRACK exp RBRACK
+    (58) pexp -> NEW . ID LPAREN RPAREN
+
+    INT             shift and go to state 108
+    ID              shift and go to state 109
+
+
+state 85
+
+    (53) sexp -> pexp . POINT LENGTH
+    (54) sexp -> pexp . LBRACK exp RBRACK
+    (55) sexp -> pexp .
+    (59) pexp -> pexp . POINT ID
+    (60) pexp -> pexp . POINT ID LPAREN expopcionalmetodo RPAREN
+
+    POINT           shift and go to state 110
+    LBRACK          shift and go to state 111
+    SEMI            reduce using rule 55 (sexp -> pexp .)
+    RPAREN          reduce using rule 55 (sexp -> pexp .)
+    RBRACK          reduce using rule 55 (sexp -> pexp .)
+    LAND            reduce using rule 55 (sexp -> pexp .)
+    LOR             reduce using rule 55 (sexp -> pexp .)
+    LT              reduce using rule 55 (sexp -> pexp .)
+    EQ              reduce using rule 55 (sexp -> pexp .)
+    NE              reduce using rule 55 (sexp -> pexp .)
+    PLUS            reduce using rule 55 (sexp -> pexp .)
+    MINUS           reduce using rule 55 (sexp -> pexp .)
+    TIMES           reduce using rule 55 (sexp -> pexp .)
+    DIVIDE          reduce using rule 55 (sexp -> pexp .)
+    COMMA           reduce using rule 55 (sexp -> pexp .)
+
+
+state 86
+
+    (57) pexp -> THIS .
+
+    POINT           reduce using rule 57 (pexp -> THIS .)
+    LBRACK          reduce using rule 57 (pexp -> THIS .)
+    SEMI            reduce using rule 57 (pexp -> THIS .)
+    RPAREN          reduce using rule 57 (pexp -> THIS .)
+    RBRACK          reduce using rule 57 (pexp -> THIS .)
+    LAND            reduce using rule 57 (pexp -> THIS .)
+    LOR             reduce using rule 57 (pexp -> THIS .)
+    LT              reduce using rule 57 (pexp -> THIS .)
+    EQ              reduce using rule 57 (pexp -> THIS .)
+    NE              reduce using rule 57 (pexp -> THIS .)
+    PLUS            reduce using rule 57 (pexp -> THIS .)
+    MINUS           reduce using rule 57 (pexp -> THIS .)
+    TIMES           reduce using rule 57 (pexp -> THIS .)
+    DIVIDE          reduce using rule 57 (pexp -> THIS .)
+    COMMA           reduce using rule 57 (pexp -> THIS .)
+
+
+state 87
+
+    (32) cmd -> ID LBRACK exp . RBRACK ASSIGN exp SEMI
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RBRACK          shift and go to state 112
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 88
+
+    (26) cmd -> LBRACE cmds RBRACE .
+
+    RBRACE          reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    RETURN          reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    LBRACE          reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    IF              reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    WHILE           reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    SOUTPL          reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    ID              reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+    ELSE            reduce using rule 26 (cmd -> LBRACE cmds RBRACE .)
+
+
+state 89
+
+    (16) cmds -> cmds cmd .
+
+    RETURN          reduce using rule 16 (cmds -> cmds cmd .)
+    LBRACE          reduce using rule 16 (cmds -> cmds cmd .)
+    IF              reduce using rule 16 (cmds -> cmds cmd .)
+    WHILE           reduce using rule 16 (cmds -> cmds cmd .)
+    SOUTPL          reduce using rule 16 (cmds -> cmds cmd .)
+    ID              reduce using rule 16 (cmds -> cmds cmd .)
+    RBRACE          reduce using rule 16 (cmds -> cmds cmd .)
+
+
+state 90
+
+    (4) main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE .
+
+    CLASS           reduce using rule 4 (main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE .)
+    $end            reduce using rule 4 (main -> CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE .)
+
+
+state 91
+
+    (27) cmd -> IF LPAREN exp . RPAREN cmd
+    (28) cmd -> IF LPAREN exp . RPAREN cmd ELSE cmd
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RPAREN          shift and go to state 113
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 92
+
+    (29) cmd -> WHILE LPAREN exp . RPAREN cmd
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RPAREN          shift and go to state 114
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 93
+
+    (30) cmd -> SOUTPL LPAREN exp . RPAREN SEMI
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RPAREN          shift and go to state 115
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 94
+
+    (20) listaparamsextra -> listaparamsextra COMMA tipo ID .
+
+    RPAREN          reduce using rule 20 (listaparamsextra -> listaparamsextra COMMA tipo ID .)
+    COMMA           reduce using rule 20 (listaparamsextra -> listaparamsextra COMMA tipo ID .)
+
+
+state 95
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN . exp SEMI RBRACE
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 116
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 96
+
+    (31) cmd -> ID ASSIGN exp SEMI .
+
+    RBRACE          reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    RETURN          reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    LBRACE          reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    IF              reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    WHILE           reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    SOUTPL          reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    ID              reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+    ELSE            reduce using rule 31 (cmd -> ID ASSIGN exp SEMI .)
+
+
+state 97
+
+    (33) exp -> exp LAND . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    rexp                           shift and go to state 117
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 98
+
+    (34) exp -> exp LOR . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    rexp                           shift and go to state 118
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 99
+
+    (36) rexp -> rexp LT . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    aexp                           shift and go to state 119
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 100
+
+    (37) rexp -> rexp EQ . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    aexp                           shift and go to state 120
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 101
+
+    (38) rexp -> rexp NE . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    aexp                           shift and go to state 121
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 102
+
+    (40) aexp -> aexp PLUS . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    mexp                           shift and go to state 122
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 103
+
+    (41) aexp -> aexp MINUS . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    mexp                           shift and go to state 123
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 104
+
+    (43) mexp -> mexp TIMES . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    sexp                           shift and go to state 124
+    pexp                           shift and go to state 85
+
+state 105
+
+    (44) mexp -> mexp DIVIDE . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    sexp                           shift and go to state 125
+    pexp                           shift and go to state 85
+
+state 106
+
+    (47) sexp -> MINUS sexp .
+
+    SEMI            reduce using rule 47 (sexp -> MINUS sexp .)
+    RPAREN          reduce using rule 47 (sexp -> MINUS sexp .)
+    RBRACK          reduce using rule 47 (sexp -> MINUS sexp .)
+    LAND            reduce using rule 47 (sexp -> MINUS sexp .)
+    LOR             reduce using rule 47 (sexp -> MINUS sexp .)
+    LT              reduce using rule 47 (sexp -> MINUS sexp .)
+    EQ              reduce using rule 47 (sexp -> MINUS sexp .)
+    NE              reduce using rule 47 (sexp -> MINUS sexp .)
+    PLUS            reduce using rule 47 (sexp -> MINUS sexp .)
+    MINUS           reduce using rule 47 (sexp -> MINUS sexp .)
+    TIMES           reduce using rule 47 (sexp -> MINUS sexp .)
+    DIVIDE          reduce using rule 47 (sexp -> MINUS sexp .)
+    COMMA           reduce using rule 47 (sexp -> MINUS sexp .)
+
+
+state 107
+
+    (46) sexp -> LNOT sexp .
+
+    SEMI            reduce using rule 46 (sexp -> LNOT sexp .)
+    RPAREN          reduce using rule 46 (sexp -> LNOT sexp .)
+    RBRACK          reduce using rule 46 (sexp -> LNOT sexp .)
+    LAND            reduce using rule 46 (sexp -> LNOT sexp .)
+    LOR             reduce using rule 46 (sexp -> LNOT sexp .)
+    LT              reduce using rule 46 (sexp -> LNOT sexp .)
+    EQ              reduce using rule 46 (sexp -> LNOT sexp .)
+    NE              reduce using rule 46 (sexp -> LNOT sexp .)
+    PLUS            reduce using rule 46 (sexp -> LNOT sexp .)
+    MINUS           reduce using rule 46 (sexp -> LNOT sexp .)
+    TIMES           reduce using rule 46 (sexp -> LNOT sexp .)
+    DIVIDE          reduce using rule 46 (sexp -> LNOT sexp .)
+    COMMA           reduce using rule 46 (sexp -> LNOT sexp .)
+
+
+state 108
+
+    (52) sexp -> NEW INT . LBRACK exp RBRACK
+
+    LBRACK          shift and go to state 126
+
+
+state 109
+
+    (58) pexp -> NEW ID . LPAREN RPAREN
+
+    LPAREN          shift and go to state 127
+
+
+state 110
+
+    (53) sexp -> pexp POINT . LENGTH
+    (59) pexp -> pexp POINT . ID
+    (60) pexp -> pexp POINT . ID LPAREN expopcionalmetodo RPAREN
+
+    LENGTH          shift and go to state 128
+    ID              shift and go to state 129
+
+
+state 111
+
+    (54) sexp -> pexp LBRACK . exp RBRACK
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    pexp                           shift and go to state 85
+    exp                            shift and go to state 130
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+
+state 112
+
+    (32) cmd -> ID LBRACK exp RBRACK . ASSIGN exp SEMI
+
+    ASSIGN          shift and go to state 131
+
+
+state 113
+
+    (27) cmd -> IF LPAREN exp RPAREN . cmd
+    (28) cmd -> IF LPAREN exp RPAREN . cmd ELSE cmd
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 132
+
+state 114
+
+    (29) cmd -> WHILE LPAREN exp RPAREN . cmd
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 133
+
+state 115
+
+    (30) cmd -> SOUTPL LPAREN exp RPAREN . SEMI
+
+    SEMI            shift and go to state 134
+
+
+state 116
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp . SEMI RBRACE
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    SEMI            shift and go to state 135
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 117
+
+    (33) exp -> exp LAND rexp .
+    (36) rexp -> rexp . LT aexp
+    (37) rexp -> rexp . EQ aexp
+    (38) rexp -> rexp . NE aexp
+
+    SEMI            reduce using rule 33 (exp -> exp LAND rexp .)
+    RPAREN          reduce using rule 33 (exp -> exp LAND rexp .)
+    RBRACK          reduce using rule 33 (exp -> exp LAND rexp .)
+    LAND            reduce using rule 33 (exp -> exp LAND rexp .)
+    LOR             reduce using rule 33 (exp -> exp LAND rexp .)
+    COMMA           reduce using rule 33 (exp -> exp LAND rexp .)
+    LT              shift and go to state 99
+    EQ              shift and go to state 100
+    NE              shift and go to state 101
+
+
+state 118
+
+    (34) exp -> exp LOR rexp .
+    (36) rexp -> rexp . LT aexp
+    (37) rexp -> rexp . EQ aexp
+    (38) rexp -> rexp . NE aexp
+
+    SEMI            reduce using rule 34 (exp -> exp LOR rexp .)
+    RPAREN          reduce using rule 34 (exp -> exp LOR rexp .)
+    RBRACK          reduce using rule 34 (exp -> exp LOR rexp .)
+    LAND            reduce using rule 34 (exp -> exp LOR rexp .)
+    LOR             reduce using rule 34 (exp -> exp LOR rexp .)
+    COMMA           reduce using rule 34 (exp -> exp LOR rexp .)
+    LT              shift and go to state 99
+    EQ              shift and go to state 100
+    NE              shift and go to state 101
+
+
+state 119
+
+    (36) rexp -> rexp LT aexp .
+    (40) aexp -> aexp . PLUS mexp
+    (41) aexp -> aexp . MINUS mexp
+
+    SEMI            reduce using rule 36 (rexp -> rexp LT aexp .)
+    RPAREN          reduce using rule 36 (rexp -> rexp LT aexp .)
+    RBRACK          reduce using rule 36 (rexp -> rexp LT aexp .)
+    LAND            reduce using rule 36 (rexp -> rexp LT aexp .)
+    LOR             reduce using rule 36 (rexp -> rexp LT aexp .)
+    LT              reduce using rule 36 (rexp -> rexp LT aexp .)
+    EQ              reduce using rule 36 (rexp -> rexp LT aexp .)
+    NE              reduce using rule 36 (rexp -> rexp LT aexp .)
+    COMMA           reduce using rule 36 (rexp -> rexp LT aexp .)
+    PLUS            shift and go to state 102
+    MINUS           shift and go to state 103
+
+
+state 120
+
+    (37) rexp -> rexp EQ aexp .
+    (40) aexp -> aexp . PLUS mexp
+    (41) aexp -> aexp . MINUS mexp
+
+    SEMI            reduce using rule 37 (rexp -> rexp EQ aexp .)
+    RPAREN          reduce using rule 37 (rexp -> rexp EQ aexp .)
+    RBRACK          reduce using rule 37 (rexp -> rexp EQ aexp .)
+    LAND            reduce using rule 37 (rexp -> rexp EQ aexp .)
+    LOR             reduce using rule 37 (rexp -> rexp EQ aexp .)
+    LT              reduce using rule 37 (rexp -> rexp EQ aexp .)
+    EQ              reduce using rule 37 (rexp -> rexp EQ aexp .)
+    NE              reduce using rule 37 (rexp -> rexp EQ aexp .)
+    COMMA           reduce using rule 37 (rexp -> rexp EQ aexp .)
+    PLUS            shift and go to state 102
+    MINUS           shift and go to state 103
+
+
+state 121
+
+    (38) rexp -> rexp NE aexp .
+    (40) aexp -> aexp . PLUS mexp
+    (41) aexp -> aexp . MINUS mexp
+
+    SEMI            reduce using rule 38 (rexp -> rexp NE aexp .)
+    RPAREN          reduce using rule 38 (rexp -> rexp NE aexp .)
+    RBRACK          reduce using rule 38 (rexp -> rexp NE aexp .)
+    LAND            reduce using rule 38 (rexp -> rexp NE aexp .)
+    LOR             reduce using rule 38 (rexp -> rexp NE aexp .)
+    LT              reduce using rule 38 (rexp -> rexp NE aexp .)
+    EQ              reduce using rule 38 (rexp -> rexp NE aexp .)
+    NE              reduce using rule 38 (rexp -> rexp NE aexp .)
+    COMMA           reduce using rule 38 (rexp -> rexp NE aexp .)
+    PLUS            shift and go to state 102
+    MINUS           shift and go to state 103
+
+
+state 122
+
+    (40) aexp -> aexp PLUS mexp .
+    (43) mexp -> mexp . TIMES sexp
+    (44) mexp -> mexp . DIVIDE sexp
+
+    SEMI            reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    RPAREN          reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    RBRACK          reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    LAND            reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    LOR             reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    LT              reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    EQ              reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    NE              reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    PLUS            reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    MINUS           reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    COMMA           reduce using rule 40 (aexp -> aexp PLUS mexp .)
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
+
+
+state 123
+
+    (41) aexp -> aexp MINUS mexp .
+    (43) mexp -> mexp . TIMES sexp
+    (44) mexp -> mexp . DIVIDE sexp
+
+    SEMI            reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    RPAREN          reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    RBRACK          reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    LAND            reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    LOR             reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    LT              reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    EQ              reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    NE              reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    PLUS            reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    MINUS           reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    COMMA           reduce using rule 41 (aexp -> aexp MINUS mexp .)
+    TIMES           shift and go to state 104
+    DIVIDE          shift and go to state 105
+
+
+state 124
+
+    (43) mexp -> mexp TIMES sexp .
+
+    SEMI            reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    RPAREN          reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    RBRACK          reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    LAND            reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    LOR             reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    LT              reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    EQ              reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    NE              reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    PLUS            reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    MINUS           reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    TIMES           reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    DIVIDE          reduce using rule 43 (mexp -> mexp TIMES sexp .)
+    COMMA           reduce using rule 43 (mexp -> mexp TIMES sexp .)
+
+
+state 125
+
+    (44) mexp -> mexp DIVIDE sexp .
+
+    SEMI            reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    RPAREN          reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    RBRACK          reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    LAND            reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    LOR             reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    LT              reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    EQ              reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    NE              reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    PLUS            reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    MINUS           reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    TIMES           reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    DIVIDE          reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+    COMMA           reduce using rule 44 (mexp -> mexp DIVIDE sexp .)
+
+
+state 126
+
+    (52) sexp -> NEW INT LBRACK . exp RBRACK
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 136
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 127
+
+    (58) pexp -> NEW ID LPAREN . RPAREN
+
+    RPAREN          shift and go to state 137
+
+
+state 128
+
+    (53) sexp -> pexp POINT LENGTH .
+
+    SEMI            reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    RPAREN          reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    RBRACK          reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    LAND            reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    LOR             reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    LT              reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    EQ              reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    NE              reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    PLUS            reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    MINUS           reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    TIMES           reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    DIVIDE          reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+    COMMA           reduce using rule 53 (sexp -> pexp POINT LENGTH .)
+
+
+state 129
+
+    (59) pexp -> pexp POINT ID .
+    (60) pexp -> pexp POINT ID . LPAREN expopcionalmetodo RPAREN
+
+    POINT           reduce using rule 59 (pexp -> pexp POINT ID .)
+    LBRACK          reduce using rule 59 (pexp -> pexp POINT ID .)
+    SEMI            reduce using rule 59 (pexp -> pexp POINT ID .)
+    RPAREN          reduce using rule 59 (pexp -> pexp POINT ID .)
+    RBRACK          reduce using rule 59 (pexp -> pexp POINT ID .)
+    LAND            reduce using rule 59 (pexp -> pexp POINT ID .)
+    LOR             reduce using rule 59 (pexp -> pexp POINT ID .)
+    LT              reduce using rule 59 (pexp -> pexp POINT ID .)
+    EQ              reduce using rule 59 (pexp -> pexp POINT ID .)
+    NE              reduce using rule 59 (pexp -> pexp POINT ID .)
+    PLUS            reduce using rule 59 (pexp -> pexp POINT ID .)
+    MINUS           reduce using rule 59 (pexp -> pexp POINT ID .)
+    TIMES           reduce using rule 59 (pexp -> pexp POINT ID .)
+    DIVIDE          reduce using rule 59 (pexp -> pexp POINT ID .)
+    COMMA           reduce using rule 59 (pexp -> pexp POINT ID .)
+    LPAREN          shift and go to state 138
+
+
+state 130
+
+    (54) sexp -> pexp LBRACK exp . RBRACK
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RBRACK          shift and go to state 139
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 131
+
+    (32) cmd -> ID LBRACK exp RBRACK ASSIGN . exp SEMI
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 140
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 132
+
+    (27) cmd -> IF LPAREN exp RPAREN cmd .
+    (28) cmd -> IF LPAREN exp RPAREN cmd . ELSE cmd
+
+  ! shift/reduce conflict for ELSE resolved as shift
+    RBRACE          reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    RETURN          reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    LBRACE          reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    IF              reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    WHILE           reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    SOUTPL          reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    ID              reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .)
+    ELSE            shift and go to state 141
+
+  ! ELSE            [ reduce using rule 27 (cmd -> IF LPAREN exp RPAREN cmd .) ]
+
+
+state 133
+
+    (29) cmd -> WHILE LPAREN exp RPAREN cmd .
+
+    RBRACE          reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    RETURN          reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    LBRACE          reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    IF              reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    WHILE           reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    SOUTPL          reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    ID              reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+    ELSE            reduce using rule 29 (cmd -> WHILE LPAREN exp RPAREN cmd .)
+
+
+state 134
+
+    (30) cmd -> SOUTPL LPAREN exp RPAREN SEMI .
+
+    RBRACE          reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    RETURN          reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    LBRACE          reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    IF              reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    WHILE           reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    SOUTPL          reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    ID              reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+    ELSE            reduce using rule 30 (cmd -> SOUTPL LPAREN exp RPAREN SEMI .)
+
+
+state 135
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI . RBRACE
+
+    RBRACE          shift and go to state 142
+
+
+state 136
+
+    (52) sexp -> NEW INT LBRACK exp . RBRACK
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RBRACK          shift and go to state 143
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 137
+
+    (58) pexp -> NEW ID LPAREN RPAREN .
+
+    POINT           reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    LBRACK          reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    SEMI            reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    RPAREN          reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    RBRACK          reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    LAND            reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    LOR             reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    LT              reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    EQ              reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    NE              reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    PLUS            reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    MINUS           reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    TIMES           reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    DIVIDE          reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+    COMMA           reduce using rule 58 (pexp -> NEW ID LPAREN RPAREN .)
+
+
+state 138
+
+    (60) pexp -> pexp POINT ID LPAREN . expopcionalmetodo RPAREN
+    (61) expopcionalmetodo -> . exps
+    (62) expopcionalmetodo -> . empty
+    (63) exps -> . exp expslist
+    (64) exps -> . empty
+    (67) empty -> .
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+  ! shift/reduce conflict for ID resolved as shift
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+  ! ID              [ reduce using rule 67 (empty -> .) ]
+
+    pexp                           shift and go to state 85
+    expopcionalmetodo              shift and go to state 144
+    exps                           shift and go to state 145
+    empty                          shift and go to state 146
+    exp                            shift and go to state 147
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+
+state 139
+
+    (54) sexp -> pexp LBRACK exp RBRACK .
+
+    SEMI            reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    RPAREN          reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    RBRACK          reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    LAND            reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    LOR             reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    LT              reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    EQ              reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    NE              reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    PLUS            reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    MINUS           reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    TIMES           reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    DIVIDE          reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+    COMMA           reduce using rule 54 (sexp -> pexp LBRACK exp RBRACK .)
+
+
+state 140
+
+    (32) cmd -> ID LBRACK exp RBRACK ASSIGN exp . SEMI
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    SEMI            shift and go to state 148
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+
+state 141
+
+    (28) cmd -> IF LPAREN exp RPAREN cmd ELSE . cmd
+    (26) cmd -> . LBRACE cmds RBRACE
+    (27) cmd -> . IF LPAREN exp RPAREN cmd
+    (28) cmd -> . IF LPAREN exp RPAREN cmd ELSE cmd
+    (29) cmd -> . WHILE LPAREN exp RPAREN cmd
+    (30) cmd -> . SOUTPL LPAREN exp RPAREN SEMI
+    (31) cmd -> . ID ASSIGN exp SEMI
+    (32) cmd -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    LBRACE          shift and go to state 55
+    IF              shift and go to state 57
+    WHILE           shift and go to state 58
+    SOUTPL          shift and go to state 59
+    ID              shift and go to state 54
+
+    cmd                            shift and go to state 149
+
+state 142
+
+    (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE .
+
+    RBRACE          reduce using rule 13 (metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE .)
+    PUBLIC          reduce using rule 13 (metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE .)
+
+
+state 143
+
+    (52) sexp -> NEW INT LBRACK exp RBRACK .
+
+    SEMI            reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    RPAREN          reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    RBRACK          reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    LAND            reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    LOR             reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    LT              reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    EQ              reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    NE              reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    PLUS            reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    MINUS           reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    TIMES           reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    DIVIDE          reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+    COMMA           reduce using rule 52 (sexp -> NEW INT LBRACK exp RBRACK .)
+
+
+state 144
+
+    (60) pexp -> pexp POINT ID LPAREN expopcionalmetodo . RPAREN
+
+    RPAREN          shift and go to state 150
+
+
+state 145
+
+    (61) expopcionalmetodo -> exps .
+
+    RPAREN          reduce using rule 61 (expopcionalmetodo -> exps .)
+
+
+state 146
+
+    (62) expopcionalmetodo -> empty .
+    (64) exps -> empty .
+
+  ! reduce/reduce conflict for RPAREN resolved using rule 62 (expopcionalmetodo -> empty .)
+    RPAREN          reduce using rule 62 (expopcionalmetodo -> empty .)
+
+  ! RPAREN          [ reduce using rule 64 (exps -> empty .) ]
+
+
+state 147
+
+    (63) exps -> exp . expslist
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+    (65) expslist -> . expslist COMMA exp
+    (66) expslist -> . empty
+    (67) empty -> .
+
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+    $end            reduce using rule 67 (empty -> .)
+    CLASS           reduce using rule 67 (empty -> .)
+    LBRACE          reduce using rule 67 (empty -> .)
+    PUBLIC          reduce using rule 67 (empty -> .)
+    RBRACE          reduce using rule 67 (empty -> .)
+    INT             reduce using rule 67 (empty -> .)
+    BOOL            reduce using rule 67 (empty -> .)
+    ID              reduce using rule 67 (empty -> .)
+    RPAREN          reduce using rule 67 (empty -> .)
+    RETURN          reduce using rule 67 (empty -> .)
+    IF              reduce using rule 67 (empty -> .)
+    WHILE           reduce using rule 67 (empty -> .)
+    SOUTPL          reduce using rule 67 (empty -> .)
+    COMMA           reduce using rule 67 (empty -> .)
+
+    expslist                       shift and go to state 151
+    empty                          shift and go to state 152
+
+state 148
+
+    (32) cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .
+
+    RBRACE          reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    RETURN          reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    LBRACE          reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    IF              reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    WHILE           reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    SOUTPL          reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    ID              reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+    ELSE            reduce using rule 32 (cmd -> ID LBRACK exp RBRACK ASSIGN exp SEMI .)
+
+
+state 149
+
+    (28) cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .
+
+    RBRACE          reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    RETURN          reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    LBRACE          reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    IF              reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    WHILE           reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    SOUTPL          reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    ID              reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+    ELSE            reduce using rule 28 (cmd -> IF LPAREN exp RPAREN cmd ELSE cmd .)
+
+
+state 150
+
+    (60) pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .
+
+    POINT           reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    LBRACK          reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    SEMI            reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    RPAREN          reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    RBRACK          reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    LAND            reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    LOR             reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    LT              reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    EQ              reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    NE              reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    PLUS            reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    MINUS           reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    TIMES           reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    DIVIDE          reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+    COMMA           reduce using rule 60 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
+
+
+state 151
+
+    (63) exps -> exp expslist .
+    (65) expslist -> expslist . COMMA exp
+
+    RPAREN          reduce using rule 63 (exps -> exp expslist .)
+    COMMA           shift and go to state 153
+
+
+state 152
+
+    (66) expslist -> empty .
+
+    RPAREN          reduce using rule 66 (expslist -> empty .)
+    COMMA           reduce using rule 66 (expslist -> empty .)
+
+
+state 153
+
+    (65) expslist -> expslist COMMA . exp
+    (33) exp -> . exp LAND rexp
+    (34) exp -> . exp LOR rexp
+    (35) exp -> . rexp
+    (36) rexp -> . rexp LT aexp
+    (37) rexp -> . rexp EQ aexp
+    (38) rexp -> . rexp NE aexp
+    (39) rexp -> . aexp
+    (40) aexp -> . aexp PLUS mexp
+    (41) aexp -> . aexp MINUS mexp
+    (42) aexp -> . mexp
+    (43) mexp -> . mexp TIMES sexp
+    (44) mexp -> . mexp DIVIDE sexp
+    (45) mexp -> . sexp
+    (46) sexp -> . LNOT sexp
+    (47) sexp -> . MINUS sexp
+    (48) sexp -> . TRUE
+    (49) sexp -> . FALSE
+    (50) sexp -> . NUMBER
+    (51) sexp -> . NULL
+    (52) sexp -> . NEW INT LBRACK exp RBRACK
+    (53) sexp -> . pexp POINT LENGTH
+    (54) sexp -> . pexp LBRACK exp RBRACK
+    (55) sexp -> . pexp
+    (56) pexp -> . ID
+    (57) pexp -> . THIS
+    (58) pexp -> . NEW ID LPAREN RPAREN
+    (59) pexp -> . pexp POINT ID
+    (60) pexp -> . pexp POINT ID LPAREN expopcionalmetodo RPAREN
+
+    LNOT            shift and go to state 79
+    MINUS           shift and go to state 77
+    TRUE            shift and go to state 80
+    FALSE           shift and go to state 81
+    NUMBER          shift and go to state 82
+    NULL            shift and go to state 83
+    NEW             shift and go to state 84
+    ID              shift and go to state 72
+    THIS            shift and go to state 86
+
+    exp                            shift and go to state 154
+    rexp                           shift and go to state 74
+    aexp                           shift and go to state 75
+    mexp                           shift and go to state 76
+    sexp                           shift and go to state 78
+    pexp                           shift and go to state 85
+
+state 154
+
+    (65) expslist -> expslist COMMA exp .
+    (33) exp -> exp . LAND rexp
+    (34) exp -> exp . LOR rexp
+
+    RPAREN          reduce using rule 65 (expslist -> expslist COMMA exp .)
+    COMMA           reduce using rule 65 (expslist -> expslist COMMA exp .)
+    LAND            shift and go to state 97
+    LOR             shift and go to state 98
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for INT in state 19 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 19 resolved as shift
+WARNING: shift/reduce conflict for ID in state 19 resolved as shift
+WARNING: shift/reduce conflict for INT in state 41 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 41 resolved as shift
+WARNING: shift/reduce conflict for ID in state 41 resolved as shift
+WARNING: shift/reduce conflict for INT in state 61 resolved as shift
+WARNING: shift/reduce conflict for BOOL in state 61 resolved as shift
+WARNING: shift/reduce conflict for ID in state 61 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 132 resolved as shift
+WARNING: shift/reduce conflict for ID in state 138 resolved as shift
+WARNING: reduce/reduce conflict in state 46 resolved using rule (paramsopcional -> empty)
+WARNING: rejected rule (params -> empty) in state 46
+WARNING: reduce/reduce conflict in state 146 resolved using rule (expopcionalmetodo -> empty)
+WARNING: rejected rule (exps -> empty) in state 146
+WARNING: Rule (params -> empty) is never reduced
+WARNING: Rule (exps -> empty) is never reduced
