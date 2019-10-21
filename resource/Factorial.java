@@ -3,4 +3,3 @@ class Factorial{
 		System.out.println(new Fac().ComputeFac(10));
 	}
 }
-
