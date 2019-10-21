@@ -39,13 +39,13 @@ def p_variaveis(p):
     '''variaveis : variaveis var
                  | empty'''
     if len(p) > 2:
-        p[0] = Node("BNF-variaveis", p[2])
+        p[0] = Node("BNF-variaveis", [p[1], p[2]])
 
 def p_metodos(p):
     '''metodos : metodos metodo
                | empty'''
     if len(p) > 2:
-        p[0] = Node("BNF-metodo", [p[2]])
+        p[0] = Node("BNF-metodo", [p[1], p[2]])
 
 def p_var(p):
     "var : tipo ID"
@@ -65,7 +65,7 @@ def p_cmds(p):
     '''cmds : cmds cmd
             | empty'''
     if len(p) > 2:
-        p[0] = Node("BNF-cmd", [p[1]])
+        p[0] = Node("BNF-cmd", [p[1], p[2]])
 
 def p_params(p):
     '''params : tipo ID listaparamsextra
@@ -95,14 +95,13 @@ def p_cmd(p):
           | ID ASSIGN exp SEMI
           | ID LBRACK exp RBRACK ASSIGN exp SEMI '''
     non_terms = [p[3]]
+    tokens = [p[1]]
     if (p[1] == 'if' or p[1] == 'while'):
-        non_terms.append(p[5])
+        non_terms.append([p[3], p[5]])
         if p[6] == 'else':
             non_terms.append(p[7])
     elif (p[2] == '['):
         non_terms.append(p[6])
-    if (p[1] == 'System.out.println' or p[1] == 'ID'):
-        tokens = [p[1]]
     p[0] = Node("cmd", non_terms, tokens)
 
 def p_exp(p):
@@ -137,7 +136,7 @@ def p_mexp(p):
     '''mexp : mexp TIMES sexp
             | mexp DIVIDE sexp
             | sexp'''
-    if len(p) <= 1:
+    if len(p) > 2:
         p[0] = Node("M-exp", [p[1], p[3]], [p[2]])
     else:
         p[0] = Node("M-exp", [p[1]])
@@ -158,7 +157,6 @@ def p_sexp(p):  # MINUS sexp  ?
     if type(p[1]) != Node:
         tokens.append(p[1])
         if p[1] == '!' or p[1]== '-':
-            print("YES")
             non_terms.append(p[2])
     else:
         non_terms.append(p[1])
@@ -167,6 +165,7 @@ def p_sexp(p):  # MINUS sexp  ?
         elif len(p) == 5:
             non_terms.append(p[4])
     p[0] = Node("S-exp", non_terms, tokens)
+    
     
 
 def p_pexp(p):
@@ -177,11 +176,12 @@ def p_pexp(p):
             | pexp POINT ID LPAREN expopcionalmetodo RPAREN '''
     non_terms = []
     tokens = []
-    if type(p[1]) != Node:
+    if p[2] != '.':
         tokens.append(p[1])
         if len(p) > 2:
             tokens.append(p[2])
     else:
+        non_terms.append(p[1])
         tokens.append(p[3])
         if(len(p) > 4):
             non_terms.append(p[5])
@@ -214,7 +214,6 @@ def p_error(p):
         print("Erro de sintaxe encontrado: '%s'" % p.value)
     else:
         print("Erro de sintaxe - EOF")
-    #print("Erro de sintaxe na linha %d posição %d: %s" % p.lineno(1), p.lexpos(1), p.type)
 
 # Setup and initialization
 tokens = minijavaLEX.tokens
