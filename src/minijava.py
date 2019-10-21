@@ -14,18 +14,24 @@ def main():
 	#print(PATH)
 
 	PATH = os.path.abspath("../resource/").replace("\\","/")
-	Files = ['Factorial.java','Fac.java']
+	Files = ['Factorial.java']
 	TOKEN_LIST = []
 	SYNTAX_TREE = []
-
 	for i in Files:
+		input = ""
 		inputfile = open(PATH+"/"+i, 'r')
 		for line in inputfile:
-			#minijavaLEX.generateTokens(line,TOKEN_LIST)
-			minijavaPARSER.generateTree(line,SYNTAX_TREE)
+			# O parser yacc recebe O ARQUIVO COMPLETO como input, e não cada linha.
+			input += line			
 		inputfile.close()
-	#print(len(TOKEN_LIST))
-	#print(TOKEN_LIST)
+		minijavaPARSER.generateTree(input,SYNTAX_TREE)
+		#print("=======TOKENS GERADOS=======")
+		#print(TOKEN_LIST, "\n", len(TOKEN_LIST), "tokens")
+		#print("============================")
+		print("")
+		print("======ARVORE SINTATICA %s======" % i)
+		print(SYNTAX_TREE[0].pretty(), "\n", len(SYNTAX_TREE), "nodes")
+		print("============================")
 
 if __name__ == '__main__':
 	main()
