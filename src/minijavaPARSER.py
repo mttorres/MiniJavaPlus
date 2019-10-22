@@ -88,21 +88,59 @@ def p_tipo(p):
 
 def p_cmd(p):
     '''cmd : LBRACE cmds RBRACE
-          | IF LPAREN exp RPAREN cmd
-          | IF LPAREN exp RPAREN cmd ELSE cmd
+          | condstmt
           | WHILE LPAREN exp RPAREN cmd
           | SOUTPL LPAREN exp RPAREN SEMI
           | ID ASSIGN exp SEMI
           | ID LBRACK exp RBRACK ASSIGN exp SEMI '''
-    non_terms = [p[3]]
-    tokens = [p[1]]
-    if (p[1] == 'if' or p[1] == 'while'):
-        non_terms.append([p[3], p[5]])
-        if p[6] == 'else':
-            non_terms.append(p[7])
-    elif (p[2] == '['):
-        non_terms.append(p[6])
+    non_terms = []
+    tokens = []
+    if(type(p[1]) != Node and p[1] != '{'):
+    	non_terms.append(p[3])
+    	if(p[2] == '['):
+    		non_terms.append(p[6])
+    		tokens.extend([p[1],p[2],p[4],p[5],p[7]])
+    	elif(p[1] == 'while'):
+    		non_terms.append(p[5])
+    		tokens.extend([p[1],p[2],p[4]])
+    	elif(p[2] == '='):
+    		tokens.extend([p[1],p[2],p[4]])
+    	else:
+    		tokens.extend([p[1],p[2],p[4],p[5]])
+    elif(p[1] == '{'):
+    	non_terms.append(p[2])
+    	tokens.extend([p[1],p[3]])
+    else:
+    	non_terms.append(p[1])
+
     p[0] = Node("cmd", non_terms, tokens)
+
+def p_condstmt(p):
+	'''condstmt : match 
+				| unmatch'''
+	p[0] = Node("condstmt",[p[1]])
+
+def p_match(p):
+	'''match :  IF LPAREN exp RPAREN match ELSE match 
+ 			 |  cmd'''
+	non_terms = []
+	tokens = []
+	if(p[1] != 'if'):
+ 		non_terms.append(p[1])
+	else:
+ 		non_terms.extend([p[3],p[5],p[7]])
+ 		tokens.extend([p[1],p[2],p[4],p[6]])
+	p[0] = Node("if-match",non_terms,tokens)
+
+def p_unmatch(p):
+	'''unmatch : IF LPAREN exp RPAREN cmd
+ 			   | IF LPAREN exp RPAREN match ELSE unmatch'''
+	non_terms = [p[3],p[5]]
+	tokens = [p[1],p[2],p[4]]
+	if(len(p) > 6):
+ 		non_terms.append(p[7])
+ 		tokens.append(p[6])
+	p[0] = Node("if-unmatch",non_terms,tokens)
 
 def p_exp(p):
     '''exp : exp LAND rexp
