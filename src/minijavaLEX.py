@@ -62,7 +62,7 @@ tokens =  tuple(reserved.values()) + (
 t_PLUS = r'\+'   # nota: caracteres que sao usados em em ER'S devem ser escapados com \
 t_MINUS = r'-'
 t_TIMES = r'\*'  
-t_DIVIDE = r'/'   # por enquanto deixar aqui (na BNF tem divisão)
+t_DIVIDE = r'\/'   # por enquanto deixar aqui (na BNF tem divisão)
 t_LOR = r'\|\|'
 t_LAND = r'&&'
 t_LT = r'<'
@@ -105,7 +105,7 @@ def t_NEWLINE(t):
 
 # comentarios de zero ou mais linhas (BARRA ESTRELA)
 def t_COMMENT_STAR(t):
-    r'/\*(.|\n)*?\*/'
+    r'\/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
 
 #NOTE QUE a ordem das funções é importante na ordenação de qual vai dar match primeiro! usar o comment // antes pode fazer ele nunca dar match no barra estrela
