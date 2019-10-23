@@ -15,12 +15,12 @@ def p_prog(p):
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
-                  | empty '''
+                  |  '''
     if len(p) > 2:
         p[0] = Node("BNF-multiclass", [p[1], p[2]])
 
 def p_main(p):
-    "main : CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmd RBRACE RBRACE"
+    "main : CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE RBRACE"
     tokens = [p[2], p[12]]
     p[0] = Node("main", [p[15]], tokens)
 
@@ -30,20 +30,20 @@ def p_classe(p):
 
 def p_extends(p):
     '''extends : EXTENDS ID
-              | empty '''
+              |  '''
     if len(p) > 2:
         p[0] = Node("BNF-extends", leaf=[p[2]])
 
 # mais especificamente variaveis opcionais de classe ou metodos
 def p_variaveis(p):
     '''variaveis : variaveis var
-                 | empty'''
+                 | '''
     if len(p) > 2:
         p[0] = Node("BNF-variaveis", [p[1], p[2]])
 
 def p_metodos(p):
     '''metodos : metodos metodo
-               | empty'''
+               | '''
     if len(p) > 2:
         p[0] = Node("BNF-metodo", [p[1], p[2]])
 
@@ -58,24 +58,23 @@ def p_metodo(p):
 
 def p_paramsopcional(p):
     '''paramsopcional : params
-                      | empty'''
+                      | '''
     p[0] = Node("BNF-params", [p[1]])
 
 def p_cmds(p):
     '''cmds : cmds cmd
-            | empty'''
+            | '''
     if len(p) > 2:
         p[0] = Node("BNF-cmd", [p[1], p[2]])
 
 def p_params(p):
-    '''params : tipo ID listaparamsextra
-              | empty'''
-    if len(p) > 2:
-        p[0] = Node("params", [p[1], p[3]], [p[2]])
+    '''params : tipo ID listaparamsextra'''
+
+    p[0] = Node("params", [p[1], p[3]], [p[2]])
 
 def p_listaparamsextra(p):
     '''listaparamsextra : listaparamsextra COMMA tipo ID
-                        | empty'''
+                        | '''
     if len(p) > 2:
         p[0] = Node("BNF-paramsExtra", [p[1], p[3]], [p[4]])
 
@@ -87,60 +86,67 @@ def p_tipo(p):
     p[0] = Node("tipo", leaf=[p[1]])
 
 def p_cmd(p):
-    '''cmd : LBRACE cmds RBRACE
-          | condstmt
+    '''cmd :  condstmt
+          | otherstmt '''
+    non_terms = [p[1]]
+    tokens = []
+    p[0] = Node("cmd", non_terms, tokens)
+
+
+def p_otherstmt(p):
+    '''otherstmt : LBRACE cmds RBRACE
           | WHILE LPAREN exp RPAREN cmd
           | SOUTPL LPAREN exp RPAREN SEMI
           | ID ASSIGN exp SEMI
           | ID LBRACK exp RBRACK ASSIGN exp SEMI '''
     non_terms = []
     tokens = []
-    if(type(p[1]) != Node and p[1] != '{'):
-    	non_terms.append(p[3])
-    	if(p[2] == '['):
-    		non_terms.append(p[6])
-    		tokens.extend([p[1],p[2],p[4],p[5],p[7]])
-    	elif(p[1] == 'while'):
-    		non_terms.append(p[5])
-    		tokens.extend([p[1],p[2],p[4]])
-    	elif(p[2] == '='):
-    		tokens.extend([p[1],p[2],p[4]])
-    	else:
-    		tokens.extend([p[1],p[2],p[4],p[5]])
+    if(p[1] != '{'):
+        non_terms.append(p[3])
+        if(p[2] == '['):
+            non_terms.append(p[6])
+            tokens.extend([p[1],p[2],p[4],p[5],p[7]])
+        elif(p[1] == 'while'):
+            non_terms.append(p[5])
+            tokens.extend([p[1],p[2],p[4]])
+        elif(p[2] == '='):
+            tokens.extend([p[1],p[2],p[4]])
+        else:
+            tokens.extend([p[1],p[2],p[4],p[5]])
     elif(p[1] == '{'):
-    	non_terms.append(p[2])
-    	tokens.extend([p[1],p[3]])
-    else:
-    	non_terms.append(p[1])
+        non_terms.append(p[2])
+        tokens.extend([p[1],p[3]])
 
-    p[0] = Node("cmd", non_terms, tokens)
+    p[0] = Node("otherstmt", non_terms, tokens)
+
 
 def p_condstmt(p):
-	'''condstmt : match 
-				| unmatch'''
-	p[0] = Node("condstmt",[p[1]])
+    '''condstmt : match
+                | unmatch'''
+    p[0] = Node("condstmt",[p[1]])
 
 def p_match(p):
-	'''match :  IF LPAREN exp RPAREN match ELSE match 
- 			 |  cmd'''
-	non_terms = []
-	tokens = []
-	if(p[1] != 'if'):
- 		non_terms.append(p[1])
-	else:
- 		non_terms.extend([p[3],p[5],p[7]])
- 		tokens.extend([p[1],p[2],p[4],p[6]])
-	p[0] = Node("if-match",non_terms,tokens)
+    '''match :  IF LPAREN exp RPAREN match ELSE match
+             |  otherstmt'''
+    non_terms = []
+    tokens = []
+    if(p[1] != 'if'):
+        non_terms.append(p[1])
+    else:
+        non_terms.extend([p[3],p[5],p[7]])
+        tokens.extend([p[1],p[2],p[4],p[6]])
+    p[0] = Node("if-match",non_terms,tokens)
 
 def p_unmatch(p):
-	'''unmatch : IF LPAREN exp RPAREN cmd
- 			   | IF LPAREN exp RPAREN match ELSE unmatch'''
-	non_terms = [p[3],p[5]]
-	tokens = [p[1],p[2],p[4]]
-	if(len(p) > 6):
- 		non_terms.append(p[7])
- 		tokens.append(p[6])
-	p[0] = Node("if-unmatch",non_terms,tokens)
+    '''unmatch : IF LPAREN exp RPAREN unmatch
+               | IF LPAREN exp RPAREN match ELSE unmatch
+               | otherstmt'''
+    non_terms = [p[3],p[5]]
+    tokens = [p[1],p[2],p[4]]
+    if(len(p) > 6):
+        non_terms.append(p[7])
+        tokens.append(p[6])
+    p[0] = Node("if-unmatch",non_terms,tokens)
 
 def p_exp(p):
     '''exp : exp LAND rexp
@@ -211,7 +217,8 @@ def p_pexp(p):
             | THIS
             | NEW ID LPAREN RPAREN
             | pexp POINT ID
-            | pexp POINT ID LPAREN expopcionalmetodo RPAREN '''
+            | pexp POINT ID LPAREN expopcionalmetodo RPAREN
+            | pexp POINT ID LPAREN RPAREN '''
     non_terms = []
     tokens = []
     if p[2] != '.':
@@ -226,26 +233,20 @@ def p_pexp(p):
     p[0] = Node("P-exp", non_terms, tokens)
 
 def p_expopcionalmetodo(p):
-    '''expopcionalmetodo : exps
-                        | empty'''
+    '''expopcionalmetodo : exps '''
     if p[1] != None:
         p[0] = Node("BNF-expOpcional", [p[1]])
 
 def p_exps(p):
-    '''exps : exp expslist
-            | empty '''
+    '''exps : exp expslist'''
     if len(p) > 2:
         p[0] = Node("BNF-exps", [p[1], p[2]])
 
 def p_expslist(p):
     '''expslist : expslist COMMA exp
-                | empty '''
+                |  '''
     if len(p) > 2:
         p[0] = Node("BNF-expList", [p[1], p[3]])
-# define as produções vazias (fica mais facil de visualizar que escrever vazio varias vezes)
-def p_empty(p):
-    'empty : '
-    pass
 
 def p_error(p):
     if p:

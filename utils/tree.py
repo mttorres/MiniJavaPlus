@@ -20,4 +20,4 @@ class Node:
         while i < len(self.children):
             print("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
             self.children[i].pretty()
-            i += 1    
+            i += 1
