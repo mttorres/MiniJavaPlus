@@ -10,34 +10,36 @@ from utils.tree import Node
 # note que os nomes dessas produções criadas para transformar em BNF
 # eu dei baseado na minha interpretação da gramatica (pode estar errada)
 def p_prog(p):
-    "prog : main multiclass"
+    "prog : main multiclass "
     p[0] = Node("prog", [p[1], p[2]])
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
-                  |  '''
+                   |'''
     if len(p) > 2:
         p[0] = Node("BNF-multiclass", [p[1], p[2]])
 
 def p_main(p):
     "main : CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE RBRACE"
-    tokens = [p[2], p[12]]
+    tokens = [p[1],p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[16], p[17]]
     p[0] = Node("main", [p[15]], tokens)
 
 def p_classe(p):
-    '''classe : CLASS ID extends LBRACE variaveis metodos RBRACE'''
-    p[0] = Node("classe", [p[3], p[5], p[6]])
+    '''classe : CLASS ID extends LBRACE variaveis metodos RBRACE '''
+    tokens = [p[1], p[2], p[4], p[7]]
+    p[0] = Node("classe", [p[3], p[5], p[6]], tokens)
 
 def p_extends(p):
     '''extends : EXTENDS ID
-              |  '''
+                '''
     if len(p) > 2:
-        p[0] = Node("BNF-extends", leaf=[p[2]])
+        tokens = [p[2],p[1]]
+        p[0] = Node("BNF-extends", leaf=tokens)
 
 # mais especificamente variaveis opcionais de classe ou metodos
 def p_variaveis(p):
     '''variaveis : variaveis var
-                 | '''
+                  |'''
     if len(p) > 2:
         p[0] = Node("BNF-variaveis", [p[1], p[2]])
 
@@ -49,11 +51,12 @@ def p_metodos(p):
 
 def p_var(p):
     "var : tipo ID"
-    p[0] = Node("var", [p[1]], [p[2]])
+    tokens = [p[2]]
+    p[0] = Node("var", [p[1]], tokens)
 
 def p_metodo(p):
     "metodo : PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE "
-    tokens = [p[3]]
+    tokens = [p[1], p[3], p[4], p[6], p[7], p[10], p[12], p[13]]
     p[0] = Node("metodo", [p[2], p[5], p[8], p[9], p[11]], tokens)
 
 def p_paramsopcional(p):
@@ -69,21 +72,26 @@ def p_cmds(p):
 
 def p_params(p):
     '''params : tipo ID listaparamsextra'''
-
-    p[0] = Node("params", [p[1], p[3]], [p[2]])
+    tokens = [p[2]]
+    p[0] = Node("params", [p[1], p[3]], tokens)
 
 def p_listaparamsextra(p):
     '''listaparamsextra : listaparamsextra COMMA tipo ID
                         | '''
     if len(p) > 2:
-        p[0] = Node("BNF-paramsExtra", [p[1], p[3]], [p[4]])
+        tokens = [p[2], p[4]]
+        p[0] = Node("BNF-paramsExtra", [p[1], p[3]], tokens)
 
 def p_tipo(p):
     '''tipo : INT LBRACK RBRACK
             | BOOL
             | INT
             | ID '''
-    p[0] = Node("tipo", leaf=[p[1]])
+    if( len(p) > 2):
+        tokens = [p[1],p[2],p[3]]
+        p[0] = Node("tipo", leaf=tokens)
+    else:
+        p[0] = Node("tipo", leaf=[p[1]])
 
 def p_cmd(p):
     '''cmd :  condstmt
@@ -138,14 +146,20 @@ def p_match(p):
     p[0] = Node("if-match",non_terms,tokens)
 
 def p_unmatch(p):
-    '''unmatch : IF LPAREN exp RPAREN condstmt
-               | IF LPAREN exp RPAREN match ELSE unmatch'''
+    '''unmatch : IF LPAREN exp RPAREN unmatch
+               | IF LPAREN exp RPAREN match ELSE unmatch
+               | otherstmt'''
 
-    non_terms = [p[3],p[5]]
-    tokens = [p[1],p[2],p[4]]
-    if(len(p) > 6):
-        non_terms.append(p[7])
-        tokens.append(p[6])
+    if(len(p) > 2):
+        non_terms = [p[3],p[5]]
+        tokens = [p[1],p[2],p[4]]
+        if(len(p) > 6):
+            non_terms.append(p[7])
+            tokens.append(p[6])
+    else:
+        tokens = []
+        non_terms = [p[1]]
+
     p[0] = Node("if-unmatch",non_terms,tokens)
 
 def p_exp(p):
@@ -202,12 +216,16 @@ def p_sexp(p):  # MINUS sexp  ?
         tokens.append(p[1])
         if p[1] == '!' or p[1]== '-':
             non_terms.append(p[2])
+        if p[1] == 'new':
+            non_terms.append(p[4])
+            tokens.extend([p[2],p[3],p[4],p[6]])
     else:
         non_terms.append(p[1])
         if len(p) == 4:
-            tokens.append(p[3])
+            tokens.extend([p[2],p[3]])
         elif len(p) == 5:
-            non_terms.append(p[4])
+            non_terms.append(p[3])
+            tokens.extend([p[2],p[4]])
     p[0] = Node("S-exp", non_terms, tokens)
     
     
@@ -224,12 +242,16 @@ def p_pexp(p):
     if p[2] != '.':
         tokens.append(p[1])
         if len(p) > 2:
-            tokens.append(p[2])
+            tokens.extend([p[2],p[3],p[4]])
     else:
         non_terms.append(p[1])
-        tokens.append(p[3])
+        tokens.extend([p[2],p[3]])
         if(len(p) > 4):
-            non_terms.append(p[5])
+            if p[5] == ')':
+                tokens.extend([p[4],p[5]])
+            else:
+                non_terms.append(p[5])
+                tokens.extend([p[4],p[6]])
     p[0] = Node("P-exp", non_terms, tokens)
 
 def p_expopcionalmetodo(p):
