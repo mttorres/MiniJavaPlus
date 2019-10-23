@@ -2,7 +2,7 @@ import sys
 sys.path.append("../")
 from ply import lex
 
-prop = True
+
 
 # Lista dos nomes dos tokens.
 
