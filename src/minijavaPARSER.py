@@ -138,9 +138,9 @@ def p_match(p):
     p[0] = Node("if-match",non_terms,tokens)
 
 def p_unmatch(p):
-    '''unmatch : IF LPAREN exp RPAREN unmatch
-               | IF LPAREN exp RPAREN match ELSE unmatch
-               | otherstmt'''
+    '''unmatch : IF LPAREN exp RPAREN condstmt
+               | IF LPAREN exp RPAREN match ELSE unmatch'''
+
     non_terms = [p[3],p[5]]
     tokens = [p[1],p[2],p[4]]
     if(len(p) > 6):
