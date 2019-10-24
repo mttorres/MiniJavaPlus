@@ -31,7 +31,7 @@ def p_classe(p):
 
 def p_extends(p):
     '''extends : EXTENDS ID
-                '''
+    		   |'''
     if len(p) > 2:
         tokens = [p[2],p[1]]
         p[0] = Node("BNF-extends", leaf=tokens)
@@ -50,8 +50,8 @@ def p_metodos(p):
         p[0] = Node("BNF-metodo", [p[1], p[2]])
 
 def p_var(p):
-    "var : tipo ID"
-    tokens = [p[2]]
+    "var : tipo ID SEMI"
+    tokens = [p[2],p[3]]
     p[0] = Node("var", [p[1]], tokens)
 
 def p_metodo(p):
@@ -218,7 +218,7 @@ def p_sexp(p):  # MINUS sexp  ?
             non_terms.append(p[2])
         if p[1] == 'new':
             non_terms.append(p[4])
-            tokens.extend([p[2],p[3],p[4],p[6]])
+            tokens.extend([p[2],p[3],p[5]])
     else:
         non_terms.append(p[1])
         if len(p) == 4:
@@ -234,12 +234,12 @@ def p_pexp(p):
     '''pexp : ID
             | THIS
             | NEW ID LPAREN RPAREN
-            | pexp POINT ID
             | pexp POINT ID LPAREN expopcionalmetodo RPAREN
-            | pexp POINT ID LPAREN RPAREN '''
+            | pexp POINT ID LPAREN RPAREN 
+            | pexp POINT ID'''
     non_terms = []
     tokens = []
-    if p[2] != '.':
+    if(type(p[1]) != Node):
         tokens.append(p[1])
         if len(p) > 2:
             tokens.extend([p[2],p[3],p[4]])
@@ -256,8 +256,8 @@ def p_pexp(p):
 
 def p_expopcionalmetodo(p):
     '''expopcionalmetodo : exps '''
-    if p[1] != None:
-        p[0] = Node("BNF-expOpcional", [p[1]])
+    
+    p[0] = Node("BNF-expOpcional", [p[1]])
 
 def p_exps(p):
     '''exps : exp expslist'''
@@ -268,7 +268,7 @@ def p_expslist(p):
     '''expslist : expslist COMMA exp
                 |  '''
     if len(p) > 2:
-        p[0] = Node("BNF-expList", [p[1], p[3]])
+        p[0] = Node("BNF-expList", [p[1], p[3]],[p[2]])
 
 def p_error(p):
     if p:
