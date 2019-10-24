@@ -2,7 +2,9 @@ import sys
 sys.path.append("../")
 from ply import lex
 
-# Lista dos nomes dos tokens
+
+
+# Lista dos nomes dos tokens.
 
 # palavras reservadas: System.out.println e outras
 
