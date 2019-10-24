@@ -95,11 +95,25 @@ def p_tipo(p):
 
 def p_cmd(p):
     '''cmd :  condstmt
-          | otherstmt '''
+          |   anyotherstmt'''
     non_terms = [p[1]]
     tokens = []
     p[0] = Node("cmd", non_terms, tokens)
 
+
+#outro exceto if/else
+def p_otheraftercond(p):
+	'''otheraftercond : otherstmt'''
+	non_terms = [p[1]]
+	tokens = []
+	p[0] = Node("other-after-condtional", non_terms, tokens)	
+
+# outro qualquer statement que inclusive pode ser usado antes de um if/else
+def p_anyotherstmt(p):
+	'''anyotherstmt : otherstmt'''
+	non_terms = [p[1]]
+	tokens = []
+	p[0] = Node("other-before-any", non_terms, tokens)	
 
 def p_otherstmt(p):
     '''otherstmt : LBRACE cmds RBRACE
@@ -135,7 +149,7 @@ def p_condstmt(p):
 
 def p_match(p):
     '''match :  IF LPAREN exp RPAREN match ELSE match
-             |  otherstmt'''
+             |  otheraftercond'''
     non_terms = []
     tokens = []
     if(p[1] != 'if'):
@@ -148,7 +162,7 @@ def p_match(p):
 def p_unmatch(p):
     '''unmatch : IF LPAREN exp RPAREN unmatch
                | IF LPAREN exp RPAREN match ELSE unmatch
-               | otherstmt'''
+               | otheraftercond'''
 
     if(len(p) > 2):
         non_terms = [p[3],p[5]]

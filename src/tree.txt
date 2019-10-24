@@ -6,6 +6,12 @@
 [NODE]: BNF-cmd  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
 [NODE]: cmd  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: condstmt
+[NODE]: condstmt  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: if-match
+[NODE]: if-match  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: other-after-condtional
+[NODE]: other-after-condtional  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
 [NODE]: otherstmt  - 1 children - 4 tokens
 	[TOKENS]: ['System.out.println', '(', ')', ';']	[CHILD #0]: [NODE]: exp
