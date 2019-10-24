@@ -1,0 +1,39 @@
+======ARVORE SINTATICA Factorial.java======
+[NODE]: prog  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: main
+[NODE]: main  - 1 children - 14 tokens
+	[TOKENS]: ['class', 'Factorial', '{', 'public', 'static', 'void', 'main', '(', 'String', '[', ']', 'a', '}', '}']	[CHILD #0]: [NODE]: BNF-cmd
+[NODE]: BNF-cmd  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
+[NODE]: cmd  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
+[NODE]: otherstmt  - 1 children - 4 tokens
+	[TOKENS]: ['System.out.println', '(', ')', ';']	[CHILD #0]: [NODE]: exp
+[NODE]: exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+[NODE]: R-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+[NODE]: A-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+[NODE]: M-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+[NODE]: S-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+[NODE]: P-exp  - 2 children - 4 tokens
+	[TOKENS]: ['.', 'ComputeFac', '(', ')']	[CHILD #0]: [NODE]: P-exp
+[NODE]: P-exp  - 0 children - 4 tokens
+	[TOKENS]: ['new', 'Fac', '(', ')']	[CHILD #1]: [NODE]: BNF-expOpcional
+[NODE]: BNF-expOpcional  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: BNF-exps
+[NODE]: BNF-exps  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: exp
+[NODE]: exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+[NODE]: R-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+[NODE]: A-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+[NODE]: M-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+[NODE]: S-exp  - 0 children - 1 tokens
+	[TOKENS]: [10]
