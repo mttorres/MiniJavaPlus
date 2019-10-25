@@ -87,12 +87,6 @@
 	[TOKENS]: [1]	[CHILD #1]: [NODE]: cmd
 [NODE]: cmd  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
-[NODE]: otherstmt  - 1 children - 2 tokens
-	[TOKENS]: ['{', '}']	[CHILD #0]: [NODE]: BNF-cmd
-[NODE]: BNF-cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
-[NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
 [NODE]: otherstmt  - 1 children - 3 tokens
 	[TOKENS]: ['num_aux', '=', ';']	[CHILD #0]: [NODE]: exp
 [NODE]: exp  - 1 children - 0 tokens
@@ -107,12 +101,6 @@
 	[TOKENS]: [1]	[CHILD #2]: [NODE]: matchornot
 [NODE]: matchornot  - 1 children - 1 tokens
 	[TOKENS]: ['else']	[CHILD #0]: [NODE]: cmd
-[NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
-[NODE]: otherstmt  - 1 children - 2 tokens
-	[TOKENS]: ['{', '}']	[CHILD #0]: [NODE]: BNF-cmd
-[NODE]: BNF-cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
 [NODE]: cmd  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
 [NODE]: otherstmt  - 1 children - 3 tokens

@@ -248,10 +248,17 @@ def p_expslist(p):
 
 def p_error(p):
     if p:
-        print(parser.token())
         print("Erro de sintaxe encontrado: '%s' , linha,pos  :"  % p.value, p.lineno, p.lexpos)
+        #parser.errok()
+        tok = parser.token()
+        return tok 
     else:
         print("Erro de sintaxe - EOF")
+
+precedence = (
+     ('nonassoc', 'LT', 'GT', 'LE', 'GE', 'EQ', 'NE'),  # Nonassociative operators
+     ('left', 'PLUS', 'MINUS'),
+)
 
 # Setup and initialization
 tokens = minijavaLEX.tokens
