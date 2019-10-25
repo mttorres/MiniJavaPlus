@@ -1,10 +1,8 @@
 ======ARVORE SINTATICA Factorial.java======
-[NODE]: prog  - 1 children - 5 tokens
-	[TOKENS]: ['class', 'Factorial', '{', 'public', '}']	[CHILD #0]: [NODE]: mainclasse
-[NODE]: mainclasse  - 2 children - 1 tokens
-	[TOKENS]: ['static']	[CHILD #0]: [NODE]: main
-[NODE]: main  - 1 children - 10 tokens
-	[TOKENS]: ['void', 'main', '(', 'String', '[', ']', 'a', ')', '{', '}']	[CHILD #0]: [NODE]: BNF-cmd
+[NODE]: prog  - 2 children - 5 tokens
+	[TOKENS]: ['class', 'Factorial', '{', 'public', '}']	[CHILD #0]: [NODE]: main
+[NODE]: main  - 1 children - 11 tokens
+	[TOKENS]: ['static', 'void', 'main', '(', 'String', '[', ']', 'a', ')', '{', '}']	[CHILD #0]: [NODE]: BNF-cmd
 [NODE]: BNF-cmd  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
 [NODE]: cmd  - 1 children - 0 tokens
