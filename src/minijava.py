@@ -14,7 +14,7 @@ def main():
     # print(PATH)
 
     PATH = os.path.abspath("../resource/").replace("\\", "/")
-    Files = ['Factorial.java']
+    Files = ['Fac.java']
     TOKEN_LIST = []
     SYNTAX_TREE = []
     for i in Files:

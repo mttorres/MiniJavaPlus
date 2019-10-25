@@ -95,25 +95,11 @@ def p_tipo(p):
 
 def p_cmd(p):
     '''cmd :  condstmt
-          |   anyotherstmt'''
+          |   otherstmt'''
     non_terms = [p[1]]
     tokens = []
     p[0] = Node("cmd", non_terms, tokens)
 
-
-#outro exceto if/else
-def p_otheraftercond(p):
-	'''otheraftercond : otherstmt'''
-	non_terms = [p[1]]
-	tokens = []
-	p[0] = Node("other-after-condtional", non_terms, tokens)	
-
-# outro qualquer statement que inclusive pode ser usado antes de um if/else
-def p_anyotherstmt(p):
-	'''anyotherstmt : otherstmt'''
-	non_terms = [p[1]]
-	tokens = []
-	p[0] = Node("other-before-any", non_terms, tokens)	
 
 def p_otherstmt(p):
     '''otherstmt : LBRACE cmds RBRACE
@@ -143,38 +129,15 @@ def p_otherstmt(p):
 
 
 def p_condstmt(p):
-    '''condstmt : match
-                | unmatch'''
-    p[0] = Node("condstmt",[p[1]])
+    '''condstmt : IF LPAREN exp cmd matchornot'''
+    #p[0] = Node("condstmt",[p[1]])
 
-def p_match(p):
-    '''match :  IF LPAREN exp RPAREN match ELSE match
-             |  otheraftercond'''
-    non_terms = []
-    tokens = []
-    if(p[1] != 'if'):
-        non_terms.append(p[1])
-    else:
-        non_terms.extend([p[3],p[5],p[7]])
-        tokens.extend([p[1],p[2],p[4],p[6]])
-    p[0] = Node("if-match",non_terms,tokens)
 
-def p_unmatch(p):
-    '''unmatch : IF LPAREN exp RPAREN unmatch
-               | IF LPAREN exp RPAREN match ELSE unmatch
-               | otheraftercond'''
+def p_matchornot(p):
+    '''matchornot : ELSE cmd
+             |  '''
 
-    if(len(p) > 2):
-        non_terms = [p[3],p[5]]
-        tokens = [p[1],p[2],p[4]]
-        if(len(p) > 6):
-            non_terms.append(p[7])
-            tokens.append(p[6])
-    else:
-        tokens = []
-        non_terms = [p[1]]
 
-    p[0] = Node("if-unmatch",non_terms,tokens)
 
 def p_exp(p):
     '''exp : exp LAND rexp
@@ -286,7 +249,8 @@ def p_expslist(p):
 
 def p_error(p):
     if p:
-        print("Erro de sintaxe encontrado: '%s'" % p.value)
+        
+        print("Erro de sintaxe encontrado: '%s' , linha,pos  :"  % p.value, p.lineno, p.lexpos)
     else:
         print("Erro de sintaxe - EOF")
 
