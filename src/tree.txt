@@ -121,6 +121,18 @@
 	[TOKENS]: ['num']	[CHILD #1]: [NODE]: S-exp
 [NODE]: S-exp  - 1 children - 0 tokens
 	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+[NODE]: P-exp  - 1 children - 2 tokens
+	[TOKENS]: ['(', ')']	[CHILD #0]: [NODE]: exp
+[NODE]: exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+[NODE]: R-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+[NODE]: A-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+[NODE]: M-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+[NODE]: S-exp  - 1 children - 0 tokens
+	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
 [NODE]: P-exp  - 2 children - 4 tokens
 	[TOKENS]: ['.', 'ComputeFac', '(', ')']	[CHILD #0]: [NODE]: P-exp
 [NODE]: P-exp  - 0 children - 1 tokens

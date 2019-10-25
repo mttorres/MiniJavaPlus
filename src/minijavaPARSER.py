@@ -210,6 +210,7 @@ def p_pexp(p):
     '''pexp : ID
             | THIS 
             | NEW ID LPAREN RPAREN
+            | LPAREN exp RPAREN
             | pexp POINT ID LPAREN expopcionalmetodo RPAREN
             | pexp POINT ID LPAREN RPAREN 
             | pexp POINT ID'''
@@ -217,8 +218,11 @@ def p_pexp(p):
     tokens = []
     if(type(p[1]) != Node):
         tokens.append(p[1])
-        if len(p) > 2:
+        if len(p) == 5:
             tokens.extend([p[2],p[3],p[4]])
+        elif len(p) == 4:
+            tokens.append(p[3])
+            non_terms.append(p[2])
     else:
         non_terms.append(p[1])
         tokens.extend([p[2],p[3]])
