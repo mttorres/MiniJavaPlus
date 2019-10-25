@@ -41,7 +41,7 @@ Rule 28    otherstmt -> WHILE LPAREN exp RPAREN cmd
 Rule 29    otherstmt -> SOUTPL LPAREN exp RPAREN SEMI
 Rule 30    otherstmt -> ID ASSIGN exp SEMI
 Rule 31    otherstmt -> ID LBRACK exp RBRACK ASSIGN exp SEMI
-Rule 32    condstmt -> IF LPAREN exp cmd matchornot
+Rule 32    condstmt -> IF LPAREN exp RPAREN cmd matchornot
 Rule 33    matchornot -> ELSE cmd
 Rule 34    matchornot -> <empty>
 Rule 35    exp -> exp LAND rexp
@@ -116,7 +116,7 @@ PUBLIC               : 4 13
 RBRACE               : 4 4 5 13 27
 RBRACK               : 4 21 31 54 56
 RETURN               : 13
-RPAREN               : 4 13 28 29 60 61 62
+RPAREN               : 4 13 28 29 32 60 61 62
 SEMI                 : 12 13 29 30 31
 SOUTPL               : 29
 STATIC               : 4
@@ -625,7 +625,7 @@ state 49
     (16) cmds -> cmds . cmd
     (25) cmd -> . condstmt
     (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
     (27) otherstmt -> . LBRACE cmds RBRACE
     (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
     (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
@@ -761,7 +761,7 @@ state 57
 
 state 58
 
-    (32) condstmt -> IF . LPAREN exp cmd matchornot
+    (32) condstmt -> IF . LPAREN exp RPAREN cmd matchornot
 
     LPAREN          shift and go to state 67
 
@@ -793,7 +793,7 @@ state 62
     (16) cmds -> cmds . cmd
     (25) cmd -> . condstmt
     (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
     (27) otherstmt -> . LBRACE cmds RBRACE
     (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
     (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
@@ -917,7 +917,7 @@ state 65
     (16) cmds -> cmds . cmd
     (25) cmd -> . condstmt
     (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
     (27) otherstmt -> . LBRACE cmds RBRACE
     (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
     (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
@@ -945,7 +945,7 @@ state 66
 
 state 67
 
-    (32) condstmt -> IF LPAREN . exp cmd matchornot
+    (32) condstmt -> IF LPAREN . exp RPAREN cmd matchornot
     (35) exp -> . exp LAND rexp
     (36) exp -> . exp LOR rexp
     (37) exp -> . rexp
@@ -1160,11 +1160,6 @@ state 72
     SEMI            reduce using rule 58 (pexp -> ID .)
     RPAREN          reduce using rule 58 (pexp -> ID .)
     RBRACK          reduce using rule 58 (pexp -> ID .)
-    IF              reduce using rule 58 (pexp -> ID .)
-    LBRACE          reduce using rule 58 (pexp -> ID .)
-    WHILE           reduce using rule 58 (pexp -> ID .)
-    SOUTPL          reduce using rule 58 (pexp -> ID .)
-    ID              reduce using rule 58 (pexp -> ID .)
     LAND            reduce using rule 58 (pexp -> ID .)
     LOR             reduce using rule 58 (pexp -> ID .)
     LT              reduce using rule 58 (pexp -> ID .)
@@ -1198,11 +1193,6 @@ state 74
     SEMI            reduce using rule 37 (exp -> rexp .)
     RPAREN          reduce using rule 37 (exp -> rexp .)
     RBRACK          reduce using rule 37 (exp -> rexp .)
-    IF              reduce using rule 37 (exp -> rexp .)
-    LBRACE          reduce using rule 37 (exp -> rexp .)
-    WHILE           reduce using rule 37 (exp -> rexp .)
-    SOUTPL          reduce using rule 37 (exp -> rexp .)
-    ID              reduce using rule 37 (exp -> rexp .)
     LAND            reduce using rule 37 (exp -> rexp .)
     LOR             reduce using rule 37 (exp -> rexp .)
     COMMA           reduce using rule 37 (exp -> rexp .)
@@ -1220,11 +1210,6 @@ state 75
     SEMI            reduce using rule 41 (rexp -> aexp .)
     RPAREN          reduce using rule 41 (rexp -> aexp .)
     RBRACK          reduce using rule 41 (rexp -> aexp .)
-    IF              reduce using rule 41 (rexp -> aexp .)
-    LBRACE          reduce using rule 41 (rexp -> aexp .)
-    WHILE           reduce using rule 41 (rexp -> aexp .)
-    SOUTPL          reduce using rule 41 (rexp -> aexp .)
-    ID              reduce using rule 41 (rexp -> aexp .)
     LAND            reduce using rule 41 (rexp -> aexp .)
     LOR             reduce using rule 41 (rexp -> aexp .)
     LT              reduce using rule 41 (rexp -> aexp .)
@@ -1244,11 +1229,6 @@ state 76
     SEMI            reduce using rule 44 (aexp -> mexp .)
     RPAREN          reduce using rule 44 (aexp -> mexp .)
     RBRACK          reduce using rule 44 (aexp -> mexp .)
-    IF              reduce using rule 44 (aexp -> mexp .)
-    LBRACE          reduce using rule 44 (aexp -> mexp .)
-    WHILE           reduce using rule 44 (aexp -> mexp .)
-    SOUTPL          reduce using rule 44 (aexp -> mexp .)
-    ID              reduce using rule 44 (aexp -> mexp .)
     LAND            reduce using rule 44 (aexp -> mexp .)
     LOR             reduce using rule 44 (aexp -> mexp .)
     LT              reduce using rule 44 (aexp -> mexp .)
@@ -1301,11 +1281,6 @@ state 78
     SEMI            reduce using rule 47 (mexp -> sexp .)
     RPAREN          reduce using rule 47 (mexp -> sexp .)
     RBRACK          reduce using rule 47 (mexp -> sexp .)
-    IF              reduce using rule 47 (mexp -> sexp .)
-    LBRACE          reduce using rule 47 (mexp -> sexp .)
-    WHILE           reduce using rule 47 (mexp -> sexp .)
-    SOUTPL          reduce using rule 47 (mexp -> sexp .)
-    ID              reduce using rule 47 (mexp -> sexp .)
     LAND            reduce using rule 47 (mexp -> sexp .)
     LOR             reduce using rule 47 (mexp -> sexp .)
     LT              reduce using rule 47 (mexp -> sexp .)
@@ -1358,11 +1333,6 @@ state 80
     SEMI            reduce using rule 50 (sexp -> TRUE .)
     RPAREN          reduce using rule 50 (sexp -> TRUE .)
     RBRACK          reduce using rule 50 (sexp -> TRUE .)
-    IF              reduce using rule 50 (sexp -> TRUE .)
-    LBRACE          reduce using rule 50 (sexp -> TRUE .)
-    WHILE           reduce using rule 50 (sexp -> TRUE .)
-    SOUTPL          reduce using rule 50 (sexp -> TRUE .)
-    ID              reduce using rule 50 (sexp -> TRUE .)
     LAND            reduce using rule 50 (sexp -> TRUE .)
     LOR             reduce using rule 50 (sexp -> TRUE .)
     LT              reduce using rule 50 (sexp -> TRUE .)
@@ -1382,11 +1352,6 @@ state 81
     SEMI            reduce using rule 51 (sexp -> FALSE .)
     RPAREN          reduce using rule 51 (sexp -> FALSE .)
     RBRACK          reduce using rule 51 (sexp -> FALSE .)
-    IF              reduce using rule 51 (sexp -> FALSE .)
-    LBRACE          reduce using rule 51 (sexp -> FALSE .)
-    WHILE           reduce using rule 51 (sexp -> FALSE .)
-    SOUTPL          reduce using rule 51 (sexp -> FALSE .)
-    ID              reduce using rule 51 (sexp -> FALSE .)
     LAND            reduce using rule 51 (sexp -> FALSE .)
     LOR             reduce using rule 51 (sexp -> FALSE .)
     LT              reduce using rule 51 (sexp -> FALSE .)
@@ -1406,11 +1371,6 @@ state 82
     SEMI            reduce using rule 52 (sexp -> NUMBER .)
     RPAREN          reduce using rule 52 (sexp -> NUMBER .)
     RBRACK          reduce using rule 52 (sexp -> NUMBER .)
-    IF              reduce using rule 52 (sexp -> NUMBER .)
-    LBRACE          reduce using rule 52 (sexp -> NUMBER .)
-    WHILE           reduce using rule 52 (sexp -> NUMBER .)
-    SOUTPL          reduce using rule 52 (sexp -> NUMBER .)
-    ID              reduce using rule 52 (sexp -> NUMBER .)
     LAND            reduce using rule 52 (sexp -> NUMBER .)
     LOR             reduce using rule 52 (sexp -> NUMBER .)
     LT              reduce using rule 52 (sexp -> NUMBER .)
@@ -1430,11 +1390,6 @@ state 83
     SEMI            reduce using rule 53 (sexp -> NULL .)
     RPAREN          reduce using rule 53 (sexp -> NULL .)
     RBRACK          reduce using rule 53 (sexp -> NULL .)
-    IF              reduce using rule 53 (sexp -> NULL .)
-    LBRACE          reduce using rule 53 (sexp -> NULL .)
-    WHILE           reduce using rule 53 (sexp -> NULL .)
-    SOUTPL          reduce using rule 53 (sexp -> NULL .)
-    ID              reduce using rule 53 (sexp -> NULL .)
     LAND            reduce using rule 53 (sexp -> NULL .)
     LOR             reduce using rule 53 (sexp -> NULL .)
     LT              reduce using rule 53 (sexp -> NULL .)
@@ -1470,11 +1425,6 @@ state 85
     SEMI            reduce using rule 57 (sexp -> pexp .)
     RPAREN          reduce using rule 57 (sexp -> pexp .)
     RBRACK          reduce using rule 57 (sexp -> pexp .)
-    IF              reduce using rule 57 (sexp -> pexp .)
-    LBRACE          reduce using rule 57 (sexp -> pexp .)
-    WHILE           reduce using rule 57 (sexp -> pexp .)
-    SOUTPL          reduce using rule 57 (sexp -> pexp .)
-    ID              reduce using rule 57 (sexp -> pexp .)
     LAND            reduce using rule 57 (sexp -> pexp .)
     LOR             reduce using rule 57 (sexp -> pexp .)
     LT              reduce using rule 57 (sexp -> pexp .)
@@ -1496,11 +1446,6 @@ state 86
     SEMI            reduce using rule 59 (pexp -> THIS .)
     RPAREN          reduce using rule 59 (pexp -> THIS .)
     RBRACK          reduce using rule 59 (pexp -> THIS .)
-    IF              reduce using rule 59 (pexp -> THIS .)
-    LBRACE          reduce using rule 59 (pexp -> THIS .)
-    WHILE           reduce using rule 59 (pexp -> THIS .)
-    SOUTPL          reduce using rule 59 (pexp -> THIS .)
-    ID              reduce using rule 59 (pexp -> THIS .)
     LAND            reduce using rule 59 (pexp -> THIS .)
     LOR             reduce using rule 59 (pexp -> THIS .)
     LT              reduce using rule 59 (pexp -> THIS .)
@@ -1540,29 +1485,14 @@ state 88
 
 state 89
 
-    (32) condstmt -> IF LPAREN exp . cmd matchornot
+    (32) condstmt -> IF LPAREN exp . RPAREN cmd matchornot
     (35) exp -> exp . LAND rexp
     (36) exp -> exp . LOR rexp
-    (25) cmd -> . condstmt
-    (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
-    (27) otherstmt -> . LBRACE cmds RBRACE
-    (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
-    (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
-    (30) otherstmt -> . ID ASSIGN exp SEMI
-    (31) otherstmt -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
 
+    RPAREN          shift and go to state 110
     LAND            shift and go to state 94
     LOR             shift and go to state 95
-    IF              shift and go to state 58
-    LBRACE          shift and go to state 53
-    WHILE           shift and go to state 59
-    SOUTPL          shift and go to state 60
-    ID              shift and go to state 52
 
-    cmd                            shift and go to state 110
-    condstmt                       shift and go to state 56
-    otherstmt                      shift and go to state 57
 
 state 90
 
@@ -1973,11 +1903,6 @@ state 103
     SEMI            reduce using rule 49 (sexp -> MINUS sexp .)
     RPAREN          reduce using rule 49 (sexp -> MINUS sexp .)
     RBRACK          reduce using rule 49 (sexp -> MINUS sexp .)
-    IF              reduce using rule 49 (sexp -> MINUS sexp .)
-    LBRACE          reduce using rule 49 (sexp -> MINUS sexp .)
-    WHILE           reduce using rule 49 (sexp -> MINUS sexp .)
-    SOUTPL          reduce using rule 49 (sexp -> MINUS sexp .)
-    ID              reduce using rule 49 (sexp -> MINUS sexp .)
     LAND            reduce using rule 49 (sexp -> MINUS sexp .)
     LOR             reduce using rule 49 (sexp -> MINUS sexp .)
     LT              reduce using rule 49 (sexp -> MINUS sexp .)
@@ -1997,11 +1922,6 @@ state 104
     SEMI            reduce using rule 48 (sexp -> LNOT sexp .)
     RPAREN          reduce using rule 48 (sexp -> LNOT sexp .)
     RBRACK          reduce using rule 48 (sexp -> LNOT sexp .)
-    IF              reduce using rule 48 (sexp -> LNOT sexp .)
-    LBRACE          reduce using rule 48 (sexp -> LNOT sexp .)
-    WHILE           reduce using rule 48 (sexp -> LNOT sexp .)
-    SOUTPL          reduce using rule 48 (sexp -> LNOT sexp .)
-    ID              reduce using rule 48 (sexp -> LNOT sexp .)
     LAND            reduce using rule 48 (sexp -> LNOT sexp .)
     LOR             reduce using rule 48 (sexp -> LNOT sexp .)
     LT              reduce using rule 48 (sexp -> LNOT sexp .)
@@ -2098,30 +2018,10 @@ state 109
 
 state 110
 
-    (32) condstmt -> IF LPAREN exp cmd . matchornot
-    (33) matchornot -> . ELSE cmd
-    (34) matchornot -> .
-
-  ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 130
-    RBRACE          reduce using rule 34 (matchornot -> .)
-    RETURN          reduce using rule 34 (matchornot -> .)
-    IF              reduce using rule 34 (matchornot -> .)
-    LBRACE          reduce using rule 34 (matchornot -> .)
-    WHILE           reduce using rule 34 (matchornot -> .)
-    SOUTPL          reduce using rule 34 (matchornot -> .)
-    ID              reduce using rule 34 (matchornot -> .)
-
-  ! ELSE            [ reduce using rule 34 (matchornot -> .) ]
-
-    matchornot                     shift and go to state 129
-
-state 111
-
-    (28) otherstmt -> WHILE LPAREN exp RPAREN . cmd
+    (32) condstmt -> IF LPAREN exp RPAREN . cmd matchornot
     (25) cmd -> . condstmt
     (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
     (27) otherstmt -> . LBRACE cmds RBRACE
     (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
     (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
@@ -2134,7 +2034,29 @@ state 111
     SOUTPL          shift and go to state 60
     ID              shift and go to state 52
 
-    cmd                            shift and go to state 131
+    cmd                            shift and go to state 129
+    condstmt                       shift and go to state 56
+    otherstmt                      shift and go to state 57
+
+state 111
+
+    (28) otherstmt -> WHILE LPAREN exp RPAREN . cmd
+    (25) cmd -> . condstmt
+    (26) cmd -> . otherstmt
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
+    (27) otherstmt -> . LBRACE cmds RBRACE
+    (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
+    (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
+    (30) otherstmt -> . ID ASSIGN exp SEMI
+    (31) otherstmt -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
+
+    IF              shift and go to state 58
+    LBRACE          shift and go to state 53
+    WHILE           shift and go to state 59
+    SOUTPL          shift and go to state 60
+    ID              shift and go to state 52
+
+    cmd                            shift and go to state 130
     condstmt                       shift and go to state 56
     otherstmt                      shift and go to state 57
 
@@ -2142,14 +2064,14 @@ state 112
 
     (29) otherstmt -> SOUTPL LPAREN exp RPAREN . SEMI
 
-    SEMI            shift and go to state 132
+    SEMI            shift and go to state 131
 
 
 state 113
 
     (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI . RBRACE
 
-    RBRACE          shift and go to state 133
+    RBRACE          shift and go to state 132
 
 
 state 114
@@ -2162,11 +2084,6 @@ state 114
     SEMI            reduce using rule 35 (exp -> exp LAND rexp .)
     RPAREN          reduce using rule 35 (exp -> exp LAND rexp .)
     RBRACK          reduce using rule 35 (exp -> exp LAND rexp .)
-    IF              reduce using rule 35 (exp -> exp LAND rexp .)
-    LBRACE          reduce using rule 35 (exp -> exp LAND rexp .)
-    WHILE           reduce using rule 35 (exp -> exp LAND rexp .)
-    SOUTPL          reduce using rule 35 (exp -> exp LAND rexp .)
-    ID              reduce using rule 35 (exp -> exp LAND rexp .)
     LAND            reduce using rule 35 (exp -> exp LAND rexp .)
     LOR             reduce using rule 35 (exp -> exp LAND rexp .)
     COMMA           reduce using rule 35 (exp -> exp LAND rexp .)
@@ -2185,11 +2102,6 @@ state 115
     SEMI            reduce using rule 36 (exp -> exp LOR rexp .)
     RPAREN          reduce using rule 36 (exp -> exp LOR rexp .)
     RBRACK          reduce using rule 36 (exp -> exp LOR rexp .)
-    IF              reduce using rule 36 (exp -> exp LOR rexp .)
-    LBRACE          reduce using rule 36 (exp -> exp LOR rexp .)
-    WHILE           reduce using rule 36 (exp -> exp LOR rexp .)
-    SOUTPL          reduce using rule 36 (exp -> exp LOR rexp .)
-    ID              reduce using rule 36 (exp -> exp LOR rexp .)
     LAND            reduce using rule 36 (exp -> exp LOR rexp .)
     LOR             reduce using rule 36 (exp -> exp LOR rexp .)
     COMMA           reduce using rule 36 (exp -> exp LOR rexp .)
@@ -2207,11 +2119,6 @@ state 116
     SEMI            reduce using rule 38 (rexp -> rexp LT aexp .)
     RPAREN          reduce using rule 38 (rexp -> rexp LT aexp .)
     RBRACK          reduce using rule 38 (rexp -> rexp LT aexp .)
-    IF              reduce using rule 38 (rexp -> rexp LT aexp .)
-    LBRACE          reduce using rule 38 (rexp -> rexp LT aexp .)
-    WHILE           reduce using rule 38 (rexp -> rexp LT aexp .)
-    SOUTPL          reduce using rule 38 (rexp -> rexp LT aexp .)
-    ID              reduce using rule 38 (rexp -> rexp LT aexp .)
     LAND            reduce using rule 38 (rexp -> rexp LT aexp .)
     LOR             reduce using rule 38 (rexp -> rexp LT aexp .)
     LT              reduce using rule 38 (rexp -> rexp LT aexp .)
@@ -2231,11 +2138,6 @@ state 117
     SEMI            reduce using rule 39 (rexp -> rexp EQ aexp .)
     RPAREN          reduce using rule 39 (rexp -> rexp EQ aexp .)
     RBRACK          reduce using rule 39 (rexp -> rexp EQ aexp .)
-    IF              reduce using rule 39 (rexp -> rexp EQ aexp .)
-    LBRACE          reduce using rule 39 (rexp -> rexp EQ aexp .)
-    WHILE           reduce using rule 39 (rexp -> rexp EQ aexp .)
-    SOUTPL          reduce using rule 39 (rexp -> rexp EQ aexp .)
-    ID              reduce using rule 39 (rexp -> rexp EQ aexp .)
     LAND            reduce using rule 39 (rexp -> rexp EQ aexp .)
     LOR             reduce using rule 39 (rexp -> rexp EQ aexp .)
     LT              reduce using rule 39 (rexp -> rexp EQ aexp .)
@@ -2255,11 +2157,6 @@ state 118
     SEMI            reduce using rule 40 (rexp -> rexp NE aexp .)
     RPAREN          reduce using rule 40 (rexp -> rexp NE aexp .)
     RBRACK          reduce using rule 40 (rexp -> rexp NE aexp .)
-    IF              reduce using rule 40 (rexp -> rexp NE aexp .)
-    LBRACE          reduce using rule 40 (rexp -> rexp NE aexp .)
-    WHILE           reduce using rule 40 (rexp -> rexp NE aexp .)
-    SOUTPL          reduce using rule 40 (rexp -> rexp NE aexp .)
-    ID              reduce using rule 40 (rexp -> rexp NE aexp .)
     LAND            reduce using rule 40 (rexp -> rexp NE aexp .)
     LOR             reduce using rule 40 (rexp -> rexp NE aexp .)
     LT              reduce using rule 40 (rexp -> rexp NE aexp .)
@@ -2279,11 +2176,6 @@ state 119
     SEMI            reduce using rule 42 (aexp -> aexp PLUS mexp .)
     RPAREN          reduce using rule 42 (aexp -> aexp PLUS mexp .)
     RBRACK          reduce using rule 42 (aexp -> aexp PLUS mexp .)
-    IF              reduce using rule 42 (aexp -> aexp PLUS mexp .)
-    LBRACE          reduce using rule 42 (aexp -> aexp PLUS mexp .)
-    WHILE           reduce using rule 42 (aexp -> aexp PLUS mexp .)
-    SOUTPL          reduce using rule 42 (aexp -> aexp PLUS mexp .)
-    ID              reduce using rule 42 (aexp -> aexp PLUS mexp .)
     LAND            reduce using rule 42 (aexp -> aexp PLUS mexp .)
     LOR             reduce using rule 42 (aexp -> aexp PLUS mexp .)
     LT              reduce using rule 42 (aexp -> aexp PLUS mexp .)
@@ -2305,11 +2197,6 @@ state 120
     SEMI            reduce using rule 43 (aexp -> aexp MINUS mexp .)
     RPAREN          reduce using rule 43 (aexp -> aexp MINUS mexp .)
     RBRACK          reduce using rule 43 (aexp -> aexp MINUS mexp .)
-    IF              reduce using rule 43 (aexp -> aexp MINUS mexp .)
-    LBRACE          reduce using rule 43 (aexp -> aexp MINUS mexp .)
-    WHILE           reduce using rule 43 (aexp -> aexp MINUS mexp .)
-    SOUTPL          reduce using rule 43 (aexp -> aexp MINUS mexp .)
-    ID              reduce using rule 43 (aexp -> aexp MINUS mexp .)
     LAND            reduce using rule 43 (aexp -> aexp MINUS mexp .)
     LOR             reduce using rule 43 (aexp -> aexp MINUS mexp .)
     LT              reduce using rule 43 (aexp -> aexp MINUS mexp .)
@@ -2329,11 +2216,6 @@ state 121
     SEMI            reduce using rule 45 (mexp -> mexp TIMES sexp .)
     RPAREN          reduce using rule 45 (mexp -> mexp TIMES sexp .)
     RBRACK          reduce using rule 45 (mexp -> mexp TIMES sexp .)
-    IF              reduce using rule 45 (mexp -> mexp TIMES sexp .)
-    LBRACE          reduce using rule 45 (mexp -> mexp TIMES sexp .)
-    WHILE           reduce using rule 45 (mexp -> mexp TIMES sexp .)
-    SOUTPL          reduce using rule 45 (mexp -> mexp TIMES sexp .)
-    ID              reduce using rule 45 (mexp -> mexp TIMES sexp .)
     LAND            reduce using rule 45 (mexp -> mexp TIMES sexp .)
     LOR             reduce using rule 45 (mexp -> mexp TIMES sexp .)
     LT              reduce using rule 45 (mexp -> mexp TIMES sexp .)
@@ -2353,11 +2235,6 @@ state 122
     SEMI            reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
     RPAREN          reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
     RBRACK          reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
-    IF              reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
-    LBRACE          reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
-    WHILE           reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
-    SOUTPL          reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
-    ID              reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
     LAND            reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
     LOR             reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
     LT              reduce using rule 46 (mexp -> mexp DIVIDE sexp .)
@@ -2413,7 +2290,7 @@ state 123
     ID              shift and go to state 72
     THIS            shift and go to state 86
 
-    exp                            shift and go to state 134
+    exp                            shift and go to state 133
     rexp                           shift and go to state 74
     aexp                           shift and go to state 75
     mexp                           shift and go to state 76
@@ -2424,7 +2301,7 @@ state 124
 
     (60) pexp -> NEW ID LPAREN . RPAREN
 
-    RPAREN          shift and go to state 135
+    RPAREN          shift and go to state 134
 
 
 state 125
@@ -2434,11 +2311,6 @@ state 125
     SEMI            reduce using rule 55 (sexp -> pexp POINT LENGTH .)
     RPAREN          reduce using rule 55 (sexp -> pexp POINT LENGTH .)
     RBRACK          reduce using rule 55 (sexp -> pexp POINT LENGTH .)
-    IF              reduce using rule 55 (sexp -> pexp POINT LENGTH .)
-    LBRACE          reduce using rule 55 (sexp -> pexp POINT LENGTH .)
-    WHILE           reduce using rule 55 (sexp -> pexp POINT LENGTH .)
-    SOUTPL          reduce using rule 55 (sexp -> pexp POINT LENGTH .)
-    ID              reduce using rule 55 (sexp -> pexp POINT LENGTH .)
     LAND            reduce using rule 55 (sexp -> pexp POINT LENGTH .)
     LOR             reduce using rule 55 (sexp -> pexp POINT LENGTH .)
     LT              reduce using rule 55 (sexp -> pexp POINT LENGTH .)
@@ -2457,17 +2329,12 @@ state 126
     (62) pexp -> pexp POINT ID . LPAREN RPAREN
     (63) pexp -> pexp POINT ID .
 
-    LPAREN          shift and go to state 136
+    LPAREN          shift and go to state 135
     POINT           reduce using rule 63 (pexp -> pexp POINT ID .)
     LBRACK          reduce using rule 63 (pexp -> pexp POINT ID .)
     SEMI            reduce using rule 63 (pexp -> pexp POINT ID .)
     RPAREN          reduce using rule 63 (pexp -> pexp POINT ID .)
     RBRACK          reduce using rule 63 (pexp -> pexp POINT ID .)
-    IF              reduce using rule 63 (pexp -> pexp POINT ID .)
-    LBRACE          reduce using rule 63 (pexp -> pexp POINT ID .)
-    WHILE           reduce using rule 63 (pexp -> pexp POINT ID .)
-    SOUTPL          reduce using rule 63 (pexp -> pexp POINT ID .)
-    ID              reduce using rule 63 (pexp -> pexp POINT ID .)
     LAND            reduce using rule 63 (pexp -> pexp POINT ID .)
     LOR             reduce using rule 63 (pexp -> pexp POINT ID .)
     LT              reduce using rule 63 (pexp -> pexp POINT ID .)
@@ -2486,7 +2353,7 @@ state 127
     (35) exp -> exp . LAND rexp
     (36) exp -> exp . LOR rexp
 
-    RBRACK          shift and go to state 137
+    RBRACK          shift and go to state 136
     LAND            shift and go to state 94
     LOR             shift and go to state 95
 
@@ -2534,7 +2401,7 @@ state 128
     ID              shift and go to state 72
     THIS            shift and go to state 86
 
-    exp                            shift and go to state 138
+    exp                            shift and go to state 137
     rexp                           shift and go to state 74
     aexp                           shift and go to state 75
     mexp                           shift and go to state 76
@@ -2543,41 +2410,25 @@ state 128
 
 state 129
 
-    (32) condstmt -> IF LPAREN exp cmd matchornot .
+    (32) condstmt -> IF LPAREN exp RPAREN cmd . matchornot
+    (33) matchornot -> . ELSE cmd
+    (34) matchornot -> .
 
-    RBRACE          reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    RETURN          reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    IF              reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    LBRACE          reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    WHILE           reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    SOUTPL          reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    ID              reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
-    ELSE            reduce using rule 32 (condstmt -> IF LPAREN exp cmd matchornot .)
+  ! shift/reduce conflict for ELSE resolved as shift
+    ELSE            shift and go to state 139
+    RBRACE          reduce using rule 34 (matchornot -> .)
+    RETURN          reduce using rule 34 (matchornot -> .)
+    IF              reduce using rule 34 (matchornot -> .)
+    LBRACE          reduce using rule 34 (matchornot -> .)
+    WHILE           reduce using rule 34 (matchornot -> .)
+    SOUTPL          reduce using rule 34 (matchornot -> .)
+    ID              reduce using rule 34 (matchornot -> .)
 
+  ! ELSE            [ reduce using rule 34 (matchornot -> .) ]
+
+    matchornot                     shift and go to state 138
 
 state 130
-
-    (33) matchornot -> ELSE . cmd
-    (25) cmd -> . condstmt
-    (26) cmd -> . otherstmt
-    (32) condstmt -> . IF LPAREN exp cmd matchornot
-    (27) otherstmt -> . LBRACE cmds RBRACE
-    (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
-    (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
-    (30) otherstmt -> . ID ASSIGN exp SEMI
-    (31) otherstmt -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
-
-    IF              shift and go to state 58
-    LBRACE          shift and go to state 53
-    WHILE           shift and go to state 59
-    SOUTPL          shift and go to state 60
-    ID              shift and go to state 52
-
-    cmd                            shift and go to state 139
-    condstmt                       shift and go to state 56
-    otherstmt                      shift and go to state 57
-
-state 131
 
     (28) otherstmt -> WHILE LPAREN exp RPAREN cmd .
 
@@ -2591,7 +2442,7 @@ state 131
     ELSE            reduce using rule 28 (otherstmt -> WHILE LPAREN exp RPAREN cmd .)
 
 
-state 132
+state 131
 
     (29) otherstmt -> SOUTPL LPAREN exp RPAREN SEMI .
 
@@ -2605,7 +2456,7 @@ state 132
     ELSE            reduce using rule 29 (otherstmt -> SOUTPL LPAREN exp RPAREN SEMI .)
 
 
-state 133
+state 132
 
     (13) metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE .
 
@@ -2613,7 +2464,7 @@ state 133
     PUBLIC          reduce using rule 13 (metodo -> PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE .)
 
 
-state 134
+state 133
 
     (54) sexp -> NEW INT LBRACK exp . RBRACK
     (35) exp -> exp . LAND rexp
@@ -2624,7 +2475,7 @@ state 134
     LOR             shift and go to state 95
 
 
-state 135
+state 134
 
     (60) pexp -> NEW ID LPAREN RPAREN .
 
@@ -2633,11 +2484,6 @@ state 135
     SEMI            reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
     RPAREN          reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
     RBRACK          reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
-    IF              reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
-    LBRACE          reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
-    WHILE           reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
-    SOUTPL          reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
-    ID              reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
     LAND            reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
     LOR             reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
     LT              reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
@@ -2650,7 +2496,7 @@ state 135
     COMMA           reduce using rule 60 (pexp -> NEW ID LPAREN RPAREN .)
 
 
-state 136
+state 135
 
     (61) pexp -> pexp POINT ID LPAREN . expopcionalmetodo RPAREN
     (62) pexp -> pexp POINT ID LPAREN . RPAREN
@@ -2706,18 +2552,13 @@ state 136
     mexp                           shift and go to state 76
     sexp                           shift and go to state 78
 
-state 137
+state 136
 
     (56) sexp -> pexp LBRACK exp RBRACK .
 
     SEMI            reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
     RPAREN          reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
     RBRACK          reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
-    IF              reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
-    LBRACE          reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
-    WHILE           reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
-    SOUTPL          reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
-    ID              reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
     LAND            reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
     LOR             reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
     LT              reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
@@ -2730,7 +2571,7 @@ state 137
     COMMA           reduce using rule 56 (sexp -> pexp LBRACK exp RBRACK .)
 
 
-state 138
+state 137
 
     (31) otherstmt -> ID LBRACK exp RBRACK ASSIGN exp . SEMI
     (35) exp -> exp . LAND rexp
@@ -2741,19 +2582,41 @@ state 138
     LOR             shift and go to state 95
 
 
+state 138
+
+    (32) condstmt -> IF LPAREN exp RPAREN cmd matchornot .
+
+    RBRACE          reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    RETURN          reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    IF              reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    LBRACE          reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    WHILE           reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    SOUTPL          reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    ID              reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+    ELSE            reduce using rule 32 (condstmt -> IF LPAREN exp RPAREN cmd matchornot .)
+
+
 state 139
 
-    (33) matchornot -> ELSE cmd .
+    (33) matchornot -> ELSE . cmd
+    (25) cmd -> . condstmt
+    (26) cmd -> . otherstmt
+    (32) condstmt -> . IF LPAREN exp RPAREN cmd matchornot
+    (27) otherstmt -> . LBRACE cmds RBRACE
+    (28) otherstmt -> . WHILE LPAREN exp RPAREN cmd
+    (29) otherstmt -> . SOUTPL LPAREN exp RPAREN SEMI
+    (30) otherstmt -> . ID ASSIGN exp SEMI
+    (31) otherstmt -> . ID LBRACK exp RBRACK ASSIGN exp SEMI
 
-    RBRACE          reduce using rule 33 (matchornot -> ELSE cmd .)
-    RETURN          reduce using rule 33 (matchornot -> ELSE cmd .)
-    IF              reduce using rule 33 (matchornot -> ELSE cmd .)
-    LBRACE          reduce using rule 33 (matchornot -> ELSE cmd .)
-    WHILE           reduce using rule 33 (matchornot -> ELSE cmd .)
-    SOUTPL          reduce using rule 33 (matchornot -> ELSE cmd .)
-    ID              reduce using rule 33 (matchornot -> ELSE cmd .)
-    ELSE            reduce using rule 33 (matchornot -> ELSE cmd .)
+    IF              shift and go to state 58
+    LBRACE          shift and go to state 53
+    WHILE           shift and go to state 59
+    SOUTPL          shift and go to state 60
+    ID              shift and go to state 52
 
+    cmd                            shift and go to state 146
+    condstmt                       shift and go to state 56
+    otherstmt                      shift and go to state 57
 
 state 140
 
@@ -2762,11 +2625,6 @@ state 140
     SEMI            reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
     RPAREN          reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
     RBRACK          reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
-    IF              reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
-    LBRACE          reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
-    WHILE           reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
-    SOUTPL          reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
-    ID              reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
     LAND            reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
     LOR             reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
     LT              reduce using rule 54 (sexp -> NEW INT LBRACK exp RBRACK .)
@@ -2783,7 +2641,7 @@ state 141
 
     (61) pexp -> pexp POINT ID LPAREN expopcionalmetodo . RPAREN
 
-    RPAREN          shift and go to state 146
+    RPAREN          shift and go to state 147
 
 
 state 142
@@ -2795,11 +2653,6 @@ state 142
     SEMI            reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
     RPAREN          reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
     RBRACK          reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
-    IF              reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
-    LBRACE          reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
-    WHILE           reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
-    SOUTPL          reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
-    ID              reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
     LAND            reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
     LOR             reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
     LT              reduce using rule 62 (pexp -> pexp POINT ID LPAREN RPAREN .)
@@ -2832,7 +2685,7 @@ state 144
     RPAREN          reduce using rule 67 (expslist -> .)
     COMMA           reduce using rule 67 (expslist -> .)
 
-    expslist                       shift and go to state 147
+    expslist                       shift and go to state 148
 
 state 145
 
@@ -2850,6 +2703,20 @@ state 145
 
 state 146
 
+    (33) matchornot -> ELSE cmd .
+
+    RBRACE          reduce using rule 33 (matchornot -> ELSE cmd .)
+    RETURN          reduce using rule 33 (matchornot -> ELSE cmd .)
+    IF              reduce using rule 33 (matchornot -> ELSE cmd .)
+    LBRACE          reduce using rule 33 (matchornot -> ELSE cmd .)
+    WHILE           reduce using rule 33 (matchornot -> ELSE cmd .)
+    SOUTPL          reduce using rule 33 (matchornot -> ELSE cmd .)
+    ID              reduce using rule 33 (matchornot -> ELSE cmd .)
+    ELSE            reduce using rule 33 (matchornot -> ELSE cmd .)
+
+
+state 147
+
     (61) pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .
 
     POINT           reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
@@ -2857,11 +2724,6 @@ state 146
     SEMI            reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
     RPAREN          reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
     RBRACK          reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
-    IF              reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
-    LBRACE          reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
-    WHILE           reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
-    SOUTPL          reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
-    ID              reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
     LAND            reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
     LOR             reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
     LT              reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
@@ -2874,16 +2736,16 @@ state 146
     COMMA           reduce using rule 61 (pexp -> pexp POINT ID LPAREN expopcionalmetodo RPAREN .)
 
 
-state 147
+state 148
 
     (65) exps -> exp expslist .
     (66) expslist -> expslist . COMMA exp
 
     RPAREN          reduce using rule 65 (exps -> exp expslist .)
-    COMMA           shift and go to state 148
+    COMMA           shift and go to state 149
 
 
-state 148
+state 149
 
     (66) expslist -> expslist COMMA . exp
     (35) exp -> . exp LAND rexp
@@ -2926,14 +2788,14 @@ state 148
     ID              shift and go to state 72
     THIS            shift and go to state 86
 
-    exp                            shift and go to state 149
+    exp                            shift and go to state 150
     rexp                           shift and go to state 74
     aexp                           shift and go to state 75
     mexp                           shift and go to state 76
     sexp                           shift and go to state 78
     pexp                           shift and go to state 85
 
-state 149
+state 150
 
     (66) expslist -> expslist COMMA exp .
     (35) exp -> exp . LAND rexp
@@ -2948,4 +2810,4 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for ID in state 51 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 110 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 129 resolved as shift

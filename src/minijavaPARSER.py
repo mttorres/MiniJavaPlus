@@ -129,13 +129,15 @@ def p_otherstmt(p):
 
 
 def p_condstmt(p):
-    '''condstmt : IF LPAREN exp cmd matchornot'''
-    #p[0] = Node("condstmt",[p[1]])
+    '''condstmt : IF LPAREN exp RPAREN cmd matchornot'''
+    tokens = [p[1],p[2],p[4]]
+    non_terms = [p[3],p[5],p[6]]
+    p[0] = Node("condstmt",[p[1]])
 
 
 def p_matchornot(p):
     '''matchornot : ELSE cmd
-             |  '''
+             | '''
 
 
 
