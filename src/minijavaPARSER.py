@@ -253,7 +253,6 @@ def p_expslist(p):
 def p_error(p):
     if p:
         print("Erro de sintaxe encontrado: '%s' , linha,pos  :"  % p.value, p.lineno, p.lexpos)
-        #parser.errok()
         tok = parser.token()
         return tok 
     else:
