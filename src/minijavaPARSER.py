@@ -9,9 +9,10 @@ from utils.tree import Node
 # https://stackoverflow.com/questions/2466484/converting-ebnf-to-bnf (COMO FAZER)
 # note que os nomes dessas produções criadas para transformar em BNF
 # eu dei baseado na minha interpretação da gramatica (pode estar errada)
+
 def p_prog(p):
-    "prog : main multiclass "
-    p[0] = Node("prog", [p[1], p[2]])
+	'''prog : main multiclass'''
+	p[0] = Node("prog", [p[1], p[2]])
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
