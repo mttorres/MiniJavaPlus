@@ -28,7 +28,8 @@ def main():
         # print("=======TOKENS GERADOS=======")
         # print(TOKEN_LIST, "\n", len(TOKEN_LIST), "tokens")
         # print("============================")
-        if(len(list(filter(None,SYNTAX_TREE))) > 0):
+        SYNTAX_TREE = list(filter(None,SYNTAX_TREE)) 
+        if(len(SYNTAX_TREE) > 0):
             arvoreresposta = open("tree.txt","w+")
             print("")
             arvoreresposta.write("")

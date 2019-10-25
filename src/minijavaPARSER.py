@@ -252,8 +252,8 @@ def p_expslist(p):
 
 def p_error(p):
     if p:
-        print("Erro de sintaxe encontrado: '%s' , linha,pos  :"  % p.value, p.lineno, p.lexpos)
         tok = parser.token()
+        print("Erro de sintaxe: '%s'        . . . . antes do token '%s' na linha %d coluna %d"  % (p.value, tok.value, p.lineno, p.lexpos))
         return tok 
     else:
         print("Erro de sintaxe - EOF")
