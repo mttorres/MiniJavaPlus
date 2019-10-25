@@ -10,8 +10,16 @@ from utils.tree import Node
 # note que os nomes dessas produções criadas para transformar em BNF
 # eu dei baseado na minha interpretação da gramatica (pode estar errada)
 def p_prog(p):
-    "prog : main multiclass "
-    p[0] = Node("prog", [p[1], p[2]])
+    "prog : CLASS ID extends LBRACE PUBLIC mainclasse RBRACE"
+    p[0] = Node("prog", [p[3], p[6]], [p[1], p[2], p[4], p[5], p[7]])
+
+def p_mainclasse(p):
+    '''mainclasse : STATIC main multiclass
+                    | multiclass'''
+    if len(p) > 2:
+        p[0] = Node("mainclasse", [p[2], p[3]], [p[1]])
+    else:
+        p[0] = Node("main", [p[1]])
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
@@ -20,9 +28,9 @@ def p_multiclass(p):
         p[0] = Node("BNF-multiclass", [p[1], p[2]])
 
 def p_main(p):
-    "main : CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE RBRACE"
-    tokens = [p[1],p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[16], p[17]]
-    p[0] = Node("main", [p[15]], tokens)
+    "main :  VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE"
+    tokens = [p[1],p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[11]]
+    p[0] = Node("main", [p[10]], tokens)
 
 def p_classe(p):
     '''classe : CLASS ID extends LBRACE variaveis metodos RBRACE '''
@@ -129,15 +137,14 @@ def p_otherstmt(p):
 
 
 def p_condstmt(p):
-    '''condstmt : IF LPAREN exp cmd matchornot'''
-    #p[0] = Node("condstmt",[p[1]])
+    '''condstmt : IF LPAREN exp RPAREN cmd matchornot'''
+    p[0] = Node("condstmt",[p[3], p[5], p[6]], [p[1], p[2], p[4]])
 
 
 def p_matchornot(p):
     '''matchornot : ELSE cmd
              |  '''
-
-
+    p[0] = Node("matchornot", [p[2]], [p[1]])
 
 def p_exp(p):
     '''exp : exp LAND rexp
@@ -209,7 +216,7 @@ def p_sexp(p):  # MINUS sexp  ?
 
 def p_pexp(p):
     '''pexp : ID
-            | THIS
+            | THIS 
             | NEW ID LPAREN RPAREN
             | pexp POINT ID LPAREN expopcionalmetodo RPAREN
             | pexp POINT ID LPAREN RPAREN 
@@ -249,7 +256,7 @@ def p_expslist(p):
 
 def p_error(p):
     if p:
-        
+        print(parser.token())
         print("Erro de sintaxe encontrado: '%s' , linha,pos  :"  % p.value, p.lineno, p.lexpos)
     else:
         print("Erro de sintaxe - EOF")
