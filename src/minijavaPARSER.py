@@ -10,8 +10,8 @@ from utils.tree import Node
 # note que os nomes dessas produções criadas para transformar em BNF
 # eu dei baseado na minha interpretação da gramatica (pode estar errada)
 def p_prog(p):
-    "prog : main multiclass "
-    p[0] = Node("prog", [p[1], p[2]])
+    "prog : CLASS ID extends LBRACE PUBLIC main RBRACE multiclass"
+    p[0] = Node("prog", [p[3], p[6], p[8]], [p[1], p[2], p[4], p[5], p[7]])
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
@@ -20,9 +20,9 @@ def p_multiclass(p):
         p[0] = Node("BNF-multiclass", [p[1], p[2]])
 
 def p_main(p):
-    "main : CLASS ID LBRACE PUBLIC STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE RBRACE"
-    tokens = [p[1],p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[16], p[17]]
-    p[0] = Node("main", [p[15]], tokens)
+    "main :  STATIC VOID MAIN LPAREN STRING LBRACK RBRACK ID RPAREN LBRACE cmds RBRACE"
+    tokens = [p[1],p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[12]]
+    p[0] = Node("main", [p[11]], tokens)
 
 def p_classe(p):
     '''classe : CLASS ID extends LBRACE variaveis metodos RBRACE '''
@@ -31,7 +31,7 @@ def p_classe(p):
 
 def p_extends(p):
     '''extends : EXTENDS ID
-                '''
+    		   |'''
     if len(p) > 2:
         tokens = [p[2],p[1]]
         p[0] = Node("BNF-extends", leaf=tokens)
@@ -50,8 +50,8 @@ def p_metodos(p):
         p[0] = Node("BNF-metodo", [p[1], p[2]])
 
 def p_var(p):
-    "var : tipo ID"
-    tokens = [p[2]]
+    "var : tipo ID SEMI"
+    tokens = [p[2],p[3]]
     p[0] = Node("var", [p[1]], tokens)
 
 def p_metodo(p):
@@ -95,7 +95,7 @@ def p_tipo(p):
 
 def p_cmd(p):
     '''cmd :  condstmt
-          | otherstmt '''
+          |   otherstmt'''
     non_terms = [p[1]]
     tokens = []
     p[0] = Node("cmd", non_terms, tokens)
@@ -129,37 +129,14 @@ def p_otherstmt(p):
 
 
 def p_condstmt(p):
-    '''condstmt : match
-                | unmatch'''
-    p[0] = Node("condstmt",[p[1]])
+    '''condstmt : IF LPAREN exp RPAREN cmd matchornot'''
+    p[0] = Node("condstmt",[p[3], p[5], p[6]], [p[1], p[2], p[4]])
 
-def p_match(p):
-    '''match :  IF LPAREN exp RPAREN match ELSE match
-             |  otherstmt'''
-    non_terms = []
-    tokens = []
-    if(p[1] != 'if'):
-        non_terms.append(p[1])
-    else:
-        non_terms.extend([p[3],p[5],p[7]])
-        tokens.extend([p[1],p[2],p[4],p[6]])
-    p[0] = Node("if-match",non_terms,tokens)
 
-def p_unmatch(p):
-    '''unmatch : IF LPAREN exp RPAREN unmatch
-               | IF LPAREN exp RPAREN match ELSE unmatch
-               | otherstmt'''
-
-    if(len(p) > 2):
-        non_terms = [p[3],p[5]]
-        tokens = [p[1],p[2],p[4]]
-        if(len(p) > 6):
-            non_terms.append(p[7])
-            tokens.append(p[6])
-    else:
-        tokens = []
-        non_terms = [p[1]]
-    p[0] = Node("if-unmatch",non_terms,tokens)
+def p_matchornot(p):
+    '''matchornot : ELSE cmd
+             |  '''
+    p[0] = Node("matchornot", [p[2]], [p[1]])
 
 def p_exp(p):
     '''exp : exp LAND rexp
@@ -217,7 +194,7 @@ def p_sexp(p):  # MINUS sexp  ?
             non_terms.append(p[2])
         if p[1] == 'new':
             non_terms.append(p[4])
-            tokens.extend([p[2],p[3],p[4],p[6]])
+            tokens.extend([p[2],p[3],p[5]])
     else:
         non_terms.append(p[1])
         if len(p) == 4:
@@ -231,17 +208,21 @@ def p_sexp(p):  # MINUS sexp  ?
 
 def p_pexp(p):
     '''pexp : ID
-            | THIS
+            | THIS 
             | NEW ID LPAREN RPAREN
-            | pexp POINT ID
+            | LPAREN exp RPAREN
             | pexp POINT ID LPAREN expopcionalmetodo RPAREN
-            | pexp POINT ID LPAREN RPAREN '''
+            | pexp POINT ID LPAREN RPAREN 
+            | pexp POINT ID'''
     non_terms = []
     tokens = []
-    if p[2] != '.':
+    if(type(p[1]) != Node):
         tokens.append(p[1])
-        if len(p) > 2:
+        if len(p) == 5:
             tokens.extend([p[2],p[3],p[4]])
+        elif len(p) == 4:
+            tokens.append(p[3])
+            non_terms.append(p[2])
     else:
         non_terms.append(p[1])
         tokens.extend([p[2],p[3]])
@@ -255,8 +236,8 @@ def p_pexp(p):
 
 def p_expopcionalmetodo(p):
     '''expopcionalmetodo : exps '''
-    if p[1] != None:
-        p[0] = Node("BNF-expOpcional", [p[1]])
+    
+    p[0] = Node("BNF-expOpcional", [p[1]])
 
 def p_exps(p):
     '''exps : exp expslist'''
@@ -267,13 +248,20 @@ def p_expslist(p):
     '''expslist : expslist COMMA exp
                 |  '''
     if len(p) > 2:
-        p[0] = Node("BNF-expList", [p[1], p[3]])
+        p[0] = Node("BNF-expList", [p[1], p[3]],[p[2]])
 
 def p_error(p):
     if p:
-        print("Erro de sintaxe encontrado: '%s'" % p.value)
+        tok = parser.token()
+        print("Erro de sintaxe: '%s'        . . . . antes do token '%s' na linha %d coluna %d"  % (p.value, tok.value, p.lineno, p.lexpos))
+        return tok 
     else:
         print("Erro de sintaxe - EOF")
+
+precedence = (
+     ('nonassoc', 'LT', 'GT', 'LE', 'GE', 'EQ', 'NE'),  # Nonassociative operators
+     ('left', 'PLUS', 'MINUS'),
+)
 
 # Setup and initialization
 tokens = minijavaLEX.tokens

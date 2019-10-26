@@ -13,11 +13,28 @@ class Node:
     def __str__(self):
         return "[NODE]: %s" % (self.type)
 
-    def pretty(self):
+    def pretty(self,file = None):
         i = 0
         print("[NODE]: %s  - %d children - %d tokens" % (self.type, len(self.children), len(self.leaf)))
         print("\t[TOKENS]: %s" % (self.leaf))
+        if(file):
+           writeNode(self,file)
         while i < len(self.children):
             print("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
-            self.children[i].pretty()
+            if(file):
+                file.write("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
+                self.children[i].pretty(file)
+            else:
+                self.children[i].pretty()
             i += 1
+
+
+
+def writeNode(self,file):
+    file.write("[NODE]: %s  - %d children - %d tokens" % (self.type, len(self.children), len(self.leaf)))
+    file.write("\n")
+    file.write("\t[TOKENS]: %s" % (self.leaf))
+
+
+def writeChild(self,file):
+    file.write("\t[CHILD #%d]: %s\n" % (i, self.children[i]))

@@ -28,11 +28,18 @@ def main():
         # print("=======TOKENS GERADOS=======")
         # print(TOKEN_LIST, "\n", len(TOKEN_LIST), "tokens")
         # print("============================")
-        if(len(list(filter(None,SYNTAX_TREE))) > 0):
+        SYNTAX_TREE = list(filter(None,SYNTAX_TREE)) 
+        if(len(SYNTAX_TREE) > 0):
+            arvoreresposta = open("tree.txt","w+")
             print("")
+            arvoreresposta.write("")
             print("======ARVORE SINTATICA %s======" % i)
-            print(SYNTAX_TREE[0].pretty(), "\n", len(SYNTAX_TREE), "nodes")
+            arvoreresposta.write("======ARVORE SINTATICA %s======" % i)
+            arvoreresposta.write("\n")
+            print(SYNTAX_TREE[0].pretty(arvoreresposta), "\n")
+            arvoreresposta.write("\n")
             print("============================")
+            arvoreresposta.close()
 
 
 if __name__ == '__main__':
