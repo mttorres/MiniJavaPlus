@@ -66,9 +66,11 @@ def p_paramsopcional(p):
 
 def p_cmds(p):
     '''cmds : cmds cmd
-            | '''
+            | cmd'''
     if len(p) > 2:
         p[0] = Node("BNF-cmd", [p[1], p[2]])
+    else:
+        p[0] = Node("BNF-cmd", [p[1]])
 
 def p_params(p):
     '''params : tipo ID listaparamsextra'''
@@ -103,6 +105,7 @@ def p_cmd(p):
 
 def p_otherstmt(p):
     '''otherstmt : LBRACE cmds RBRACE
+          | LBRACE RBRACE
           | WHILE LPAREN exp RPAREN cmd
           | SOUTPL LPAREN exp RPAREN SEMI
           | ID ASSIGN exp SEMI
@@ -122,8 +125,11 @@ def p_otherstmt(p):
         else:
             tokens.extend([p[1],p[2],p[4],p[5]])
     elif(p[1] == '{'):
-        non_terms.append(p[2])
-        tokens.extend([p[1],p[3]])
+        if (len(p) > 2) :
+            non_terms.append(p[2])
+            tokens.extend([p[1],p[3]])
+        else:
+            tokens.extend([p[1],p[2]])
 
     p[0] = Node("otherstmt", non_terms, tokens)
 
@@ -131,6 +137,7 @@ def p_otherstmt(p):
 def p_condstmt(p):
     '''condstmt : IF LPAREN exp RPAREN cmd matchornot'''
     p[0] = Node("condstmt",[p[3], p[5], p[6]], [p[1], p[2], p[4]])
+
 
 
 def p_matchornot(p):
