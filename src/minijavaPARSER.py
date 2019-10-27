@@ -6,9 +6,8 @@ from utils.tree import Node
 
 # REGRAS DA GRAMATICA : ESCREVE-SE SEMPRE ASSIM-> producao1 : producao2  TOKEN(mesmo nome definido no LEXER), 
 # e utilizamos as notações EBNF, aparentemente ele so aceita BNF. Deve -se converter de EBNF para BNF
-# https://stackoverflow.com/questions/2466484/converting-ebnf-to-bnf (COMO FAZER)
 # note que os nomes dessas produções criadas para transformar em BNF
-# eu dei baseado na minha interpretação da gramatica (pode estar errada)
+# eu dei baseado na minha interpretação da gramatica
 def p_prog(p):
     "prog : CLASS ID extends LBRACE PUBLIC main RBRACE multiclass"
     p[0] = Node("prog", [p[3], p[6], p[8]], [p[1], p[2], p[4], p[5], p[7]])
@@ -266,15 +265,16 @@ def p_error(p):
         print("Erro de sintaxe - EOF")
 
 precedence = (
-     ('nonassoc', 'LT', 'GT', 'LE', 'GE', 'EQ', 'NE'),  # Nonassociative operators
+     ('nonassoc', 'LT', 'GT', 'LE', 'GE', 'EQ', 'NE'),
      ('left', 'PLUS', 'MINUS'),
+     ('left', 'TIMES','DIVIDE')
 )
 
-# Setup and initialization
+# inicializacao
 tokens = minijavaLEX.tokens
 parser = yacc.yacc(method='SLR')
 
-# Parses input file and pushes every AST Node to a array. 
+
 def generateTree(input, SYNTAX_TREE):
     resultado = parser.parse(input)
     SYNTAX_TREE.append(resultado)
