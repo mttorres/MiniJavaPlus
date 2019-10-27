@@ -1,173 +1,340 @@
 ======ARVORE SINTATICA Factorial.java======
 [NODE]: prog  - 2 children - 5 tokens
-	[TOKENS]: ['class', 'Factorial', '{', 'public', '}']	[CHILD #0]: [NODE]: main
+	[TOKENS]: ['class', 'Factorial', '{', 'public', '}']
+	[CHILD #0]: [NODE]: main
+
 [NODE]: main  - 1 children - 11 tokens
-	[TOKENS]: ['static', 'void', 'main', '(', 'String', '[', ']', 'a', ')', '{', '}']	[CHILD #0]: [NODE]: BNF-cmd
+	[TOKENS]: ['static', 'void', 'main', '(', 'String', '[', ']', 'a', ')', '{', '}']
+	[CHILD #0]: [NODE]: BNF-cmd
+
 [NODE]: BNF-cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: cmd
+
 [NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: otherstmt
+
 [NODE]: otherstmt  - 1 children - 4 tokens
-	[TOKENS]: ['System.out.println', '(', ')', ';']	[CHILD #0]: [NODE]: exp
+	[TOKENS]: ['System.out.println', '(', ')', ';']
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 2 children - 4 tokens
-	[TOKENS]: ['.', 'ComputeFac', '(', ')']	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: ['.', 'ComputeFac', '(', ')']
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 4 tokens
-	[TOKENS]: ['new', 'Fac', '(', ')']	[CHILD #1]: [NODE]: BNF-expOpcional
+	[TOKENS]: ['new', 'Fac', '(', ')']
+	[CHILD #1]: [NODE]: BNF-expOpcional
+
 [NODE]: BNF-expOpcional  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: BNF-exps
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: BNF-exps
+
 [NODE]: BNF-exps  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 0 children - 1 tokens
-	[TOKENS]: [10]	[CHILD #1]: [NODE]: BNF-multiclass
+	[TOKENS]: [10]
+	[CHILD #1]: [NODE]: BNF-multiclass
+
 [NODE]: BNF-multiclass  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: classe
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: classe
+
 [NODE]: classe  - 1 children - 4 tokens
-	[TOKENS]: ['class', 'Fac', '{', '}']	[CHILD #0]: [NODE]: BNF-metodo
+	[TOKENS]: ['class', 'Fac', '{', '}']
+	[CHILD #0]: [NODE]: BNF-metodo
+
 [NODE]: BNF-metodo  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: metodo
-[NODE]: metodo  - 5 children - 8 tokens
-	[TOKENS]: ['public', 'ComputeFac', '(', ')', '{', 'return', ';', '}']	[CHILD #0]: [NODE]: tipo
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: metodo
+
+[NODE]: metodo  - 4 children - 8 tokens
+	[TOKENS]: ['public', 'ComputeFac', '(', ')', '{', 'return', ';', '}']
+	[CHILD #0]: [NODE]: tipo
+
 [NODE]: tipo  - 0 children - 1 tokens
-	[TOKENS]: ['int']	[CHILD #1]: [NODE]: BNF-params
-[NODE]: BNF-params  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: params
-[NODE]: params  - 1 children - 1 tokens
-	[TOKENS]: ['num']	[CHILD #0]: [NODE]: tipo
-[NODE]: tipo  - 0 children - 1 tokens
-	[TOKENS]: ['int']	[CHILD #2]: [NODE]: BNF-variaveis
+	[TOKENS]: ['int']
+	[CHILD #1]: [NODE]: BNF-variaveis
+
 [NODE]: BNF-variaveis  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: var
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: var
+
 [NODE]: var  - 1 children - 2 tokens
-	[TOKENS]: ['num_aux', ';']	[CHILD #0]: [NODE]: tipo
+	[TOKENS]: ['num_aux', ';']
+	[CHILD #0]: [NODE]: tipo
+
 [NODE]: tipo  - 0 children - 1 tokens
-	[TOKENS]: ['int']	[CHILD #3]: [NODE]: BNF-cmd
+	[TOKENS]: ['int']
+	[CHILD #2]: [NODE]: BNF-cmd
+
 [NODE]: BNF-cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: cmd
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: cmd
+
 [NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: condstmt
-[NODE]: condstmt  - 3 children - 3 tokens
-	[TOKENS]: ['if', '(', ')']	[CHILD #0]: [NODE]: exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: condstmt
+
+[NODE]: condstmt  - 2 children - 3 tokens
+	[TOKENS]: ['if', '(', ')']
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 2 children - 1 tokens
-	[TOKENS]: ['<']	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: ['<']
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 1 tokens
-	[TOKENS]: ['num']	[CHILD #1]: [NODE]: A-exp
+	[TOKENS]: ['num']
+	[CHILD #1]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 0 children - 1 tokens
-	[TOKENS]: [1]	[CHILD #1]: [NODE]: cmd
+	[TOKENS]: [1]
+	[CHILD #1]: [NODE]: matchornot
+
+[NODE]: matchornot  - 2 children - 1 tokens
+	[TOKENS]: ['else']
+	[CHILD #0]: [NODE]: cmd
+
 [NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
-[NODE]: otherstmt  - 1 children - 3 tokens
-	[TOKENS]: ['num_aux', '=', ';']	[CHILD #0]: [NODE]: exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: otherstmt
+
+[NODE]: otherstmt  - 1 children - 0 tokens
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: assignment
+
+[NODE]: assignment  - 1 children - 3 tokens
+	[TOKENS]: ['num_aux', '=', ';']
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 0 children - 1 tokens
-	[TOKENS]: [1]	[CHILD #2]: [NODE]: matchornot
-[NODE]: matchornot  - 1 children - 1 tokens
-	[TOKENS]: ['else']	[CHILD #0]: [NODE]: cmd
+	[TOKENS]: [1]
+	[CHILD #1]: [NODE]: cmd
+
 [NODE]: cmd  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: otherstmt
-[NODE]: otherstmt  - 1 children - 3 tokens
-	[TOKENS]: ['num_aux', '=', ';']	[CHILD #0]: [NODE]: exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: otherstmt
+
+[NODE]: otherstmt  - 1 children - 0 tokens
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: assignment
+
+[NODE]: assignment  - 1 children - 3 tokens
+	[TOKENS]: ['num_aux', '=', ';']
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 2 children - 1 tokens
-	[TOKENS]: ['*']	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: ['*']
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 1 tokens
-	[TOKENS]: ['num']	[CHILD #1]: [NODE]: S-exp
+	[TOKENS]: ['num']
+	[CHILD #1]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 1 children - 2 tokens
-	[TOKENS]: ['(', ')']	[CHILD #0]: [NODE]: exp
+	[TOKENS]: ['(', ')']
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 2 children - 4 tokens
-	[TOKENS]: ['.', 'ComputeFac', '(', ')']	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: ['.', 'ComputeFac', '(', ')']
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 1 tokens
-	[TOKENS]: ['this']	[CHILD #1]: [NODE]: BNF-expOpcional
+	[TOKENS]: ['this']
+	[CHILD #1]: [NODE]: BNF-expOpcional
+
 [NODE]: BNF-expOpcional  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: BNF-exps
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: BNF-exps
+
 [NODE]: BNF-exps  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 2 children - 1 tokens
-	[TOKENS]: ['-']	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: ['-']
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 1 tokens
-	[TOKENS]: ['num']	[CHILD #1]: [NODE]: M-exp
+	[TOKENS]: ['num']
+	[CHILD #1]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 0 children - 1 tokens
-	[TOKENS]: [1]	[CHILD #4]: [NODE]: exp
+	[TOKENS]: [1]
+	[CHILD #3]: [NODE]: exp
+
 [NODE]: exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: R-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: R-exp
+
 [NODE]: R-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: A-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: A-exp
+
 [NODE]: A-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: M-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: M-exp
+
 [NODE]: M-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: S-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: S-exp
+
 [NODE]: S-exp  - 1 children - 0 tokens
-	[TOKENS]: []	[CHILD #0]: [NODE]: P-exp
+	[TOKENS]: []
+	[CHILD #0]: [NODE]: P-exp
+
 [NODE]: P-exp  - 0 children - 1 tokens
 	[TOKENS]: ['num_aux']
+

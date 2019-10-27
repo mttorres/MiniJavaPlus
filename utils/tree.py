@@ -22,7 +22,7 @@ class Node:
         while i < len(self.children):
             print("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
             if(file):
-                file.write("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
+                writeChild(self,file,i)
                 self.children[i].pretty(file)
             else:
                 self.children[i].pretty()
@@ -34,7 +34,9 @@ def writeNode(self,file):
     file.write("[NODE]: %s  - %d children - %d tokens" % (self.type, len(self.children), len(self.leaf)))
     file.write("\n")
     file.write("\t[TOKENS]: %s" % (self.leaf))
+    file.write("\n")
 
 
-def writeChild(self,file):
+def writeChild(self,file,i):
     file.write("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
+    file.write("\n")
