@@ -89,6 +89,8 @@ t_COLON = r':'
 def t_ID(t):
     r'System.out.println|[A-Za-z_][\w]*'   # print | qualquermenosnumero + qualquer*
     t.type = reserved.get(t.value, 'ID') # verifica as palavras reservadas
+    #TODO# CRIANDO UMA TABELA DE SIMBOLOS, VERIFICAR SE ELE JÁ ESTÁ LA(SENAO ESTIVER INSERIR)(DECLARAÇÃO)
+    #TODO# INSERIR  TMB (ex tipagem) NAS REGRAS DO PARSER
     return t
 
 # A regular expression rule with some action code

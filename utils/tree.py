@@ -1,5 +1,5 @@
 class Node:
-    def __init__(self,type,children=None,leaf=None):
+    def __init__(self,type,children=None,leaf=None,atributes=None):
         self.type = type
         if children:
             self.children = list(filter(None, children))
@@ -9,6 +9,11 @@ class Node:
             self.leaf = list(filter(None, leaf))
         else:
             self.leaf = [ ]
+
+        if atributes:
+            self.atributes = list(filter(None,atributes))
+        else:
+            self.atributes = [ ]
 
     def __str__(self):
         return "[NODE]: %s" % (self.type)

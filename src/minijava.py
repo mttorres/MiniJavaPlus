@@ -3,7 +3,10 @@ import os
 import minijavaLEX
 import minijavaPARSER
 
+from utils.d_graph import D_GraphNode
+
 sys.path.insert(0, "../..")
+
 
 
 def main():
@@ -17,6 +20,7 @@ def main():
     Files = ['Factorial.java']
     TOKEN_LIST = []
     SYNTAX_TREE = []
+    DEP_GRAPH = []
     for i in Files:
         input = ""
         inputfile = open(PATH + "/" + i, 'r')
@@ -24,7 +28,7 @@ def main():
             # O parser yacc recebe O ARQUIVO COMPLETO como input, e não cada linha.
             input += line
         inputfile.close()
-        minijavaPARSER.generateTree(input, SYNTAX_TREE)
+        minijavaPARSER.generateTree(input, SYNTAX_TREE,DEP_GRAPH)
         # print("=======TOKENS GERADOS=======")
         # print(TOKEN_LIST, "\n", len(TOKEN_LIST), "tokens")
         # print("============================")
