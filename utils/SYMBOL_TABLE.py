@@ -13,17 +13,26 @@ def insert(symbol,props):
 
     if(type(natabela) != str):
         resolveconflict(natabela,propstoadd)
-        TABLE[symbol] = natabela
-    else:
-        TABLE[symbol] = propstoadd
+
+    TABLE[symbol] = propstoadd
+
+
 
 def lookup(symbol):
     return TABLE.get(symbol,"NOT FOUND") # se nao encontra ele devolve NOT FOUND
 
 
 def resolveconflict(tableentry,new):
-    tableentry.extend(new) # por enquanto sempre adiciona a entrada nova a lista
+    new.extend(tableentry) # por enquanto sempre adiciona a entrada (mais recente) nova a lista
 
 def delete(symbol):
     return TABLE.pop(symbol,"NOT FOUND")
 
+
+
+
+
+
+#insert("X",("int","x"))
+#insert("X",("double","x"))
+#print(TABLE)
