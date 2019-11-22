@@ -3,7 +3,7 @@ import os
 import minijavaLEX
 import minijavaPARSER
 
-from utils.d_graph import D_GraphNode
+
 
 sys.path.insert(0, "../..")
 
@@ -28,7 +28,7 @@ def main():
             # O parser yacc recebe O ARQUIVO COMPLETO como input, e não cada linha.
             input += line
         inputfile.close()
-        minijavaPARSER.generateTree(input, SYNTAX_TREE,DEP_GRAPH)
+        minijavaPARSER.generateTree(input, SYNTAX_TREE)
         # print("=======TOKENS GERADOS=======")
         # print(TOKEN_LIST, "\n", len(TOKEN_LIST), "tokens")
         # print("============================")

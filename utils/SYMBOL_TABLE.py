@@ -1,38 +1,109 @@
-TABLE = {}
+class STable:
+    # tratar props (sempre deve ser uma lista de atributos)
+    # e tratar "entradas repetidas" (adicionar elas a lista de propriedades ou declarar erro?)
+    def __init__(self,parent,order,type="Global"):
+        self.parent = parent
+        self.children = []
+        self.order = order
+        self.type = type
+        self.TABLE = {}
+        # até agora imagino que ele va utilizar essas propriedades
+
+    def insert(self,symbol,props):
+        if(type(symbol) != str or type(symbol) == STable):
+            print("estou criando outro escopo dentro desse")
+            self.children = symbol
+            symbol.parent = self
+
+        natabela = self.lookup(symbol)
+        propstoadd = []
+        if(type(props) != list):
+            propstoadd.append(props)
+        else:
+            propstoadd = props
+
+        if(type(natabela) != str):
+            self.resolveconflict(natabela,propstoadd)
+
+        self.TABLE[symbol] = propstoadd
+
+    def __str__(self):
+        if(self.parent):
+            paistr = "\t"+str(self.TABLE)
+        else:
+            paistr = str(self.TABLE)
 
 
-# tratar props (sempre deve ser uma lista de atributos)
-# e tratar "entradas repetidas" (adicionar elas a lista de propriedades ou declarar erro?)
-def insert(symbol,props):
-    natabela = lookup(symbol)
-    propstoadd = []
-    if(type(props) != list):
-        propstoadd.append(props)
-    else:
-        propstoadd = props
+        if (self.children):
+            if(self.parent):
+                paistr += "\n\tFILHOS:\n\t"+str(self.order)+"*"
+            else:
+                paistr += "\nFILHOS:\n"+str(self.order)+"*"
+            for c in self.children:
+                filhostr =  c.__str__()
+                paistr += filhostr
+            paistr += "  "+str(self.order)+"*"
+        return paistr
 
-    if(type(natabela) != str):
-        resolveconflict(natabela,propstoadd)
-
-    TABLE[symbol] = propstoadd
-
+    def lookup(self,symbol):
+        return self.TABLE.get(symbol,"NOT FOUND") # se nao encontra ele devolve NOT FOUND
 
 
-def lookup(symbol):
-    return TABLE.get(symbol,"NOT FOUND") # se nao encontra ele devolve NOT FOUND
+    def resolveconflict(self,tableentry,new):
+        new.extend(tableentry) # por enquanto sempre adiciona a entrada (mais recente) nova a lista
+
+    def delete(self,symbol):
+        return self.TABLE.pop(symbol,"NOT FOUND")
+
+    def assignchildren(self,other):
+        self.children.append(other)
+        other.parent = self
 
 
-def resolveconflict(tableentry,new):
-    new.extend(tableentry) # por enquanto sempre adiciona a entrada (mais recente) nova a lista
+'''
+t1 = STable(None,1)
+t1.insert("X",("int","x"))
+t1.insert("X",("double","x"))
+t1.insert("Y",("int","Y"))
+t1.insert("Y",("double","Y"))
+t1.insert("Z",("int","Z"))
+t1.insert("Z",("double","Z"))
+print(t1)
 
-def delete(symbol):
-    return TABLE.pop(symbol,"NOT FOUND")
+t2 = STable(None,2,"While")
+t3 = STable(None,3,"if")
+t4 = STable(None,4,"if")
+t5 = STable(None,5,"if")
+t6 = STable(None,6,"if")
+
+t2.insert("cond",("boolean","true"))
+t2.insert("C",("int","0"))
+
+t3.insert("cond",("boolean","true"))
+t3.insert("z",("int","2"))
+
+t4.insert("cond",("boolean","true"))
+t4.insert("z",("int","3"))
+
+t5.insert("cond",("boolean","true"))
+t5.insert("z",("int","4"))
+
+t6.insert("cond",("boolean","true"))
+t6.insert("z",("int","6"))
 
 
+t1.assignchildren(t2)
 
+t2.assignchildren(t3)
+t2.assignchildren(t4)
+t2.assignchildren(t5)
 
+t3.assignchildren(t6)
 
+print()
+#print(t1.delete("Z"))
+#print(t1.delete("Z"))
+print(t1)
 
-#insert("X",("int","x"))
-#insert("X",("double","x"))
-#print(TABLE)
+#print(type(t1))
+'''

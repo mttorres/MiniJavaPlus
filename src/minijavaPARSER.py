@@ -1,6 +1,6 @@
 import sys
 
-from utils.d_graph import graph_construct
+
 
 sys.path.append("../")
 from ply import yacc
@@ -287,7 +287,6 @@ tokens = minijavaLEX.tokens
 parser = yacc.yacc(method='SLR')
 
 
-def generateTree(input, SYNTAX_TREE,DEP_GRAPH):
+def generateTree(input, SYNTAX_TREE):
     resultado = parser.parse(input)
-    #graph_construct(resultado, DEP_GRAPH)
     SYNTAX_TREE.append(resultado)
