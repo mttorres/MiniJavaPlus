@@ -1,5 +1,5 @@
 class STable:
-    # tratar props (sempre deve ser uma lista de atributos)
+    # tratar props (sempre deve ser uma lista de atributos)(definir quais atributos por default!) (criei outra classe TABLE_ENTRY
     # e tratar "entradas repetidas" (adicionar elas a lista de propriedades ou declarar erro?)
     def __init__(self,parent,order,type="Global"):
         self.parent = parent
