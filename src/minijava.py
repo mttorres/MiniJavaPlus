@@ -2,6 +2,7 @@ import sys
 import os
 import minijavaLEX
 import minijavaPARSER
+from src import minijavaSEMANTIC
 
 
 
@@ -44,6 +45,8 @@ def main():
             arvoreresposta.write("\n")
             print("============================")
             arvoreresposta.close()
+            minijavaSEMANTIC.processTree(SYNTAX_TREE[0])
+            #minijavaCODEGENERATOR.generateCode(minijavaSEMANTIC.TABLE_POINTER)
 
 
 if __name__ == '__main__':
