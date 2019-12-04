@@ -72,6 +72,7 @@ class Node:
                 print('\tli $a0 %s' % children[0].cgen())
             else:
                 print('\tli $a0 0')
+            sw('a0', 0, 'sp')
             addiu('sp','sp',-4)
 
         elif (nodeName == 'exp'):
@@ -81,11 +82,10 @@ class Node:
                 if(tokens[0] == '&&'):
                     print('\tand $a0 $t1 $t2')
                     addiu('\tsp','sp',-4)
-                    return
                 elif(tokens[0] == '||'):
                     print('\tor $a0 $t1 $t2')
-                    addiu('sp','sp',-4)
-                    return
+                sw('a0', 0, 'sp')
+                addiu('sp','sp',-4)
             else:
                 return children[0].cgen()
 
@@ -113,6 +113,7 @@ class Node:
                     print('\tadd $a0 $t1 $t2')
                 elif(tokens[0] == '-'):
                     print('\tsub $a0 $t1 $t2')
+                sw('a0', 0, 'sp')
                 addiu('sp','sp',-4)
             else:
                 return children[0].cgen()
@@ -124,6 +125,7 @@ class Node:
                     print('\tmult $a0 $t1 $t2')
                 elif(tokens[0] == '/'):
                     print('\tdiv $a0 $t1 $t2')
+                sw('a0', 0, 'sp')
                 addiu('sp','sp',-4)
             else:
                 return children[0].cgen()
@@ -156,3 +158,6 @@ def writeChild(self,file,i):
 
 def addiu(acc, register, amt):
     print('\taddiu $%s $%s %d' % (acc, register, amt))
+
+def sw(source, offset, register):
+    print('\tsw $%s %d($%s)' % (source, offset, register))
