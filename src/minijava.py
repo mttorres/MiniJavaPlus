@@ -43,9 +43,10 @@ def main():
             arvoreresposta.write("\n")
             print(SYNTAX_TREE[0].pretty(arvoreresposta), "\n")
             arvoreresposta.write("\n")
-            print("============================")
+            #print("============================")
             arvoreresposta.close()
-            minijavaSEMANTIC.processTree(SYNTAX_TREE[0])
+            #minijavaSEMANTIC.processTree(SYNTAX_TREE[0])
+            SYNTAX_TREE[0].cgen()
             #minijavaCODEGENERATOR.generateCode(minijavaSEMANTIC.TABLE_POINTER)
 
 
