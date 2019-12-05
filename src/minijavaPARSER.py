@@ -7,6 +7,11 @@ from ply import yacc
 from src import minijavaLEX
 from utils.tree import Node
 
+# tabela de simbolos é considerado um ATRIBUTO HERDADO isto é deve estar disponível para o nó raiz e os demais!
+# nós filhos a medida que eles instanciam outras tabelas(escopos/tabelas filhas) eles podem ter a tabela filha disponibilizada para os seus filhos também
+from utils.SYMBOL_TABLE import STable
+from utils.TABLE_ENTRY import EntryProps
+
 # REGRAS DA GRAMATICA : ESCREVE-SE SEMPRE ASSIM-> producao1 : producao2  TOKEN(mesmo nome definido no LEXER), 
 # e utilizamos as notações EBNF, aparentemente ele so aceita BNF. Deve -se converter de EBNF para BNF
 # note que os nomes dessas produções criadas para transformar em BNF

@@ -30,6 +30,11 @@ class Node:
                 self.children[i].pretty()
             i += 1
 
+
+
+
+# metodo de GERAÇÃO DE CÓDIGO
+
     def cgen(self):
         nodeName = self.type
         tokens = self.leaf
@@ -144,6 +149,12 @@ class Node:
         elif(nodeName == 'P-exp'):
             if(children):
                 return children[0].cgen()
+
+
+
+
+
+# metodos auxiliares
             
 def writeNode(self,file):
     file.write("[NODE]: %s  - %d children - %d tokens" % (self.type, len(self.children), len(self.leaf)))

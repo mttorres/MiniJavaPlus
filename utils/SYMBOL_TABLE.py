@@ -1,11 +1,12 @@
 class STable:
     # tratar props (sempre deve ser uma lista de atributos)(definir quais atributos por default!) (criei outra classe TABLE_ENTRY
     # e tratar "entradas repetidas" (adicionar elas a lista de propriedades ou declarar erro?)
-    def __init__(self,type="Global",parent = None, order = None):
+    def __init__(self,type="Global",parent = None, order = 0, level = 0):
         self.parent = parent
         self.children = []
         self.order = order
         self.type = type
+        self.level = level
         self.TABLE = {}
         # até agora imagino que ele va utilizar essas propriedades
 
@@ -48,6 +49,13 @@ class STable:
     def lookup(self,symbol):
         return self.TABLE.get(symbol,"NOT_FOUND") # se nao encontra ele devolve NOT FOUND
 
+    def procupraNoAtualEnoExterno(self,symbol):
+        resultado = self.lookup(symbol)
+        pai = self.parent
+        while(pai and resultado == "NOT_FOUND"):
+            resultado = pai.lookup(symbol)
+            pai = pai.parent
+        return resultado
 
     def resolveconflict(self,tableentry,new):
         new.extend(tableentry) # por enquanto sempre adiciona a entrada (mais recente) nova a lista

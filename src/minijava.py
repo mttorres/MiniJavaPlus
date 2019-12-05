@@ -3,6 +3,8 @@ import os
 import minijavaLEX
 import minijavaPARSER
 from src import minijavaSEMANTIC
+from utils.SYMBOL_TABLE import STable
+from utils.TABLE_ENTRY import EntryProps
 
 
 
@@ -45,9 +47,15 @@ def main():
             arvoreresposta.write("\n")
             #print("============================")
             arvoreresposta.close()
-            #minijavaSEMANTIC.processTree(SYNTAX_TREE[0])
-            SYNTAX_TREE[0].cgen()
-            #minijavaCODEGENERATOR.generateCode(minijavaSEMANTIC.TABLE_POINTER)
+
+            # declara o escopo global(TABELA PRINCIPAL):
+            escopoglobal = STable()
+            TABLE_POINTER = []
+            TABLE_POINTER.append(escopoglobal)
+            minijavaSEMANTIC.processTree(SYNTAX_TREE[0],TABLE_POINTER[0])
+
+            #gera código
+            #SYNTAX_TREE[0].cgen()
 
 
 if __name__ == '__main__':
