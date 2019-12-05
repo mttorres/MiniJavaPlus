@@ -86,16 +86,24 @@ def constroiSymbT(node,atributos,currentscope):
         #atribuição de variavel
         # tem só um atributo(recuperado de EXP via recursão)
         if(node.leaf[1] == "=" ):
+            tipo = type(atributos[0])
+            if (tipo == bool):
+                tipo = "booleano"
+            else:
+                tipo = "int"
             if(currentscope.procupraNoAtualEnoExterno(node.leaf[0]) == "NOT_FOUND"):
-                tipo = type(atributos[0])
-                if(tipo == bool):
-                    tipo = "booleano"
-                else:
-                    tipo = "int"
                 currentscope.insert(node.leaf[0],EntryProps(node.leaf[0], tipo, MEMPOINTER, currentscope))
                 updateMemDisp()
-                #se ele encontrou na tabela de simbolos é porque é uma reatribuição ou atualização de valores
-                #poderia em uma implementação mais sofisticada SALVAR O NOVO VALOR A POSIÇÃO DE MEMORIA PARA ADIANTAR A CGEN
+
+            # se ele encontrou na tabela de simbolos é porque é uma reatribuição ou atualização de valores
+            # poderia em uma implementação mais sofisticada SALVAR O NOVO VALOR A POSIÇÃO DE MEMORIA PARA ADIANTAR A CGEN
+            #mas para o escopo do trabalho ele só deve salvar O PRIMEIRO VALOR para realizar a cgen de forma mais facil
+            else:
+                if(currentscope.procupraNoAtualEnoExterno(node.leaf[0]).valor == None):
+                    currentscope.insert(node.leaf[0], EntryProps(node.leaf[0], tipo, MEMPOINTER, currentscope,valor=atributos[0]))
+                    updateMemDisp()
+
+
 
         #pelo escopo desse trabalho ele só retorna o valor para o comando de cima (se necessário)
         #outro caso de atribuição é atribuição de vetores(nao usado nesse caso do trabalho)

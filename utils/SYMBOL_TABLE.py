@@ -17,16 +17,9 @@ class STable:
             symbol.parent = self
 
         natabela = self.lookup(symbol)
-        propstoadd = []
-        if(type(props) != list):
-            propstoadd.append(props)
-        else:
-            propstoadd = props
 
-        if(type(natabela) != str):
-            self.resolveconflict(natabela,propstoadd)
 
-        self.TABLE[symbol] = propstoadd
+        self.TABLE[symbol] = props
 
     def __str__(self):
         if(self.parent):
