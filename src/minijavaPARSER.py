@@ -18,7 +18,7 @@ from utils.TABLE_ENTRY import EntryProps
 # eu dei baseado na minha interpretação da gramatica
 def p_prog(p):
     "prog : CLASS ID extends LBRACE PUBLIC main RBRACE multiclass"
-    p[0] = Node("prog", [p[3], p[6], p[8]], [p[1], p[2], p[4], p[5], p[7]])
+    p[0] = Node("prog", [p[8], p[6], p[3]], [p[1], p[2], p[4], p[5], p[7]])
 
 def p_multiclass(p):
     '''multiclass : multiclass classe
@@ -64,18 +64,18 @@ def p_var(p):
 def p_metodo(p):
     "metodo : PUBLIC tipo ID LPAREN paramsopcional RPAREN LBRACE variaveis cmds RETURN exp SEMI RBRACE "
     tokens = [p[1], p[3], p[4], p[6], p[7], p[10], p[12], p[13]]
-    p[0] = Node("metodo", [p[2], p[5], p[8], p[9], p[11]], tokens)
+    p[0] = Node("metodo", [p[5], p[2], p[8], p[9], p[11]], tokens)
 
 def p_paramsopcional(p):
     '''paramsopcional : params
                       | '''
-    if len(p) > 2:
+    if len(p) >= 2:
         p[0] = Node("BNF-params", [p[1]])
 
 def p_cmds(p):
     '''cmds : cmds cmd
             | '''
-    if len(p) > 2:
+    if len(p) >= 2:
         p[0] = Node("BNF-cmd", [p[1], p[2]])
 
 
@@ -87,9 +87,13 @@ def p_params(p):
 def p_listaparamsextra(p):
     '''listaparamsextra : listaparamsextra COMMA tipo ID
                         | '''
-    if len(p) > 2:
+
+    if len(p) == 5:
         tokens = [p[2], p[4]]
         p[0] = Node("BNF-paramsExtra", [p[1], p[3]], tokens)
+    if len(p) == 4 :
+        tokens = [p[1], p[3]]
+        p[0] = Node("BNF-paramsExtra", [p[2]], tokens)
 
 def p_tipo(p):
     '''tipo : INT LBRACK RBRACK

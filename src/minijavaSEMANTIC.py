@@ -40,22 +40,58 @@ def constroiSymbT(node,atributos,currentscope):
 
     #é a classe principal
     if(node.type == "prog"):
+        # declara a classe principal
         if(currentscope.procupraNoAtualEnoExterno(node.leaf[1]) == "NOT_FOUND"):
             currentscope.insert(node.leaf[1],EntryProps(node.leaf[1],"CLASS-"+node.leaf[1],MEMPOINTER,currentscope))
             updateMemDisp()
         else:
             raise Exception("Erro: Declaração duplicada para a classe principal:  "+node.leaf[1])
 
+        return list(filter(None,atributos))
 
+    if(node.type == "main"):
+        return list(filter(None, atributos))
+
+    # declaração de variavel!
     if(node.type == "var"):
         if(currentscope.procupraNoAtualEnoExterno(node.leaf[0]) == "NOT_FOUND"):
-            currentscope.insert(node.leaf[0],EntryProps(node.leaf[0],atributos[0],MEMPOINTER,currentscope))
-            updateMemDisp()
+            memoria = METHODMEMPOINTER if currentscope.type == "metodo" else MEMPOINTER
+            currentscope.insert(node.leaf[0],EntryProps(node.leaf[0],atributos[0],memoria,currentscope))
+            if(currentscope.type == "metodo"):
+                updateMethodMemDisp()
+            else:
+                updateClassMemDisp()
         else:
             raise Exception("Declaração repetida da varíavel: "+node.leaf[0])
 
+        return atributos[0]
+
     if(node.type == "tipo"):
         return node.leaf[0]
+
+
+
+    if(node.type == "BNF-params"):
+        if (len(atributos) == 1):
+            return atributos[0]
+        else:
+            return list(filter(None, atributos))
+
+    if(node.type == "params"):
+        if (len(atributos) == 1):
+            #deve declarar o parametro atual no escopo do metodo!
+            currentscope.insert(node.leaf[0],
+                                EntryProps(node.leaf[0], atributos[0] , METHODMEMPOINTER, currentscope))
+            updateMethodMemDisp()
+            return atributos[0]
+        else:
+            return list(filter(None, atributos))
+
+    if(node.type == "BNF-paramsExtra"):
+        if(len(atributos) == 1):
+            return atributos[0]
+        else:
+            return list(filter(None,atributos))
 
     if(node.type == "BNF-cmd"):
         if(len(atributos) == 1):
@@ -85,33 +121,34 @@ def constroiSymbT(node,atributos,currentscope):
     if(node.type == "assignment"):
         #atribuição de variavel
         # tem só um atributo(recuperado de EXP via recursão)
-        if(node.leaf[1] == "=" ):
-            tipo = type(atributos[0])
-            if (tipo == bool):
-                tipo = "booleano"
-            else:
-                tipo = "int"
-            if(currentscope.procupraNoAtualEnoExterno(node.leaf[0]) == "NOT_FOUND"):
-                currentscope.insert(node.leaf[0],EntryProps(node.leaf[0], tipo, MEMPOINTER, currentscope))
-                updateMemDisp()
+        if(node.leaf[1] == "="  and len(atributos) > 0):
 
-            # se ele encontrou na tabela de simbolos é porque é uma reatribuição ou atualização de valores
+            # não encontrou na tabela de simbolos
+            encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[0])
+            if(encontrado == "NOT_FOUND"):
+                raise Exception("Variável "+node.leaf[0]+" não declarada!")
+
+
+            # se ele encontrou na tabela de simbolos é porque é uma primeira atribuição ou atualização de valores
             # poderia em uma implementação mais sofisticada SALVAR O NOVO VALOR A POSIÇÃO DE MEMORIA PARA ADIANTAR A CGEN
-            #mas para o escopo do trabalho ele só deve salvar O PRIMEIRO VALOR para realizar a cgen de forma mais facil
+            # mas para o escopo do trabalho ele só deve salvar O PRIMEIRO VALOR para realizar a cgen de forma mais facil
             else:
-                if(currentscope.procupraNoAtualEnoExterno(node.leaf[0]).valor == None):
-                    currentscope.insert(node.leaf[0], EntryProps(node.leaf[0], tipo, MEMPOINTER, currentscope,valor=atributos[0]))
-                    updateMemDisp()
+                if(encontrado.valor == None):
+                    memoria = METHODMEMPOINTER if currentscope.type == "metodo" else MEMPOINTER
+                    currentscope.insert(node.leaf[0], EntryProps(node.leaf[0], encontrado.tipo, memoria, currentscope,valor=atributos[0]))
+                    if (currentscope.type == "metodo"):
+                        updateMethodMemDisp()
+                    else:
+                        updateClassMemDisp()
 
 
 
         #pelo escopo desse trabalho ele só retorna o valor para o comando de cima (se necessário)
         #outro caso de atribuição é atribuição de vetores(nao usado nesse caso do trabalho)
-        # duvida... retornar NONE ou atribuitos[0]?
-        return atributos[0]
+        # duvida... retornar NONE ou atribuitos[0]? aparentemente nao faz diferença esse atributo não é usado por ninguem!
+        return list(filter(None,atributos))
 
     # retorna as dependencias do if ou if e else
-    # entramos em um novo escopo
     if(node.type == "condstmt"):
         if(len(atributos) == 1):
             return atributos[0]
@@ -128,6 +165,9 @@ def constroiSymbT(node,atributos,currentscope):
 
     # EXP (talvez o caso mais importante (substituir valores imediatos e declarações!)
     if(node.type == "exp"):
+        if (len(atributos) == 0):
+            return None
+
         if(len(atributos) == 1):
             return atributos[0]
         else:
@@ -140,6 +180,10 @@ def constroiSymbT(node,atributos,currentscope):
                 return (atributos[0] and atributos[1])
 
     if(node.type == "R-exp"):
+
+        if (len(atributos) == 0):
+            return None
+
         if(len(atributos) == 1):
             return atributos[0]
         else:
@@ -154,6 +198,10 @@ def constroiSymbT(node,atributos,currentscope):
                 return (atributos[0] != atributos[1])
 
     if(node.type == "A-exp"):
+
+        if (len(atributos) == 0):
+            return None
+
         if(len(atributos) == 1):
             return atributos[0]
         else:
@@ -165,6 +213,10 @@ def constroiSymbT(node,atributos,currentscope):
                 return (atributos[0] - atributos[1])
 
     if(node.type =="M-exp"):
+
+        if(len(atributos) == 0):
+            return None
+
         if(len(atributos) == 1):
             return atributos[0]
         else:
@@ -177,36 +229,64 @@ def constroiSymbT(node,atributos,currentscope):
                 return (atributos[0] / atributos[1])
 
     if(node.type == "S-exp"):
-
+        # ele tem outro filho (nao é terminal)(ou seja o resultado é S-exp OPERAÇÃO S-exp ou outro não terminal
         if (len(node.children) != 0):
-            if(node.children[0] == "null"):
-                raise Exception("NullPointerException")
-            if (node.children[0] == '!'):
-                return not(atributos[0])
-            if (node.children[0] == '-'):
-                return (-1)*(atributos[0])
+            if(len(atributos) != 0):
 
-        # PARTE MAIS IMPORTANTE (USO DE TERMINAIS)(OU DE VARIAVEIS)
+                if(node.children[0] == "null"):
+                    #vai realizar operação com NULL, erro!
+                    raise Exception("NullPointerException")
+                if (node.children[0] == '!'):
+                    return not(atributos[0])
+                if (node.children[0] == '-'):
+                    return (-1)*(atributos[0])
+
+            return list(filter(None,atributos)) # é algo vindo de seu filho ainda (variavel ou algo mais)
+
+
+        # PARTE MAIS IMPORTANTE (USO DE TERMINAIS)
         else:
-            # é uma variavel!
-            if((node.leaf[0] != "null")  and (type(node.leaf[0]) != bool and type(node.leaf[0]) != int )):
-                if (currentscope.procupraNoAtualEnoExterno(node.leaf[0]) == "NOT_FOUND"):
+            if(node.leaf[0] == "true"):
+                return True
+            if(node.leaf[0] == "false"):
+                return False
+
+            return node.leaf[0] # retorna null ou inteiro
+
+
+    if (node.type == "P-exp"):
+        # é variavel ( ou this) (mas this está fora do escopo dessa implementação)
+        # esta usando essa variavel para, (ATRIBUIR NOVAMENTE, ATRIBUIR A PRIMEIRA VEZ OUTRA VARIAVEL, OU PARA OPERAÇÕES MATEMATICAS OU LOGICAS)
+        # como na verdade ele verifica os casos de atribuição mais la em cima não é necessário verificar aqui tmb
+        if(len(node.children) == 0 and node.leaf):
+            if (node.leaf[0] == "new"):
+                encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[1])
+                if (encontrado == "NOT_FOUND"):
+                    raise Exception("Classe" + node.leaf[1] + " não declarada!")
+                else:
+                    return None
+            if(node.leaf[0] != "this"):
+                encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[0])
+                if(encontrado == "NOT_FOUND"):
                     raise Exception("Variável "+node.leaf[0]+" não declarada!")
                 else:
-                    return currentscope.procupraNoAtualEnoExterno(node.leaf[0]).value
-            else:
-                return node.leaf[0]
+                    return encontrado.valor # retorna o valor da variavel em P-exp ( para operações ou até uma atribuição lá em cima)
+
+        # outros casos além de uso de variavel é o uso de : classes e metodos!
+        # para o escopo desse trabalho só iremos verificar se essas classes e metodos estão declarados
+        else:
+            if(node.leaf[0] == "."):
+                encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[1])
+                if (encontrado == "NOT_FOUND"):
+                    raise Exception("Método" + node.leaf[1] + " não declarada!")
+                else:
+                    return None
 
 
-    #if (node.type == "P-exp"):
-        #if()
 
 
-
-
-
-
-
+    if(node.type == "BNF-multiclass"):
+        return list(filter(None,atributos))
 
     if(node.type == "classe"):
         if (currentscope.procupraNoAtualEnoExterno(node.leaf[1]) == "NOT_FOUND"):
@@ -214,62 +294,64 @@ def constroiSymbT(node,atributos,currentscope):
             updateClassMemDisp()
         else:
             raise Exception("Erro: Classe " + node.leaf[1] + " já declarada!")
-        return atributos
+        return list(filter(None,atributos))
 
 
     # declaração de metodo
     if(node.type == "metodo"):
-        if(currentscope.procupraNoAtualEnoExterno(node.leaf[1]) == "NOT_FOUND"):
-            currentscope.insert(node.leaf[1], EntryProps(node.leaf[1], "MÉTODO-" + atributos[0], METHODMEMPOINTER ,currentscope))
-            updateMethodMemDisp()
-            novoEscopo(currentscope, "metodo")
-        else:
-            raise Exception("Erro: Método " + node.leaf[1] + " já declarado!")
-
-        return atributos
-
-    return "nada por enquanto"
-
-
-
-
-
-
+        return list(filter(None,atributos))
 
 
 
 
 def processTree(node,currentscope):
     if(node):
-        #novoescopo = STable("if",order=currentscope.order+1,level=currentscope.level+1)
-        #currentscope.assignchildren(novoescopo)
-        #currentscope = novoescopo
-        #while
-        #metodo
-        #classe?
 
         # tratamento de escopo:
-        if(node.type == "condstmt"):
-            novoEscopo(currentscope,"condicional")
+        if(node.type == "condstmt" and node.leaf[0] =="if"):
+            currentscope = novoEscopo(currentscope,"if-condicional")
+        if (node.type == "matchornot" and node.leaf[0] == "else"):
+            currentscope =  novoEscopo(currentscope.parent, "else-condicional")
 
         if(node.type == "otherstmt" and len(node.children) != 0):
             if(node.children[0] == "while"):
-                novoEscopo(currentscope,"loop")
+                currentscope = novoEscopo(currentscope,"loop")
 
+        if(node.type == "metodo" and len(node.children) != 0):
+            #declaração de metodo
+            if (currentscope.procupraNoAtualEnoExterno(node.leaf[1]) == "NOT_FOUND"):
+                currentscope.insert(node.leaf[1],
+                                    EntryProps(node.leaf[1], "MÉTODO-" + node.children[1].leaf[0], METHODMEMPOINTER, currentscope))
+                updateMethodMemDisp()
+                currentscope = novoEscopo(currentscope, "metodo")
+            else:
+                raise Exception("Erro: Método " + node.leaf[1] + " já declarado!")
 
 
 
 
         atributos_recuperados = []
         #resolve TODAS as dependencias do nó atual
+        i = 0
         for child in node.children:
+            #tratamento do escopo do else
+            if(child.type == "cmd" and i == 0 and currentscope.type == "else-condicional"):
+                currentscope = currentscope.parent
+
             sint = processTree(child,currentscope)
-            atributos_recuperados.append(sint)
+            if(type(sint) == list):
+                if(sint != None):
+                    atributos_recuperados.extend(sint)
+            else:
+                if(sint != None):
+                    atributos_recuperados.append(sint)
+            i += 1
 
         #realiza ação semantica
-        sint =constroiSymbT(node,atributos_recuperados,currentscope)
+        sint = constroiSymbT(node,atributos_recuperados,currentscope)
 
         return sint
+
     else:
         print("erro?")
 
