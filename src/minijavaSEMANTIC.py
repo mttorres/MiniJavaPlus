@@ -37,6 +37,21 @@ def novoEscopo(currentscope,tipo,iforder=None):
     return currentscope
 
 
+def parameterCounter(globalscope,nomemetodo):
+    # encontra o escopo
+    escopoapropriado = None
+    for escoposfilho in globalscope.children:
+        if(escoposfilho.type == "metodo-"+nomemetodo ):
+            escopoapropriado = escoposfilho
+            break
+    c =0
+    for variaveis in escopoapropriado.TABLE:
+        if(escopoapropriado.TABLE[variaveis].methodparam == True):
+            c+=1
+
+    return c
+
+
 def constroiSymbT(node,atributos,currentscope):
     global MEMPOINTER
     global MEMPOINTER
@@ -83,7 +98,7 @@ def constroiSymbT(node,atributos,currentscope):
             return list(filter(None, atributos))
 
     if(node.type == "params"):
-        if (len(atributos) == 1):
+        if (len(atributos) > 0 ):
             #deve declarar o parametro atual no escopo do metodo!
             currentscope.insert(node.leaf[0],
                                 EntryProps(node.leaf[0], atributos[0] , METHODMEMPOINTER, currentscope,methodparam=True))
@@ -94,6 +109,10 @@ def constroiSymbT(node,atributos,currentscope):
 
     if(node.type == "BNF-paramsExtra"):
         if(len(atributos) == 1):
+            currentscope.insert(node.leaf[1],
+                                EntryProps(node.leaf[1], atributos[0], METHODMEMPOINTER, currentscope,
+                                           methodparam=True))
+            updateMethodMemDisp()
             return atributos[0]
         else:
             return list(filter(None,atributos))
@@ -288,11 +307,11 @@ def constroiSymbT(node,atributos,currentscope):
             if(node.leaf[0] != "this"):
                 encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[0])
                 if(encontrado == "NOT_FOUND"):
-                    raise Exception("Variável "+node.leaf[0]+" não declarada!")
+                    raise Exception("Variável "+node.leaf[0]+" não foi  declarada!")
                 else:
                     if(encontrado.valor == None  and encontrado.methodparam == False):
                         raise Exception("Variável " + node.leaf[0] + " não atribuida!")
-                    return encontrado.valor # retorna o valor da variavel em P-exp ( para operações ou até uma atribuição lá em cima)
+                    return encontrado.valor # retorna o primeiro valor da variavel em P-exp ( para operações ou até uma atribuição lá em cima)
 
         # outros casos além de uso de variavel é o uso de : classes e metodos!
         # para o escopo desse trabalho só iremos verificar se essas classes e metodos estão declarados
@@ -302,6 +321,13 @@ def constroiSymbT(node,atributos,currentscope):
                 if (encontrado == "NOT_FOUND"):
                     raise Exception("Método" + node.leaf[1] + " não declarada!")
                 else:
+                    #deve verificar se os parametros foram preenchidos !
+                    #recuperar o metodo !
+                    #contar quantos parametros ele tem!
+                    if(encontrado.methodparam):
+                        noparametros = parameterCounter(encontrado.parentScope, node.leaf[1])
+                        if(noparametros != len(atributos)):
+                            raise Exception("Método "+node.leaf[1]+" requer "+str(noparametros)+" parâmetro(s). "+str(len(atributos))+" foram preenchidos!")
                     return None
 
 
@@ -319,11 +345,16 @@ def constroiSymbT(node,atributos,currentscope):
         return list(filter(None,atributos))
 
 
+
     # declaração de metodo
     if(node.type == "metodo"):
         return list(filter(None,atributos))
 
+    if(node.type == "BNF-expOpcional"):
+        return list(filter(None,atributos))
 
+    if(node.type == "BNF-exps"):
+        return list(filter(None,atributos))
 
 
 def processTree(node,currentscope):
@@ -344,8 +375,11 @@ def processTree(node,currentscope):
         if(node.type == "metodo" and len(node.children) != 0):
             #declaração de metodo
             if (currentscope.procupraNoAtualEnoExterno(node.leaf[1]) == "NOT_FOUND"):
+                temparametros = False
+                if(node.children[1].type != "BNF-params"):
+                    temparametros = True
                 currentscope.insert(node.leaf[1],
-                                    EntryProps(node.leaf[1], "MÉTODO-" + node.children[1].leaf[0], METHODMEMPOINTER, currentscope))
+                                    EntryProps(node.leaf[1], "MÉTODO-" + node.children[1].leaf[0], METHODMEMPOINTER, currentscope,methodparam=temparametros))
                 updateMethodMemDisp()
                 currentscope = novoEscopo(currentscope, "metodo-"+node.leaf[1])
             else:
