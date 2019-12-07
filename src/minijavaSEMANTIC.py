@@ -25,8 +25,11 @@ def updateClassMemDisp():
     global CLASSMEMPOINTER
     CLASSMEMPOINTER += 1
 
-def novoEscopo(currentscope,tipo):
-    novoescopo = STable(tipo, order=currentscope.order + 1, level=currentscope.level + 1)
+def novoEscopo(currentscope,tipo,iforder=None):
+    ordem = len(currentscope.children)-1 if len(currentscope.children) > 0 else 0
+    if(iforder != None):
+        ordem = iforder
+    novoescopo = STable(tipo, order=ordem, level=currentscope.level + 1)
     currentscope.assignchildren(novoescopo)
     currentscope = novoescopo
     return currentscope
@@ -81,7 +84,7 @@ def constroiSymbT(node,atributos,currentscope):
         if (len(atributos) == 1):
             #deve declarar o parametro atual no escopo do metodo!
             currentscope.insert(node.leaf[0],
-                                EntryProps(node.leaf[0], atributos[0] , METHODMEMPOINTER, currentscope))
+                                EntryProps(node.leaf[0], atributos[0] , METHODMEMPOINTER, currentscope,methodparam=True))
             updateMethodMemDisp()
             return atributos[0]
         else:
@@ -285,6 +288,8 @@ def constroiSymbT(node,atributos,currentscope):
                 if(encontrado == "NOT_FOUND"):
                     raise Exception("Variável "+node.leaf[0]+" não declarada!")
                 else:
+                    if(encontrado.valor == None  and encontrado.methodparam == False):
+                        raise Exception("Variável " + node.leaf[0] + " não atribuida!")
                     return encontrado.valor # retorna o valor da variavel em P-exp ( para operações ou até uma atribuição lá em cima)
 
         # outros casos além de uso de variavel é o uso de : classes e metodos!
@@ -325,10 +330,11 @@ def processTree(node,currentscope):
         # tratamento de escopo:
         if(node.type == "condstmt" and node.leaf[0] =="if"):
             currentscope = novoEscopo(currentscope,"if-condicional")
+            currentscope.type = currentscope.type + str(currentscope.order)
         if (node.type == "matchornot" and node.leaf[0] == "else"):
-            currentscope =  novoEscopo(currentscope.parent, "else-condicional")
+            currentscope =  novoEscopo(currentscope.parent, "else-condicional",currentscope.order)
 
-        if(node.type == "otherstmt" and len(node.children) != 0):
+        if(node.type == "otherstmt" and len(node.leaf) != 0):
             if(node.leaf[0] == "while"):
                 currentscope = novoEscopo(currentscope,"loop")
 
@@ -349,11 +355,16 @@ def processTree(node,currentscope):
         #resolve TODAS as dependencias do nó atual
         i = 0
         for child in node.children:
+
+
             #tratamento do escopo do else
             if(child.type == "cmd" and i == 0 and currentscope.type == "else-condicional"):
-                currentscope = currentscope.parent
+                currentscope.type = currentscope.type + str(currentscope.parent.children[currentscope.order-1].order)
+
 
             sint = processTree(child,currentscope)
+
+
             if(type(sint) == list):
                 if(sint != None):
                     atributos_recuperados.extend(sint)

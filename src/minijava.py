@@ -56,7 +56,7 @@ def main():
 
 
             #gera código
-            SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
+            #SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
 
 
 if __name__ == '__main__':
