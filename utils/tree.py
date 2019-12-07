@@ -51,8 +51,12 @@ class Node:
 
         if(nodeName == 'prog'):
             print("-- Begin MIPS code")
+            print("\tb main")
             children[0].cgen(Table)
             children[1].cgen(Table)
+        if(nodeName == "main"):
+            print("main:")
+            children[0].cgen(Table)
         elif(nodeName == "BNF-multiclass"):
             children[0].cgen(Table)
         elif(nodeName == 'classe'):
@@ -67,14 +71,23 @@ class Node:
                     Table = escoposfilho
                     break
             # deve  realizar algumas manipulações de memoria e avaliar o CORPO DA FUNÇÃO
-            #TODO manipulacoes
-
+            print("%s:" % tokens[1])
+            print("\tmove $fp $sp")
+            sw('ra',0,'sp')
+            addiu('sp','sp',-4)
             children[2].cgen(Table)
             children[3].cgen(Table)
 
+            # desempilha a expressao da função !
+            lw('ra',4,'sp')
+            # DESEMPILHAR PARAMETROS  e  TODAS AS VARIAVEIS LOCAIS
+            addiu('sp','sp',(4*len(Table.TABLE))+8)
+            lw('fp',0,'sp')
+            print("\tjr $ra")
             #devolve o controle de bloco para zero ao desempilhar (sair do metodo)
             if(BLOCK_CONTROL > 0):
                 BLOCK_CONTROL = 0
+
 
         elif(nodeName == 'BNF-cmd'):
             children[0].cgen(Table)
@@ -84,8 +97,34 @@ class Node:
             if(len(tokens) == 0):
                 children[0].cgen(Table)
             else:
-                # outros comandos além de atribuição
-                pass
+                # é print (guarda em a0 para fazer algo com isso (ex: tratar como string o resultado)
+                if(tokens[0] == "System.out.println"):
+                    # ao fim da função ComputeFac ele guarda o ULTIMO VALOR EM a0 ou seja...
+                    # podemos simplesmente... chamar a função e então computar o valor em a0
+                    children[0].cgen(Table)
+                # é o while
+                else:
+                    for escoposfilho in Table.children:
+                        if (escoposfilho.type == ("if-condicional" + str(BLOCK_CONTROL))):
+                            Table = escoposfilho
+                            break
+
+                    #avaliar expressão
+                    print("WHILE-COND:")
+                    children[0].cgen(Table) # ao final ela vai ter 1 como resultado
+                    print("\tbgtz $a0 WHILE-LOOP") # se for 1 pula para o loop
+                    print("\tj LOOP-EXIT") # senao vai para a saida
+
+                    #operacoes do while
+                    print("WHILE-LOOP:")
+                    children[1].cgen(Table)
+                    print("\tj WHILE-COND") # reavalia a expressão
+                    print("LOOP-EXIT: ")
+
+
+                    # desempilhar bloco
+                    if (BLOCK_CONTROL > 0):
+                        BLOCK_CONTROL = 0
 
         elif(nodeName == "condstmt"):
             #chamar o enesimo if dentro do escopo atual com COND_STMT_CONTROL
@@ -244,7 +283,7 @@ class Node:
                     if(var != "NOT_FOUND"):
                         # eu salvei como sendo memlocation = 0,1,...n
                         # logo o offset é:
-                        offset = 4 + var.memlocation*4
+                        offset = 4 + (var.memlocation/Table.defaultmem)*4
                         # ex: primeira declaração 4 + 4*0
                         # ex: segunda declaração 4 + 4*1 ...
                         lw('a0',offset,'sp')
@@ -252,17 +291,42 @@ class Node:
                     else:
                         raise Exception("Não foi possível ler a varíavel  %s da tabela de simbolos!",tokens[0])
 
-            # #TODO  CHAMADA DE METODO ainda nao feito(chamada de metodo)
+
             else:
                 if(tokens[0] == "."):
+                    sw('fp', 0, 'sp')
+                    addiu('sp', 'sp', -4)
                     # chamada de metodos com parametros
                     if(len(children) > 1):
-                        #self.cgenmethodcall(Table,children[1].cgen(Table))
+                        children[1].cgen(Table)
+
                         pass
+                    # sem parametros
                     else:
-                        #chamada de metodos sem parametros
-                        #self.cgenmethodcall(tokens[1], Table)
                         pass
+                    print("\tjal %s" % tokens[1])
+                else:
+                    # ou não encontrou os parametros ainda
+                    children[0].cgen(Table)
+
+        elif(nodeName == "BNF-expOpicional"):
+            children[0].cgen(Table)
+        elif(nodeName == "BNF-exps"):
+            # tem mais de um parametro
+            if(len(children) > 1):
+                children[1].cgen(Table)
+            # avaliacao em ordem reversa
+            children[0].cgen(Table)
+            sw('a0',0,'sp')
+            addiu('sp','sp',-4)
+        elif(nodeName == "BNF-expList"):
+            #avaliacao em ordem reversa
+            if(len(children)> 1):
+                children[0].cgen(Table)
+            children[1].cgen(Table)
+            sw('a0', 0, 'sp')
+            addiu('sp', 'sp', -4)
+
 
 # metodos auxiliares
             

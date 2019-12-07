@@ -1,7 +1,7 @@
 class STable:
     # tratar props (sempre deve ser uma lista de atributos)(definir quais atributos por default!) (criei outra classe TABLE_ENTRY
     # e tratar "entradas repetidas" (adicionar elas a lista de propriedades ou declarar erro?)
-    def __init__(self,type="Global",parent = None, order = 0, level = 0,defaultmem=0):
+    def __init__(self,type="Global",parent = None, order = 0, level = 0,defaultmem=1):
         self.parent = parent
         self.children = []
         self.order = order

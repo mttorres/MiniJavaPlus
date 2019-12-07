@@ -10,7 +10,7 @@ from utils.TABLE_ENTRY import EntryProps
 
 MEMPOINTER = 0
 METHODMEMPOINTER = 100
-CLASSMEMPOINTER = 500
+CLASSMEMPOINTER = 1000
 
 def updateMemDisp():
     global MEMPOINTER
@@ -29,7 +29,9 @@ def novoEscopo(currentscope,tipo,iforder=None):
     ordem = len(currentscope.children)-1 if len(currentscope.children) > 0 else 0
     if(iforder != None):
         ordem = iforder
-    novoescopo = STable(tipo, order=ordem, level=currentscope.level + 1)
+
+    basememoria = currentscope.defaultmem if tipo[0:6] != "metodo" else 100
+    novoescopo = STable(tipo, order=ordem, level=currentscope.level + 1,defaultmem=basememoria)
     currentscope.assignchildren(novoescopo)
     currentscope = novoescopo
     return currentscope
@@ -337,6 +339,7 @@ def processTree(node,currentscope):
         if(node.type == "otherstmt" and len(node.leaf) != 0):
             if(node.leaf[0] == "while"):
                 currentscope = novoEscopo(currentscope,"loop")
+                currentscope.type = currentscope.type + str(currentscope.order)
 
         if(node.type == "metodo" and len(node.children) != 0):
             #declaração de metodo
