@@ -1,4 +1,4 @@
-COND_STMT_CONTROL = 0
+BLOCK_CONTROL = 0
 
 
 class Node:
@@ -39,7 +39,7 @@ class Node:
 
 
     def cgen(self,Table):
-        global COND_STMT_CONTROL
+        global BLOCK_CONTROL
         nodeName = self.type
         tokens = self.leaf
         children = self.children
@@ -61,7 +61,7 @@ class Node:
             children[0].cgen(Table)
         elif(nodeName == 'metodo'):
             # definição de metodo
-            # encontra o escopo apropriado
+            # encontra o escopo apropriado(DEVIA TER SALVO OS FILHOS DOS ESCOPOS EM OUTRA TABELA HASH?)
             for escoposfilho in Table.children:
                 if(escoposfilho.type == ("metodo-"+tokens[1])):
                     Table = escoposfilho
@@ -71,6 +71,10 @@ class Node:
 
             children[2].cgen(Table)
             children[3].cgen(Table)
+
+            #devolve o controle de bloco para zero ao desempilhar (sair do metodo)
+            if(BLOCK_CONTROL > 0):
+                BLOCK_CONTROL = 0
 
         elif(nodeName == 'BNF-cmd'):
             children[0].cgen(Table)
@@ -85,15 +89,23 @@ class Node:
 
         elif(nodeName == "condstmt"):
             #chamar o enesimo if dentro do escopo atual com COND_STMT_CONTROL
-
+            for escoposfilho in Table.children:
+                if(escoposfilho.type == ("if-condicional"+str(BLOCK_CONTROL))):
+                    Table = escoposfilho
+                    break
             # avaliar a expressao do if
-            children[0].cgen(Table.children[COND_STMT_CONTROL])
-            children[1].cgen(Table.children[COND_STMT_CONTROL])
+            children[0].cgen(Table)
+            children[1].cgen(Table)
 
         elif(nodeName == "matchornot"):
-            print("\tbeq $a0 $t1 true_if")
+            #comprar se é 0 ou 1 (usar branc on greater than zero)
+            print("\tbgtz $a0 true_if")
             print('else_label:')
             if (len(children) > 1):
+                for escoposfilho in Table.parent.children:
+                    if (escoposfilho.type == ("else-condicional" + str(BLOCK_CONTROL))):
+                        Table = escoposfilho
+                        break
                 children[1].cgen(Table)
             print("\tb end_if")
 
@@ -101,7 +113,8 @@ class Node:
             children[0].cgen(Table)
 
             print("end_if:")
-            COND_STMT_CONTROL+=1
+
+            BLOCK_CONTROL+=1
 
 
         # atribuição de variaveis
@@ -115,13 +128,14 @@ class Node:
             if tokens[1] == '=':
                 expressaoavaliada = children[0].cgen(Table)
                 #valor retornado é imediato(veio direto de um nó terminal)
-                if(expressaoavaliada != "%a0"):
+                if(expressaoavaliada != "$a0"):
                     print('\tli $a0 %s' % str(expressaoavaliada))
                 #senao for terminal ele já carrega o valor de a0 em memoria normalmente (nenhuma ação é necessária!)
             # caso de vetores (precisa fazer?)
             else:
                 print('\tli $a0 %s' % children[1].cgen(Table))
             #salvar (lembrando que as operacoes devem sempre mudar e voltar com o estado da pilha)
+            #nesse caso nao deve pq ele vai utilizar essas variaveis(?)
             sw('a0', 0, 'sp')
             addiu('sp','sp',-4)
 
@@ -178,8 +192,7 @@ class Node:
                     print('\tadd $a0 $t1 $a0')
                 elif(tokens[0] == '-'):
                     print('\tsub $a0 $t1 $a0')
-                sw('a0', 0, 'sp')
-                addiu('sp','sp',-4)
+                addiu('sp','sp',4)
 
                 return "$a0"
 
@@ -197,8 +210,7 @@ class Node:
                     print('\tmult $a0 $t1 $a0')
                 elif(tokens[0] == '/'):
                     print('\tdiv $a0 $t1 $a0')
-                sw('a0', 0, 'sp')
-                addiu('sp','sp',-4)
+                addiu('sp','sp',4)
 
                 return "$a0"
             else:
