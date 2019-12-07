@@ -273,7 +273,7 @@ def constroiSymbT(node,atributos,currentscope):
         # é variavel ( ou this) (mas this está fora do escopo dessa implementação)
         # esta usando essa variavel para, (ATRIBUIR NOVAMENTE, ATRIBUIR A PRIMEIRA VEZ OUTRA VARIAVEL, OU PARA OPERAÇÕES MATEMATICAS OU LOGICAS)
         # como na verdade ele verifica os casos de atribuição mais la em cima não é necessário verificar aqui tmb
-        if(len(node.children) == 0 and node.leaf):
+        if(len(node.children) == 0 and len(node.leaf) > 0):
             if (node.leaf[0] == "new"):
                 encontrado = currentscope.procupraNoAtualEnoExterno(node.leaf[1])
                 if (encontrado == "NOT_FOUND"):
@@ -329,7 +329,7 @@ def processTree(node,currentscope):
             currentscope =  novoEscopo(currentscope.parent, "else-condicional")
 
         if(node.type == "otherstmt" and len(node.children) != 0):
-            if(node.children[0] == "while"):
+            if(node.leaf[0] == "while"):
                 currentscope = novoEscopo(currentscope,"loop")
 
         if(node.type == "metodo" and len(node.children) != 0):
@@ -338,7 +338,7 @@ def processTree(node,currentscope):
                 currentscope.insert(node.leaf[1],
                                     EntryProps(node.leaf[1], "MÉTODO-" + node.children[1].leaf[0], METHODMEMPOINTER, currentscope))
                 updateMethodMemDisp()
-                currentscope = novoEscopo(currentscope, "metodo")
+                currentscope = novoEscopo(currentscope, "metodo-"+node.leaf[1])
             else:
                 raise Exception("Erro: Método " + node.leaf[1] + " já declarado!")
 

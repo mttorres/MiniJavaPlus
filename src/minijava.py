@@ -23,7 +23,6 @@ def main():
     Files = ['Factorial.java']
     TOKEN_LIST = []
     SYNTAX_TREE = []
-    DEP_GRAPH = []
     for i in Files:
         input = ""
         inputfile = open(PATH + "/" + i, 'r')
@@ -53,11 +52,11 @@ def main():
             TABLE_POINTER = []
             TABLE_POINTER.append(escopoglobal)
             minijavaSEMANTIC.processTree(SYNTAX_TREE[0],TABLE_POINTER[0])
-            #print(TABLE_POINTER[0])
+            print(TABLE_POINTER[0])
 
 
             #gera código
-            #SYNTAX_TREE[0].cgen()
+            SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
 
 
 if __name__ == '__main__':
