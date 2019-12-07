@@ -171,13 +171,16 @@ def constroiSymbT(node,atributos,currentscope):
         if(len(atributos) == 1):
             return atributos[0]
         else:
-            if (node.children[0] == "null" or node.children[1] == "null"):
-                raise Exception("NullPointerException")
-
-            if(node.children[0] == '||'):
-                return (atributos[0] or atributos[1])
-            if(node.children[0] == '&&'):
-                return (atributos[0] and atributos[1])
+            if (len(node.leaf) > 1):
+                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
+                    raise Exception("NullPointerException")
+            elif (len(node.leaf) > 0):
+                if (node.leaf[0] == "null"):
+                    raise Exception("NullPointerException")
+                if(node.leaf[0] == '||'):
+                    return (atributos[0] or atributos[1])
+                if(node.leaf[0] == '&&'):
+                    return (atributos[0] and atributos[1])
 
     if(node.type == "R-exp"):
 
@@ -187,15 +190,18 @@ def constroiSymbT(node,atributos,currentscope):
         if(len(atributos) == 1):
             return atributos[0]
         else:
-            if (node.children[0] == "null" or node.children[1] == "null"):
-                raise Exception("NullPointerException")
-
-            if (node.children[0] == '=='):
-                return (atributos[0] == atributos[1])
-            if (node.children[0] == '<'):
-                return (atributos[0] < atributos[1])
-            if (node.children[0] == '!='):
-                return (atributos[0] != atributos[1])
+            if (len(node.leaf) > 1):
+                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
+                    raise Exception("NullPointerException")
+            elif(len(node.leaf) > 0):
+                if (node.leaf[0] == "null"):
+                    raise Exception("NullPointerException")
+                if (node.leaf[0] == '=='):
+                    return (atributos[0] == atributos[1])
+                if (node.leaf[0] == '<'):
+                    return (atributos[0] < atributos[1])
+                if (node.leaf[0] == '!='):
+                    return (atributos[0] != atributos[1])
 
     if(node.type == "A-exp"):
 
@@ -205,12 +211,16 @@ def constroiSymbT(node,atributos,currentscope):
         if(len(atributos) == 1):
             return atributos[0]
         else:
-            if (node.children[0] == "null" or node.children[1] == "null"):
-                raise Exception("NullPointerException")
-            if (node.children[0] == '+'):
-                return (atributos[0] + atributos[1])
-            if (node.children[0] == '-'):
-                return (atributos[0] - atributos[1])
+            if (len(node.leaf) > 1):
+                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
+                    raise Exception("NullPointerException")
+            elif(len(node.leaf) > 0):
+                if (node.leaf[0] == "null"):
+                    raise Exception("NullPointerException")
+                if (node.leaf[0] == '+'):
+                    return (atributos[0] + atributos[1])
+                if (node.leaf[0] == '-'):
+                    return (atributos[0] - atributos[1])
 
     if(node.type =="M-exp"):
 
@@ -220,28 +230,33 @@ def constroiSymbT(node,atributos,currentscope):
         if(len(atributos) == 1):
             return atributos[0]
         else:
-            if (node.children[0] == "null" or node.children[1] == "null"):
-                raise Exception("NullPointerException")
+            if(len(node.leaf) > 1):
+                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
+                    raise Exception("NullPointerException")
 
-            if (node.children[0] == '*'):
-                return (atributos[0] * atributos[1])
-            if (node.children[0] == '/'):
-                return (atributos[0] / atributos[1])
+            elif(len(node.leaf) > 0):
+                if(node.leaf[0] == "null"):
+                    raise Exception("NullPointerException")
+                if (node.leaf[0] == '*'):
+                    return (atributos[0] * atributos[1])
+                if (node.leaf[0] == '/'):
+                    return (atributos[0] // atributos[1])
 
     if(node.type == "S-exp"):
         # ele tem outro filho (nao é terminal)(ou seja o resultado é S-exp OPERAÇÃO S-exp ou outro não terminal
         if (len(node.children) != 0):
             if(len(atributos) != 0):
 
-                if(node.children[0] == "null"):
-                    #vai realizar operação com NULL, erro!
-                    raise Exception("NullPointerException")
-                if (node.children[0] == '!'):
-                    return not(atributos[0])
-                if (node.children[0] == '-'):
-                    return (-1)*(atributos[0])
-
-            return list(filter(None,atributos)) # é algo vindo de seu filho ainda (variavel ou algo mais)
+                if(len(node.leaf) > 0):
+                    if(node.leaf[0] == "null"):
+                        #vai realizar operação com NULL, erro!
+                        raise Exception("NullPointerException")
+                    if (node.leaf[0] == '!'):
+                        return not(atributos[0])
+                    if (node.leaf[0] == '-'):
+                        return (-1)*(atributos[0])
+                else:
+                    return list(filter(None,atributos)) # é algo vindo de seu filho ainda (variavel ou algo mais)
 
 
         # PARTE MAIS IMPORTANTE (USO DE TERMINAIS)
