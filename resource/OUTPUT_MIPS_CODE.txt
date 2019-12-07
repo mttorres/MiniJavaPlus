@@ -1,0 +1,39 @@
+-- Begin MIPS code
+	b main
+ComputeFac:
+	move $fp $sp
+	sw $ra 0($sp)
+	addiu $sp $sp -4
+	lw $a0 8($sp)
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	lw $t1 4($sp)
+	slt $a0 $t1 $a0
+	addiu $sp $sp 4
+	bgtz $a0 true_if
+else_label: 
+	lw $a0 8($sp)
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	sw $fp 0($sp)
+	addiu $sp $sp -4
+	jal ComputeFac
+	lw $t1 4($sp)
+	mult $a0 $t1 $a0
+	addiu $sp $sp 4
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	b end_if 
+true_if: 
+	li $a0 1
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+end_if: 
+	lw $ra 4($sp)
+	addiu $sp $sp 16
+	lw $fp 0($sp)
+	jr $ra
+main:
+	sw $fp 0($sp)
+	addiu $sp $sp -4
+	jal ComputeFac

@@ -23,6 +23,7 @@ def main():
     Files = ['Factorial.java']
     TOKEN_LIST = []
     SYNTAX_TREE = []
+    outputfile = open(PATH+"/OUTPUT_MIPS_CODE.txt", 'w+')
     for i in Files:
         input = ""
         inputfile = open(PATH + "/" + i, 'r')
@@ -56,7 +57,7 @@ def main():
 
 
             #gera código
-            SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
+            SYNTAX_TREE[0].cgen(TABLE_POINTER[0],outputfile)
 
 
 if __name__ == '__main__':

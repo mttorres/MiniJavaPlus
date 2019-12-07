@@ -38,7 +38,7 @@ class Node:
 
 
 
-    def cgen(self,Table):
+    def cgen(self,Table,outputfile):
         global BLOCK_CONTROL
         nodeName = self.type
         tokens = self.leaf
@@ -50,19 +50,19 @@ class Node:
         # print('')
 
         if(nodeName == 'prog'):
-            print("-- Begin MIPS code")
-            print("\tb main")
-            children[0].cgen(Table)
-            children[1].cgen(Table)
+            outputfile.write("-- Begin MIPS code\n")
+            outputfile.write("\tb main\n")
+            children[0].cgen(Table,outputfile)
+            children[1].cgen(Table,outputfile)
         if(nodeName == "main"):
-            print("main:")
-            children[0].cgen(Table)
+            outputfile.write("main:\n")
+            children[0].cgen(Table,outputfile)
         elif(nodeName == "BNF-multiclass"):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == 'classe'):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == 'BNF-metodo'):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == 'metodo'):
             # definição de metodo
             # encontra o escopo apropriado(DEVIA TER SALVO OS FILHOS DOS ESCOPOS EM OUTRA TABELA HASH?)
@@ -71,37 +71,37 @@ class Node:
                     Table = escoposfilho
                     break
             # deve  realizar algumas manipulações de memoria e avaliar o CORPO DA FUNÇÃO
-            print("%s:" % tokens[1])
-            print("\tmove $fp $sp")
-            sw('ra',0,'sp')
-            addiu('sp','sp',-4)
-            children[2].cgen(Table)
-            children[3].cgen(Table)
+            outputfile.write("%s:\n" % tokens[1])
+            outputfile.write("\tmove $fp $sp\n")
+            sw('ra',0,'sp',outputfile)
+            addiu('sp','sp',-4,outputfile)
+            children[2].cgen(Table,outputfile)
+            children[3].cgen(Table,outputfile)
 
             # desempilha a expressao da função !
-            lw('ra',4,'sp')
+            lw('ra',4,'sp',outputfile)
             # DESEMPILHAR PARAMETROS  e  TODAS AS VARIAVEIS LOCAIS
-            addiu('sp','sp',(4*len(Table.TABLE))+8)
-            lw('fp',0,'sp')
-            print("\tjr $ra")
+            addiu('sp','sp',(4*len(Table.TABLE))+8,outputfile)
+            lw('fp',0,'sp',outputfile)
+            outputfile.write("\tjr $ra\n")
             #devolve o controle de bloco para zero ao desempilhar (sair do metodo)
             if(BLOCK_CONTROL > 0):
                 BLOCK_CONTROL = 0
 
 
         elif(nodeName == 'BNF-cmd'):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == "cmd"):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == "otherstmt"):
             if(len(tokens) == 0):
-                children[0].cgen(Table)
+                children[0].cgen(Table,outputfile)
             else:
                 # é print (guarda em a0 para fazer algo com isso (ex: tratar como string o resultado)
                 if(tokens[0] == "System.out.println"):
                     # ao fim da função ComputeFac ele guarda o ULTIMO VALOR EM a0 ou seja...
                     # podemos simplesmente... chamar a função e então computar o valor em a0
-                    children[0].cgen(Table)
+                    children[0].cgen(Table,outputfile)
                 # é o while
                 else:
                     for escoposfilho in Table.children:
@@ -110,16 +110,16 @@ class Node:
                             break
 
                     #avaliar expressão
-                    print("WHILE-COND:")
-                    children[0].cgen(Table) # ao final ela vai ter 1 como resultado
-                    print("\tbgtz $a0 WHILE-LOOP") # se for 1 pula para o loop
-                    print("\tj LOOP-EXIT") # senao vai para a saida
+                    outputfile.write("WHILE-COND: \n")
+                    children[0].cgen(Table,outputfile) # ao final ela vai ter 1 como resultado
+                    outputfile.write("\tbgtz $a0 WHILE-LOOP\n") # se for 1 pula para o loop
+                    outputfile.write("\tj LOOP-EXIT\n") # senao vai para a saida
 
                     #operacoes do while
-                    print("WHILE-LOOP:")
-                    children[1].cgen(Table)
-                    print("\tj WHILE-COND") # reavalia a expressão
-                    print("LOOP-EXIT: ")
+                    outputfile.write("WHILE-LOOP: \n")
+                    children[1].cgen(Table,outputfile)
+                    outputfile.write("\tj WHILE-COND\n") # reavalia a expressão
+                    outputfile.write("LOOP-EXIT: \n")
 
 
                     # desempilhar bloco
@@ -133,25 +133,25 @@ class Node:
                     Table = escoposfilho
                     break
             # avaliar a expressao do if
-            children[0].cgen(Table)
-            children[1].cgen(Table)
+            children[0].cgen(Table,outputfile)
+            children[1].cgen(Table,outputfile)
 
         elif(nodeName == "matchornot"):
             #comprar se é 0 ou 1 (usar branc on greater than zero)
-            print("\tbgtz $a0 true_if")
-            print('else_label:')
+            outputfile.write("\tbgtz $a0 true_if\n")
+            outputfile.write('else_label: \n')
             if (len(children) > 1):
                 for escoposfilho in Table.parent.children:
                     if (escoposfilho.type == ("else-condicional" + str(BLOCK_CONTROL))):
                         Table = escoposfilho
                         break
-                children[1].cgen(Table)
-            print("\tb end_if")
+                children[1].cgen(Table,outputfile)
+            outputfile.write("\tb end_if \n")
 
-            print('true_if:')
-            children[0].cgen(Table)
+            outputfile.write('true_if: \n')
+            children[0].cgen(Table,outputfile)
 
-            print("end_if:")
+            outputfile.write("end_if: \n")
 
             BLOCK_CONTROL+=1
 
@@ -165,95 +165,95 @@ class Node:
             # se o valor for uma composição de variaveis ou imediatos (expressão) (deve ter que recuperar da pilha também..)
 
             if tokens[1] == '=':
-                expressaoavaliada = children[0].cgen(Table)
+                expressaoavaliada = children[0].cgen(Table,outputfile)
                 #valor retornado é imediato(veio direto de um nó terminal)
                 if(expressaoavaliada != "$a0"):
-                    print('\tli $a0 %s' % str(expressaoavaliada))
+                    outputfile.write('\tli $a0 %s\n' % str(expressaoavaliada))
                 #senao for terminal ele já carrega o valor de a0 em memoria normalmente (nenhuma ação é necessária!)
             # caso de vetores (precisa fazer?)
             else:
-                print('\tli $a0 %s' % children[1].cgen(Table))
+                outputfile.write('\tli $a0 %s\n' % children[1].cgen(Table,outputfile))
             #salvar (lembrando que as operacoes devem sempre mudar e voltar com o estado da pilha)
             #nesse caso nao deve pq ele vai utilizar essas variaveis(?)
-            sw('a0', 0, 'sp')
-            addiu('sp','sp',-4)
+            sw('a0', 0, 'sp',outputfile)
+            addiu('sp','sp',-4,outputfile)
 
         elif (nodeName == 'exp'):
             #é cgen(expressaoNAOTERMINAL) ou cgen(e1 logical/aritimetico e2)
             if(tokens):
-                children[0].cgen(Table) # lembrando que ao fim de cada cgen(e) ele salva em a0
-                sw('a0', 0, 'sp')
-                addiu('sp', 'sp', -4)
-                children[1].cgen(Table)
-                lw('t1',4,'sp')
+                children[0].cgen(Table,outputfile) # lembrando que ao fim de cada cgen(e) ele salva em a0
+                sw('a0', 0, 'sp',outputfile)
+                addiu('sp', 'sp', -4,outputfile)
+                children[1].cgen(Table,outputfile)
+                lw('t1',4,'sp',outputfile)
                 if(tokens[0] == '&&'):
-                    print('\tand $a0 $t1 $a0')
+                    outputfile.write('\tand $a0 $t1 $a0\n')
                 elif(tokens[0] == '||'):
-                    print('\tor $a0 $t1 $a0')
-                addiu('sp', 'sp', 4) # manter o estado da pilha(desempilhar o valor carregado em t1)
+                    outputfile.write('\tor $a0 $t1 $a0\n')
+                addiu('sp', 'sp', 4,outputfile) # manter o estado da pilha(desempilhar o valor carregado em t1)
 
                 return "$a0" # retornar para o comando pai "saber oque fazer" e onde esta o dado procurado
 
             else:
-                return children[0].cgen(Table)
+                return children[0].cgen(Table,outputfile)
 
         elif(nodeName == 'R-exp'):
             if(tokens):
-                children[0].cgen(Table)
-                sw('a0', 0, 'sp')
-                addiu('sp', 'sp', -4)
-                children[1].cgen(Table)
-                lw('t1', 4, 'sp')
+                children[0].cgen(Table,outputfile)
+                sw('a0', 0, 'sp',outputfile)
+                addiu('sp', 'sp', -4,outputfile)
+                children[1].cgen(Table,outputfile)
+                lw('t1', 4, 'sp',outputfile)
                 if(tokens[0] == '<'):
-                    print('\tslt $a0 $t1 $a0')
+                    outputfile.write('\tslt $a0 $t1 $a0\n')
                 elif(tokens[0] == '=='):
-                    print('\tbeq $t1 $a0 equal')
-                    print('equal:')
-                    print("\tli $a0 1")
+                    outputfile.write('\tbeq $t1 $a0 equal\n')
+                    outputfile.write('equal: \n')
+                    outputfile.write("\tli $a0 1 \n")
 
                 elif(tokens[0] == '!='):
-                    print('\tbne $a0 $t1 not_equal')
-                    print("\tli $a0 0")
+                    outputfile.write('\tbne $a0 $t1 not_equal\n')
+                    outputfile.write("\tli $a0 0\n")
 
-                addiu('sp', 'sp', 4)  # manter o estado da pilha(desempilhar o valor carregado em t1)
+                addiu('sp', 'sp', 4,outputfile)  # manter o estado da pilha(desempilhar o valor carregado em t1)
                 return "$a0"
 
             else:
-                return children[0].cgen(Table)
+                return children[0].cgen(Table,outputfile)
         elif(nodeName == 'A-exp'):
             if(tokens):
-                children[0].cgen(Table)
-                sw('a0', 0, 'sp')
-                addiu('sp', 'sp', -4)
-                children[1].cgen(Table)
-                lw('t1', 4, 'sp')
+                children[0].cgen(Table,outputfile)
+                sw('a0', 0, 'sp',outputfile)
+                addiu('sp', 'sp', -4,outputfile)
+                children[1].cgen(Table,outputfile)
+                lw('t1', 4, 'sp',outputfile)
                 if(tokens[0] == '+'):
-                    print('\tadd $a0 $t1 $a0')
+                    outputfile.write('\tadd $a0 $t1 $a0\n')
                 elif(tokens[0] == '-'):
-                    print('\tsub $a0 $t1 $a0')
-                addiu('sp','sp',4)
+                    outputfile.write('\tsub $a0 $t1 $a0\n')
+                addiu('sp','sp',4,outputfile)
 
                 return "$a0"
 
             else:
-                return children[0].cgen(Table)
+                return children[0].cgen(Table,outputfile)
 
         elif(nodeName == 'M-exp'):
             if(tokens):
-                children[0].cgen(Table)
-                sw('a0', 0, 'sp')
-                addiu('sp', 'sp', -4)
-                children[1].cgen(Table)
-                lw('t1', 4, 'sp')
+                children[0].cgen(Table,outputfile)
+                sw('a0', 0, 'sp',outputfile)
+                addiu('sp', 'sp', -4,outputfile)
+                children[1].cgen(Table,outputfile)
+                lw('t1', 4, 'sp',outputfile)
                 if(tokens[0] == '*'):
-                    print('\tmult $a0 $t1 $a0')
+                    outputfile.write('\tmult $a0 $t1 $a0\n')
                 elif(tokens[0] == '/'):
-                    print('\tdiv $a0 $t1 $a0')
-                addiu('sp','sp',4)
+                    outputfile.write('\tdiv $a0 $t1 $a0\n')
+                addiu('sp','sp',4,outputfile)
 
                 return "$a0"
             else:
-                return children[0].cgen(Table)
+                return children[0].cgen(Table,outputfile)
         elif(nodeName == 'S-exp'):
             # imediatos ( ou terminais) (on ainda variaveis !)
             if(tokens):
@@ -264,9 +264,9 @@ class Node:
                 elif(tokens[0] == 'true'):
                     return 1
                 elif(tokens[0] == '-'):
-                    return ('-' + children[0].cgen(Table))
+                    return ('-' + children[0].cgen(Table,outputfile))
             else:
-                return children[0].cgen(Table)
+                return children[0].cgen(Table,outputfile)
 
         elif(nodeName == 'P-exp'):
             # chamada de metodo ou uso de variavel
@@ -286,7 +286,7 @@ class Node:
                         offset = 4 + (var.memlocation/Table.defaultmem)*4
                         # ex: primeira declaração 4 + 4*0
                         # ex: segunda declaração 4 + 4*1 ...
-                        lw('a0',offset,'sp')
+                        lw('a0',offset,'sp',outputfile)
                         return "$a0"
                     else:
                         raise Exception("Não foi possível ler a varíavel  %s da tabela de simbolos!",tokens[0])
@@ -294,38 +294,36 @@ class Node:
 
             else:
                 if(tokens[0] == "."):
-                    sw('fp', 0, 'sp')
-                    addiu('sp', 'sp', -4)
+                    sw('fp', 0, 'sp',outputfile)
+                    addiu('sp', 'sp', -4,outputfile)
                     # chamada de metodos com parametros
                     if(len(children) > 1):
-                        children[1].cgen(Table)
-
-                        pass
+                        children[1].cgen(Table,outputfile)
                     # sem parametros
                     else:
                         pass
-                    print("\tjal %s" % tokens[1])
+                    outputfile.write("\tjal %s\n" % tokens[1])
                 else:
                     # ou não encontrou os parametros ainda
-                    children[0].cgen(Table)
+                    children[0].cgen(Table,outputfile)
 
         elif(nodeName == "BNF-expOpicional"):
-            children[0].cgen(Table)
+            children[0].cgen(Table,outputfile)
         elif(nodeName == "BNF-exps"):
             # tem mais de um parametro
             if(len(children) > 1):
-                children[1].cgen(Table)
+                children[1].cgen(Table,outputfile)
             # avaliacao em ordem reversa
-            children[0].cgen(Table)
-            sw('a0',0,'sp')
-            addiu('sp','sp',-4)
+            children[0].cgen(Table,outputfile)
+            sw('a0',0,'sp',outputfile)
+            addiu('sp','sp',-4,outputfile)
         elif(nodeName == "BNF-expList"):
             #avaliacao em ordem reversa
             if(len(children)> 1):
-                children[0].cgen(Table)
-            children[1].cgen(Table)
-            sw('a0', 0, 'sp')
-            addiu('sp', 'sp', -4)
+                children[0].cgen(Table,outputfile)
+            children[1].cgen(Table,outputfile)
+            sw('a0', 0, 'sp',outputfile)
+            addiu('sp', 'sp', -4,outputfile)
 
 
 # metodos auxiliares
@@ -341,11 +339,11 @@ def writeChild(self,file,i):
     file.write("\t[CHILD #%d]: %s\n" % (i, self.children[i]))
     file.write("\n")
 
-def addiu(acc, register, amt):
-    print('\taddiu $%s $%s %d' % (acc, register, amt))
+def addiu(acc, register, amt,outputfile):
+    outputfile.write('\taddiu $%s $%s %d\n' % (acc, register, amt))
 
-def sw(source, offset, register):
-    print('\tsw $%s %d($%s)' % (source, offset, register))
+def sw(source, offset, register,outputfile):
+    outputfile.write('\tsw $%s %d($%s)\n' % (source, offset, register))
 
-def lw(register,offset,source):
-    print("\tlw $%s %d($%s)" %(register,offset,source))
+def lw(register,offset,source,outputfile):
+    outputfile.write("\tlw $%s %d($%s)\n" %(register,offset,source))
