@@ -1,4 +1,4 @@
-
+COND_STMT_CONTROL = 0
 
 
 class Node:
@@ -34,16 +34,12 @@ class Node:
             i += 1
 
 
-# registradores disponiveis
-nextreg = 0
 
-# metodo de GERAÇÃO DE CÓDIGO
-    def cgenmethodcall(self, Table, params=None):
-        pass
 
 
 
     def cgen(self,Table):
+        global COND_STMT_CONTROL
         nodeName = self.type
         tokens = self.leaf
         children = self.children
@@ -86,15 +82,27 @@ nextreg = 0
             else:
                 # outros comandos além de atribuição
                 pass
+
         elif(nodeName == "condstmt"):
-            children[0].cgen(Table)
-            children[1].cgen(tokens)
+            #chamar o enesimo if dentro do escopo atual com COND_STMT_CONTROL
+
+            # avaliar a expressao do if
+            children[0].cgen(Table.children[COND_STMT_CONTROL])
+            children[1].cgen(Table.children[COND_STMT_CONTROL])
+
         elif(nodeName == "matchornot"):
-            print('if_label:')
-            children[0].cgen(Table)
-            if(children[1]):
-                print('else_label:')
+            print("\tbeq $a0 $t1 true_if")
+            print('else_label:')
+            if (len(children) > 1):
                 children[1].cgen(Table)
+            print("\tb end_if")
+
+            print('true_if:')
+            children[0].cgen(Table)
+
+            print("end_if:")
+            COND_STMT_CONTROL+=1
+
 
         # atribuição de variaveis
         elif(nodeName == 'assignment'):
@@ -103,10 +111,14 @@ nextreg = 0
             # 2 escolhas... garantir que o valor esteja na pilha (ai é só carregar de 0sp)
             # garantir que o valor esteja seja calculado isto é ao desempilhar a recursao do cgen ele retorna SEMPRE um imediato!
             # se o valor for uma composição de variaveis ou imediatos (expressão) (deve ter que recuperar da pilha também..)
+
             if tokens[1] == '=':
                 expressaoavaliada = children[0].cgen(Table)
-
-                print('\tli $a0 %s' % children[0].cgen(Table))
+                #valor retornado é imediato(veio direto de um nó terminal)
+                if(expressaoavaliada != "%a0"):
+                    print('\tli $a0 %s' % str(expressaoavaliada))
+                #senao for terminal ele já carrega o valor de a0 em memoria normalmente (nenhuma ação é necessária!)
+            # caso de vetores (precisa fazer?)
             else:
                 print('\tli $a0 %s' % children[1].cgen(Table))
             #salvar (lembrando que as operacoes devem sempre mudar e voltar com o estado da pilha)
@@ -129,53 +141,68 @@ nextreg = 0
 
                 return "$a0" # retornar para o comando pai "saber oque fazer" e onde esta o dado procurado
 
-                #sw('a0', 0, 'sp') # salvar o valor atual? para poder utilizar-lo em alguma outra operação(atribuição, matop ou beq)
-                #addiu('sp','sp',-4) #*ver assignment acima
-
-
             else:
-                return children[0].cgen()
+                return children[0].cgen(Table)
 
         elif(nodeName == 'R-exp'):
             if(tokens):
-                print('\tli $t1 0')
-                print('\tli $t2 0')
-                print('\tslt $t3 $t1 $t2')
+                children[0].cgen(Table)
+                sw('a0', 0, 'sp')
+                addiu('sp', 'sp', -4)
+                children[1].cgen(Table)
+                lw('t1', 4, 'sp')
                 if(tokens[0] == '<'):
-                    print('\tbeq $t3 0 lesser_than')
-                    print('lesser_than:')
+                    print('\tslt $a0 $t1 $a0')
                 elif(tokens[0] == '=='):
-                    print('\tbeq $t1 $t2 equal')
+                    print('\tbeq $t1 $a0 equal')
                     print('equal:')
+                    print("\tli $a0 1")
+
                 elif(tokens[0] == '!='):
-                    print('\tbne $t1 $t2 not_equal')
-                    print('not_equal:')
+                    print('\tbne $a0 $t1 not_equal')
+                    print("\tli $a0 0")
+
+                addiu('sp', 'sp', 4)  # manter o estado da pilha(desempilhar o valor carregado em t1)
+                return "$a0"
+
             else:
-                return children[0].cgen()
+                return children[0].cgen(Table)
         elif(nodeName == 'A-exp'):
             if(tokens):
-                print('\tli $t1 0')
-                print('\tli $t2 0')
+                children[0].cgen(Table)
+                sw('a0', 0, 'sp')
+                addiu('sp', 'sp', -4)
+                children[1].cgen(Table)
+                lw('t1', 4, 'sp')
                 if(tokens[0] == '+'):
-                    print('\tadd $a0 $t1 $t2')
+                    print('\tadd $a0 $t1 $a0')
                 elif(tokens[0] == '-'):
-                    print('\tsub $a0 $t1 $t2')
+                    print('\tsub $a0 $t1 $a0')
                 sw('a0', 0, 'sp')
                 addiu('sp','sp',-4)
+
+                return "$a0"
+
             else:
-                return children[0].cgen()
+                return children[0].cgen(Table)
+
         elif(nodeName == 'M-exp'):
             if(tokens):
-                print('\tli $t1 0')
-                print('\tli $t2 0')
+                children[0].cgen(Table)
+                sw('a0', 0, 'sp')
+                addiu('sp', 'sp', -4)
+                children[1].cgen(Table)
+                lw('t1', 4, 'sp')
                 if(tokens[0] == '*'):
-                    print('\tmult $a0 $t1 $t2')
+                    print('\tmult $a0 $t1 $a0')
                 elif(tokens[0] == '/'):
-                    print('\tdiv $a0 $t1 $t2')
+                    print('\tdiv $a0 $t1 $a0')
                 sw('a0', 0, 'sp')
                 addiu('sp','sp',-4)
+
+                return "$a0"
             else:
-                return children[0].cgen()
+                return children[0].cgen(Table)
         elif(nodeName == 'S-exp'):
             # imediatos ( ou terminais) (on ainda variaveis !)
             if(tokens):
@@ -192,31 +219,38 @@ nextreg = 0
 
         elif(nodeName == 'P-exp'):
             # chamada de metodo ou uso de variavel
+            # se uma expressao usa uma variavel (é pq ela ja foi declarada e atribuida, ou teria quebrado na analise semantica!)
+            # ou seja ela ESTÁ NA PILHA ! (foi salva em memoria)
+            # já que QUALQUER OPERAÇÃO ou expressão executada antes de avaliar P-exp deve manter o estado da pilha IGUAL a antes dela
+            # a variavel que desejamos já declarada está exatamente na ultima posição + um offset !
+            # OQUE FAZER? recuperar da pilha com esse offset--> a TABELA DE SIMBOLOS GUARDA A POSIÇÃO EM MEMÓRIA DAS VARIAVEIS!
+
             if(len(children) == 0):
                 # é a variavel ou this!
                 if(tokens[0] != "this"):
                     var = Table.procupraNoAtualEnoExterno(tokens[0])
                     if(var != "NOT_FOUND"):
-                        value = var.valor
-                        if(value == True):
-                            value = 1
-                        elif(value == False):
-                            value = 0
-                        return print('\tli a0 %s',str(value))
+                        # eu salvei como sendo memlocation = 0,1,...n
+                        # logo o offset é:
+                        offset = 4 + var.memlocation*4
+                        # ex: primeira declaração 4 + 4*0
+                        # ex: segunda declaração 4 + 4*1 ...
+                        lw('a0',offset,'sp')
+                        return "$a0"
                     else:
                         raise Exception("Não foi possível ler a varíavel  %s da tabela de simbolos!",tokens[0])
 
+            # #TODO  CHAMADA DE METODO ainda nao feito(chamada de metodo)
             else:
                 if(tokens[0] == "."):
                     # chamada de metodos com parametros
                     if(len(children) > 1):
-                        self.cgenmethodcall(Table,children[1].cgen(Table))
+                        #self.cgenmethodcall(Table,children[1].cgen(Table))
+                        pass
                     else:
                         #chamada de metodos sem parametros
-                        self.cgenmethodcall(tokens[1], Table)
-
-
-
+                        #self.cgenmethodcall(tokens[1], Table)
+                        pass
 
 # metodos auxiliares
             
@@ -238,4 +272,4 @@ def sw(source, offset, register):
     print('\tsw $%s %d($%s)' % (source, offset, register))
 
 def lw(register,offset,source):
-    print("\tlw $%s %d($%s)",register,offset,source)
+    print("\tlw $%s %d($%s)" %(register,offset,source))

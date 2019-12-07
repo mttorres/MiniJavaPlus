@@ -52,11 +52,11 @@ def main():
             TABLE_POINTER = []
             TABLE_POINTER.append(escopoglobal)
             minijavaSEMANTIC.processTree(SYNTAX_TREE[0],TABLE_POINTER[0])
-            print(TABLE_POINTER[0])
+            #print(TABLE_POINTER[0])
 
 
             #gera código
-            #SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
+            SYNTAX_TREE[0].cgen(TABLE_POINTER[0])
 
 
 if __name__ == '__main__':
