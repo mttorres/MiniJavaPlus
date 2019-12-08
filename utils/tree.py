@@ -265,6 +265,8 @@ class Node:
                     return 1
                 elif(tokens[0] == '-'):
                     return ('-' + children[0].cgen(Table,outputfile))
+                elif(tokens[0] == 'null'):
+                    return 0
             else:
                 return children[0].cgen(Table,outputfile)
 
@@ -279,6 +281,7 @@ class Node:
             if(len(children) == 0):
                 # é a variavel ou this!
                 if(tokens[0] != "this"):
+
                     var = Table.procupraNoAtualEnoExterno(tokens[0])
                     if(var != "NOT_FOUND"):
                         # eu salvei como sendo memlocation = 0,1,...n

@@ -192,79 +192,106 @@ def constroiSymbT(node,atributos,currentscope):
         if (len(atributos) == 0):
             return None
 
-        if(len(atributos) == 1):
+        if(len(atributos) == 1 and (atributos[0] != "null")):
             return atributos[0]
+
         else:
-            if (len(node.leaf) > 1):
-                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
-                    raise Exception("NullPointerException")
-            elif (len(node.leaf) > 0):
-                if (node.leaf[0] == "null"):
-                    raise Exception("NullPointerException")
-                if(node.leaf[0] == '||'):
-                    return (atributos[0] or atributos[1])
-                if(node.leaf[0] == '&&'):
-                    return (atributos[0] and atributos[1])
+            if (len(node.children) > 1):
+                if (len(atributos) > 1):
+                    if (atributos[0] == "null" or atributos[1] == "null"):
+                        raise Exception("NullPointerException")
+                    if (node.leaf[0] == '||'):
+                        return (atributos[0] or atributos[1])
+                    if (node.leaf[0] == '&&'):
+                        return (atributos[0] and atributos[1])
+
+                else:
+                    if (atributos[0] == "null"):
+                        raise Exception("NullPointerException")
+            else:
+                # pode retornar null com "segurança"
+                return atributos[0]
 
     if(node.type == "R-exp"):
 
         if (len(atributos) == 0):
             return None
 
-        if(len(atributos) == 1):
+        if(len(atributos) == 1 and (atributos[0] != "null") ):
             return atributos[0]
+
         else:
-            if (len(node.leaf) > 1):
-                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
-                    raise Exception("NullPointerException")
-            elif(len(node.leaf) > 0):
-                if (node.leaf[0] == "null"):
-                    raise Exception("NullPointerException")
-                if (node.leaf[0] == '=='):
-                    return (atributos[0] == atributos[1])
-                if (node.leaf[0] == '<'):
-                    return (atributos[0] < atributos[1])
-                if (node.leaf[0] == '!='):
-                    return (atributos[0] != atributos[1])
+            if (len(node.children) > 1):
+                if (len(atributos) > 1):
+                    if (atributos[0] == "null" or atributos[1] == "null"):
+                        raise Exception("NullPointerException")
+                    if (node.leaf[0] == '=='):
+                        return (atributos[0] == atributos[1])
+                    if (node.leaf[0] == '<'):
+                        return (atributos[0] < atributos[1])
+                    if (node.leaf[0] == '!='):
+                        return (atributos[0] != atributos[1])
+
+                else:
+                    if (atributos[0] == "null"):
+                        raise Exception("NullPointerException")
+            else:
+                # pode retornar null com "segurança"
+                return atributos[0]
+
 
     if(node.type == "A-exp"):
 
         if (len(atributos) == 0):
             return None
 
-        if(len(atributos) == 1):
+        if(len(atributos) == 1 and (atributos[0] != "null") ):
             return atributos[0]
+
+
         else:
-            if (len(node.leaf) > 1):
-                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
-                    raise Exception("NullPointerException")
-            elif(len(node.leaf) > 0):
-                if (node.leaf[0] == "null"):
-                    raise Exception("NullPointerException")
-                if (node.leaf[0] == '+'):
-                    return (atributos[0] + atributos[1])
-                if (node.leaf[0] == '-'):
-                    return (atributos[0] - atributos[1])
+            if (len(node.children) > 1):
+                if (len(atributos) > 1):
+                    if (atributos[0] == "null" or atributos[1] == "null"):
+                        raise Exception("NullPointerException")
+                    if (node.leaf[0] == '+'):
+                        return (atributos[0] + atributos[1])
+                    if (node.leaf[0] == '-'):
+                        return (atributos[0] - atributos[1])
+
+                else:
+                    if (atributos[0] == "null"):
+                        raise Exception("NullPointerException")
+            else:
+                # pode retornar null com "segurança"
+                return atributos[0]
 
     if(node.type =="M-exp"):
 
         if(len(atributos) == 0):
             return None
 
-        if(len(atributos) == 1):
+        if(len(atributos) == 1 and (atributos[0] != "null") ):
             return atributos[0]
-        else:
-            if(len(node.leaf) > 1):
-                if (node.leaf[0] == "null" or node.leaf[1] == "null"):
-                    raise Exception("NullPointerException")
 
-            elif(len(node.leaf) > 0):
-                if(node.leaf[0] == "null"):
-                    raise Exception("NullPointerException")
-                if (node.leaf[0] == '*'):
-                    return (atributos[0] * atributos[1])
-                if (node.leaf[0] == '/'):
-                    return (atributos[0] // atributos[1])
+        else:
+            if(len(node.children) > 1):
+                if(len(atributos) > 1):
+                    if (atributos[0] == "null" or atributos[1] == "null"):
+                        raise Exception("NullPointerException")
+                    if (node.leaf[0] == '*'):
+                        return (atributos[0] * atributos[1])
+                    if (node.leaf[0] == '/'):
+                        return (atributos[0] // atributos[1])
+
+                else:
+                    if(atributos[0] == "null"):
+                        raise Exception("NullPointerException")
+            else:
+                # pode retornar null com "segurança"
+                return atributos[0]
+
+
 
     if(node.type == "S-exp"):
         # ele tem outro filho (nao é terminal)(ou seja o resultado é S-exp OPERAÇÃO S-exp ou outro não terminal
