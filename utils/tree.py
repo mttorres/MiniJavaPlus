@@ -54,7 +54,7 @@ class Node:
             outputfile.write("\tb main\n")
             children[0].cgen(Table,outputfile)
             children[1].cgen(Table,outputfile)
-        if(nodeName == "main"):
+        elif(nodeName == "main"):
             outputfile.write("main:\n")
             children[0].cgen(Table,outputfile)
         elif(nodeName == "BNF-multiclass"):
@@ -165,12 +165,8 @@ class Node:
             # se o valor for uma composição de variaveis ou imediatos (expressão) (deve ter que recuperar da pilha também..)
 
             if tokens[1] == '=':
-                expressaoavaliada = children[0].cgen(Table,outputfile)
-                #valor retornado é imediato(veio direto de um nó terminal)
-                if(expressaoavaliada != "$a0"):
-                    outputfile.write('\tli $a0 %s\n' % str(expressaoavaliada))
-                #senao for terminal ele já carrega o valor de a0 em memoria normalmente (nenhuma ação é necessária!)
-            # caso de vetores (precisa fazer?)
+                children[0].cgen(Table,outputfile)
+            # caso de vetores (fora do escopo do trablaho?)
             else:
                 outputfile.write('\tli $a0 %s\n' % children[1].cgen(Table,outputfile))
             #salvar (lembrando que as operacoes devem sempre mudar e voltar com o estado da pilha)
@@ -258,15 +254,21 @@ class Node:
             # imediatos ( ou terminais) (on ainda variaveis !)
             if(tokens):
                 if(type(tokens[0]) == int):
+                    outputfile.write("\tli $a0 %d\n" % tokens[0])
                     return str(tokens[0])
                 elif(tokens[0] == 'false'):
-                    return 0
+                    outputfile.write("\tli $a0 %d\n" % 0)
+                    return str(0)
                 elif(tokens[0] == 'true'):
-                    return 1
+                    outputfile.write("\tli $a0 %d\n" % 1)
+                    return str(1)
                 elif(tokens[0] == '-'):
-                    return ('-' + children[0].cgen(Table,outputfile))
+                    avaliado = children[0].cgen(Table,outputfile)
+                    outputfile.write("\tli $a0 -%s\n" % avaliado)
+                    return avaliado
                 elif(tokens[0] == 'null'):
-                    return 0
+                    outputfile.write("\tli $a0 %d\n" % 0)
+                    return str(0)
             else:
                 return children[0].cgen(Table,outputfile)
 
@@ -310,7 +312,7 @@ class Node:
                     # ou não encontrou os parametros ainda
                     children[0].cgen(Table,outputfile)
 
-        elif(nodeName == "BNF-expOpicional"):
+        elif(nodeName == "BNF-expOpcional"):
             children[0].cgen(Table,outputfile)
         elif(nodeName == "BNF-exps"):
             # tem mais de um parametro

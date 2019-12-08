@@ -7,6 +7,7 @@ ComputeFac:
 	lw $a0 8($sp)
 	sw $a0 0($sp)
 	addiu $sp $sp -4
+	li $a0 1
 	lw $t1 4($sp)
 	slt $a0 $t1 $a0
 	addiu $sp $sp 4
@@ -16,6 +17,15 @@ else_label:
 	sw $a0 0($sp)
 	addiu $sp $sp -4
 	sw $fp 0($sp)
+	addiu $sp $sp -4
+	lw $a0 8($sp)
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	li $a0 1
+	lw $t1 4($sp)
+	sub $a0 $t1 $a0
+	addiu $sp $sp 4
+	sw $a0 0($sp)
 	addiu $sp $sp -4
 	jal ComputeFac
 	lw $t1 4($sp)
@@ -35,5 +45,8 @@ end_if:
 	jr $ra
 main:
 	sw $fp 0($sp)
+	addiu $sp $sp -4
+	li $a0 10
+	sw $a0 0($sp)
 	addiu $sp $sp -4
 	jal ComputeFac
